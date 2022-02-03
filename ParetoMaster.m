@@ -8,9 +8,9 @@ Prop = [1:4];   %Propulsion Options
 Power = [1:4];  %Power Source Options
 Instr = [1:3];    %Instrumentation Options
 Traj = [1:5]; %Orbital Maneuver Options
-Craft = [1:3];    %Number of Spacecraft
-LaunchV = [1:4];    %Launch Vehicle
-Kick = [1:6];   %Kick Stages
+Craft = [1:3];    %Number of Spacecraft Options
+LaunchV = [1:4];    %Launch Vehicle Options
+Kick = [1:6];   %Kick Stages Options
 
 %Create Permutations of Missions
 for i1 = ComNet
