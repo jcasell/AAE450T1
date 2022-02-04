@@ -11,6 +11,8 @@ Kick = mission(8);   %Kick Stages Choice
 %Calculate Instrument Package and Science
 [sci_instr, cost_instr, m_instr, power_instr] = Instrumentation(Instr)
 
+%Calculate Telemetry Data Rate
+
 %Calculate Total Spacecraft Mass
 %Calculated using Planetary Mission SMAD table A-1
 m_spacecraft = m_instr / 0.15;
@@ -19,11 +21,10 @@ m_spacecraft = m_instr / 0.15;
 %Calculated using Planetary Mission SMAD table A-2
 power_spacecraft = power_instr / 0.22;
 
-%Calculate Launch
+%Calculate Prop Code
 
 %Calculate Trajectory
 
-%Calculate Telemetry
 
 
 %Total Science
