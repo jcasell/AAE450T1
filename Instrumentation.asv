@@ -19,5 +19,4 @@ else
     Science = 0;
     Cost = 0;
     Mass= 0;
-    Power = 0;
 end
