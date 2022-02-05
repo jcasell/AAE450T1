@@ -1,4 +1,4 @@
-function [v_eq,alpha,delta,v_dep,pass_dist] = gravityAssistMod(candidateArchitecture,v_arr,fpa_arr)
+function [v_eq,alpha,delta,v_dep,pass_dist] = gravityAssistMod(candidateArchitecture)
 %% Gravity Assist Calculation Function
 % This function will determine the changed trajectory of the spacecraft
 % after a gravity assist. Assumes that departure FPA is 0 and determines
@@ -9,16 +9,22 @@ function [v_eq,alpha,delta,v_dep,pass_dist] = gravityAssistMod(candidateArchitec
 %         fpa_arr - arrival flight path angle [deg]
 %
 % Outputs: v_eq - equivalent delta v from pass [km/s]
-%          alpha - angle of heliocentric velocity change [deg]
+%          alpha - angle of velocity change [deg]
 %          delta - turn angle of pass [deg]
 %          v_dep - departure velocity of s/c [km/s]
 %          pass_dist - pass distance to planet [km]
 %
 %% Initialization
 mu_sun = 132712440017.99; % grav parameter of sun [km^3/s^2] 
+a_Earth = 149597898; %Semimajor axis of Earth orbit [km]
+v_Earth = sqrt(2*mu_sun/a_Earth);
 
 % Switch statement to determine SMA of planet orbit [km], Grav parameter
 % [km^3/s^2] and radius of planet [km]
+char_energy = candidateArchitecture.CharacteristicEnergy; %Not sure if this is how MATLAB OOP works
+
+v_inf = sqrt(char_energy); v_dep = v_Earth + v_inf; %Assumes perfectly tangential Earth departure
+
 switch candidateArchitecture.GravityAssist
     case "Venus"
         a_planet = 108207284;
@@ -49,6 +55,8 @@ switch candidateArchitecture.GravityAssist
         mu_planet = 0; %or do this outside of function and use each case as input
         r_planet = 0;
 end
+
+[v_arr, fpa_arr] = getFPA(a_Earth,v_dep,a_planet); %Gets arrival velocity and flight path angle at second planet
 
 %% Calculations
 v_planet = sqrt(mu_sun / a_planet); %heliocentric velocity of planet used for pass [km/s]
