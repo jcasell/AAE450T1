@@ -1,8 +1,10 @@
-function tof = detTof(r0,v0, rF, fpaDep)
+function [tof] = detTof(r0,v0, rF, fpaDep)
 muSun = 132712440017.99; %km^3/s^2
 
 %This function determines the time of flight between two points given
-%orbital inf`ormation
+%orbital information. Inputs are initial and final orbital radii (r0 and
+%rF) as well as initial heliocentric orbital velocity (v0). The initial
+%flight path angle from the departure point is also required
 
 %Check if orbit type is elliptic or hyperbolic
 vEsc = sqrt(2*muSun/r0); %Escape velocity from given r
