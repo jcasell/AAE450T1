@@ -27,6 +27,8 @@ function [c3, m_pay] = generateC3( candidateArchitecture )
             m_kick = 0;
     end
 
+    hi
+
     % Switch statement to determine assumed ISP (Impulse), Lambda (Payload 
     % Fraction), Inert Mass Fraction for kick stage
 
