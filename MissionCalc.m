@@ -28,7 +28,10 @@ power_spacecraft = power_instr / 0.22;
 tthp = 0;
 
 %Total Science
-Science = 0;
+%Science Weights phases 1 to 3
+w = [1 2 10];
+
+Science = DataRate(1)*sci_instr(1)*tof(1)*w(1)+DataRate(2)*sci_instr(2)*tof(2)*w(2)+DataRate(3)*sci_instr(3)*tof(3)*w(3)
 
 %Total Cost
 Cost = 0;
