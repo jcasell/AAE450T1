@@ -1,4 +1,12 @@
 function DataRate = TelemetryFOA (TelemetryBand, CommNetwork)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Function Name: Telemetry FOA
+%Inputs: TelemetryBand (Name of telemetry band), CommNetwork (Name of
+%Communications network)
+%Outputs: Data Rate (1x3 vector with data rates at the ends of the three
+%phases)
+%Author:Vincent Haight
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Phase Distances
 S1 = 100;%(Au)Distance from Earth to Termination Shock
