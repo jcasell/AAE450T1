@@ -1,11 +1,13 @@
 function DataRate = TelemetryFOA (TelemetryBand, CommNetwork)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function Name: Telemetry FOA
+%Description: Outputs the projected data rates based on the telemetry band
+%amd comms network.
 %Inputs: TelemetryBand (Name of telemetry band), CommNetwork (Name of
 %Communications network)
-%Outputs: Data Rate (1x3 vector with data rates at the ends of the three
+%Outputs: Data Rate (bps) (1x3 vector with data rates at the ends of the three
 %phases)
-%Author:Vincent Haight
+%Author: Vincent Haight
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Phase Distances
