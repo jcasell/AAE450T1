@@ -65,6 +65,12 @@ function [final_v, m_pay] = generateC3( candidateArchitecture )
     MR2 = (lambda * m_pay + m_prop) / (lamba * m_pay + m_prop(1-lambda)); % Alternate Mass Ratio Eqn.
 
     % Calculation of Velocity Infinite with rocket equation
+<<<<<<< HEAD
     v_inf = g_E * isp * ln(MR); 
     final_v = v_inf + v_esc_E;
 end
+=======
+    v_inf = g_E * isp * log(MR); 
+    final_v = v_inf + v_esc_E;
+end
+>>>>>>> parent of 6080fe2 (Fix)

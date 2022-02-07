@@ -7,8 +7,6 @@ candidateArchitecture.Trajectory = "JupNep";
 candidateArchitecture.LaunchVehicle = "SLS";
 candidateArchitecture.Kick = "Liquid";
 
-[Cost] = CostCalc(candidateArchitecture)
-
 [sci_instr, cost_instr, m_instr, power_instr] = Instrumentation(candidateArchitecture)
 
 DataRate = TelemetryFOA (candidateArchitecture)
