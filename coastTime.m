@@ -18,8 +18,4 @@ phase2Time = detTof(phase1R,phase1V,phase2R);
 
 phase3Time = detTof(phase2R,phase2V,phase3R);
 
-phase1Time = phase1Time / (3600 * 24 * 365.25); %Convert each time to JY
-phase2Time = phase2Time / (3600 * 24 * 365.25);
-phase3Time = phase3Time / (3600 * 24 * 365.25);
-
 totalTime = [phase1Time, phase2Time, phase3Time];
