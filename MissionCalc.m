@@ -39,4 +39,4 @@ Science = DataRate(1)/refDataRate(1)*sci_instr(1)*totalTOF(1)/refTOF(1)*w(1)+Dat
 Cost = CostCalc(candidateArchitecture);
 
 %Return Risk
-Risk = 0;
+Reliability = 0;
