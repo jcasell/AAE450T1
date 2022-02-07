@@ -4,7 +4,7 @@ function [final_v, m_pay] = generateC3( candidateArchitecture )
 
     %% Setting Constants and Assumed Values (values to iterate over)
     
-    array_LV = ["SLS", "Falcon Heavy", "Starship", "New Glenn"]; % Array of Launch Vehicles
+    array_LV = ["SLS", "Falcon Heavy", "Starship", "New Glenn", "Atlas", "Delta"]; % Array of Launch Vehicles
     array_kick = ["Solid", "Liquid", "Nuclear", "Electric", "Hybrid", "None"]; % Array of Kick Stages
     g_E = 9.81; % (m/s^2)
     v_esc_E = 11200; % Escape velocity of Earth from LEO m/s
@@ -55,13 +55,6 @@ function [final_v, m_pay] = generateC3( candidateArchitecture )
     end
 
     %% Calculations 
-
-    % these calculations are wrong, Lambda gets you the dry weight (inert mass)
-    % Lambda = payload mass / full mass - payload mass; lambda (full - pay)
-    % = pay; lambda * full = pay + lambda pay; lambda * full / (1+lambda) =
-    % pay
-
-    % LAMBDA IS PROPELLANT MASS RATIO NOT PAYLOAD RATIO
 
     m_prop = 
     f_inert = 1/lambda - 1;
