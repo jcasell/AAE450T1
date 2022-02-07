@@ -1,4 +1,12 @@
 function [Science, Cost, Mass, Power] = Instrumentation(candidateArchitecture)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Function Name: MissionCalc
+%Description: Calculaes results of a given candidate arcitecture mission.
+%Inputs: candidateArchitecture (Design of Mission from Morph Matrix)
+%Outputs: Science (Science Value), Cost (F2022 Dollars Total Mission Cost),
+%Reliability (Mission Reliability), ttHP(Time to Heliopause)
+%Author: Jeremy Casella
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 package = candidateArchitecture.Instruments;
 

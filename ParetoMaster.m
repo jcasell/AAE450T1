@@ -1,3 +1,9 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Script Name: ParetoMaster
+%Description: Calculates and Plots Pareto for Analysis
+%Author: Jeremy Casella
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 clc
 clear
 close all
@@ -5,10 +11,10 @@ close all
 %Define Possible Matrix Options
 ComNet = ["DSN" "IDSN" "NSN" "ngVLA"]; %Communication Network Options
 Telem = ["Ka" "X" "S"];     %Telemetry Band
-Prop = ["Nuclear Thermal" "Chemical" "Solar Sail" "Plasma"];   %Propulsion Options
+Prop = ["Nuclear Thermal" "Chemical" "Solar Sail" "Plasma" "None"];   %Propulsion Options
 Power = ["RTG Nuclear" "Solar Panel/Nuclear"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
-Traj = ["Jupiter/Neptune" "General Gravity Assist" "Pure Thrust" "Oberth Maneuver" "Oberth w/ Gravity Assist"]; %Orbital Maneuver Options
+Traj = ["Jupiter/Neptune" "General Gravity Assist" "Oberth Maneuver"]; %Orbital Maneuver Options
 LaunchV = ["SLS" "Falcon Heavy" "Starship" "New Glenn"];    %Launch Vehicle Options
 Kick = ["Solid Motor" "Liquid" "Nuclear" "Electric" "Hybrid" "None"];   %Kick Stages Options
 
