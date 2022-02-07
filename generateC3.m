@@ -27,7 +27,6 @@ function [final_v, m_pay] = generateC3( candidateArchitecture )
             m_kick = 0;
     end
 
-
     % Switch statement to determine assumed ISP (Impulse), Lambda (Payload 
     % Fraction), Inert Mass Fraction for kick stage
 
@@ -56,15 +55,14 @@ function [final_v, m_pay] = generateC3( candidateArchitecture )
 
     %% Calculations 
 
-    m_prop = 
     f_inert = 1/lambda - 1;
+    m_prop = m_kick * lambda;
     m_inert = m_kick * f_inert; % Structural mass of the kick stage (Mass minus final payload and propellant)
-    m_prop = m_kick - m_inert - m_pay; % Mass of the propellant
-    
+    m_pay = m_kick - m_inert - m_prop; % Mass of the propellant
 
     % Calculate Mass Ratio
     MR = (m_pay+m_prop+m_inert) / (m_pay+m_inert); % Mass Ratio
-    MR = (lambda * m_pay + m_prop) / (lamba * m_pay + m_prop(1-lambda)); % Alternate Mass Ratio Eqn.
+    MR2 = (lambda * m_pay + m_prop) / (lamba * m_pay + m_prop(1-lambda)); % Alternate Mass Ratio Eqn.
 
     % Calculation of Velocity Infinite with rocket equation
     v_inf = g_E * isp * ln(MR); 
