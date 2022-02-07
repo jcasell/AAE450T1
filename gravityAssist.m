@@ -54,7 +54,7 @@ if floor(check1) == floor(v_dep)
 elseif floor(check2) == floor(v_dep)
     beta = beta2;
 else
-    fprintf('You fucked up')
+    fprintf('\nYou fucked up\n')
 end
 
 alpha = 180 - beta;
@@ -72,7 +72,7 @@ if floor(check1) == floor(v_eq)
 elseif floor(check2) == floor(v_eq)
     delta = delta2;
 else
-    fprintf('You fucked up')
+    fprintf('\nYou fucked up\n')
 end
 
 a_hyp = -mu_planet / (v_inf^2); %semimajor axis of hyperbola
@@ -80,7 +80,7 @@ e_hyp = 1 / sind(delta/2); %eccentricity of hyperbola
 rp = (e_hyp - 1)*abs(a_hyp); %radius of periapsis
 pass_dist = rp - r_planet; %pass distance to planet [km]
 if pass_dist < 0
-    fprintf('Collision with Planet')
+    fprintf('\nCollision with Planet\n')
 end
 b_hyp = abs(a_hyp)*sqrt(e_hyp^2 - 1); %semiminor axis of hyperbola
 
