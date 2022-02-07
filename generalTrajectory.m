@@ -37,7 +37,8 @@ if (candidateArchitecture.Trajectory == "JupNepO") || (candidateArchitecture.Tra
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
 
     %Determine Total TOF 
-    [phase1Time,phase2Time,phase3Time] = coastTime(rad_list(2),v_dep,fpa_dep);
+    phaseTimes = coastTime(rad_list(2),v_dep,fpa_dep);
+    phase1Time = phaseTimes(1); phase2Time = phaseTimes(2); phase3Time = phaseTimes(3);
     phase1Time = phase1Time + TOF;
 
     totalTOF = [phase1Time,phase2Time,phase3Time];
