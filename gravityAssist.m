@@ -39,19 +39,23 @@ rp = pass_scalar * r_planet;
 v_planet = sqrt(mu_sun / a_planet); %heliocentric velocity of planet used for pass [km/s]
 v_inf = sqrt(v_planet^2 + v_arr^2 - (2*v_planet*v_arr*cosd(fpa_arr))); %hyperbolic velocity around planet [km/s]
 
+v_arr = [v_inf * sind(fpa_arr), v_inf * cosd(fpa_arr)];
 %% Conic Values
 a_hyp = -mu_planet / (v_inf^2); %semimajor axis of hyperbola
 e_hyp = 1 + rp / abs(a_hyp); %eccentricity of hyperbola
 
+psi = atan2d(v_arr(1),v_arr(2));
 delta = 2*asind(1/e_hyp);
 
-etaSin = asind(asind(v_))
-
+v_dep_vec = [v_inf * sind(psi - delta), v_inf * cosd(psi - delta)];
+fpa_dep = atan2d(v_dep_vec(1),v_dep_vec(2));
+v_dep = norm(v_dep_vec);
+%{
 b_hyp = abs(a_hyp)*sqrt(e_hyp^2 - 1); %semiminor axis of hyperbola
 
 % Departure
-v_dep = v_planet + v_inf; %departure velocity [km/s]
-fpa_dep = 0; %departure flight path angle [deg]
+%v_dep = v_planet + v_inf; %departure velocity [km/s]
+%fpa_dep = 0; %departure flight path angle [deg]
 
 % Equivalent deltaV
 delta_fpa = abs(fpa_arr - fpa_dep);
@@ -88,6 +92,6 @@ elseif abs(check2 - v_eq) < 0.5
 else
     fprintf('You fucked up\n')
 end
-
+%}
 
 end
