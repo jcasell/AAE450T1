@@ -1,4 +1,4 @@
-function [v_dep,fpa_dep] = oberth(candidateArchitecture,v_arr,fpa_arr,pass_dist)
+function [v_dep,fpa_dep] = oberth(planet_name,v_arr,fpa_arr,pass_dist)
 %% Gravity Assist Calculation Function
 % This function will determine the changed trajectory of the spacecraft
 % after a gravity assist
@@ -18,15 +18,11 @@ mu_sun = 132712440017.99; % grav parameter of sun [km^3/s^2]
 
 % Switch statement to determine SMA of planet orbit [km], Grav parameter
 % [km^3/s^2] and radius of planet [km]
-switch candidateArchitecture.GravityAssist
+switch planet_name
     case "Venus"
         a_planet = 108207284;
         mu_planet = 324858.5988;
         r_planet = 6051.9;
-    case "Mars"
-        a_planet = 227944135;
-        mu_planet = 42828.3142;
-        r_planet = 3397;
     case "Jupiter"
         a_planet = 778279959;
         mu_planet = 126712767.8578;
@@ -35,10 +31,6 @@ switch candidateArchitecture.GravityAssist
         a_planet = 1427387908;
         mu_planet = 37940626.0611;
         r_planet = 60268;
-    case "Uranus"
-        a_planet = 2870480873;
-        mu_planet = 5794549.0070;
-        r_planet = 25559;
     case "Neptune"
         a_planet = 4498337290;
         mu_planet = 6836534.0638;
