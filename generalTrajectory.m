@@ -27,12 +27,12 @@ end
 
 if (candidateArchitecture.Trajectory == "JupNep_O") || (candidateArchitecture.Trajectory == "JupSat_O")
     %Earth to First Planet
-    [v_arr,fpa_arr] = getFPA(a_earth,v_0,rad_list(1));
+    [v_arr,fpa_arr] = getFPA(a_earth,v_0,rad_list(1),0);
     TOF = detTOF(a_earth,v_0,rad_list(1)) + TOF;
     [v_dep,fpa_dep] = oberth(planet1,v_arr,fpa_arr,32);
 
     %First Planet to Second Planet
-    [v_arr,fpa_arr] = getFPA(rad_list(1),v_dep,rad_list(2));
+    [v_arr,fpa_arr] = getFPA(rad_list(1),v_dep,rad_list(2),fpa_dep);
     TOF = detTOF(rad_list(1),v_dep,rad_list(2)) + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
 
@@ -43,12 +43,12 @@ if (candidateArchitecture.Trajectory == "JupNep_O") || (candidateArchitecture.Tr
     totalTOF = [phase1Time,phase2Time,phase3Time];
 elseif (candidateArchitecture.Trajectory == "JupNep") || (candidateArchitecture.Trajectory == "JupSat") 
     %Earth to First Planet
-    [v_arr,fpa_arr] = getFPA(a_earth,v_0,rad_list(1));
+    [v_arr,fpa_arr] = getFPA(a_earth,v_0,rad_list(1),0);
     TOF = detTOF(a_earth,v_0,rad_list(1)) + TOF;
     [v_dep] = gravityAssist(planet1,v_arr,fpa_arr);
 
     %First Planet to Second Planet
-    [v_arr,fpa_arr] = getFPA(rad_list(1),v_dep,rad_list(2));
+    [v_arr,fpa_arr] = getFPA(rad_list(1),v_dep,rad_list(2),0);
     TOF = detTOF(rad_list(1),v_dep,rad_list(2)) + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
 
