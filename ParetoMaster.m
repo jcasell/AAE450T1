@@ -33,7 +33,7 @@ for i1 = ComNet
     for i2 = TelemAllow
         for i3 = Prop
             %Only Include Relevant Combination
-            if or(i3 == "Solar Sail",i3 == "None")
+            if or(or(i3 == "Solar Sail",i3 == "None"),"Plasma")
                 TrajAllow = ["JupNep","JupSat"];
             else
                 TrajAllow = Traj;
