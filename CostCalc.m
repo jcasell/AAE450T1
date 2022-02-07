@@ -28,7 +28,7 @@ end
 if prop == "Nuclear Thermal"
     Cost = Cost + 3000;
 elseif prop == "Chemical"
-    Cost = Cost + 0.3;
+    Cost = Cost + 11.3;
 elseif prop == "Solar Sail"
     Cost = Cost + 35;
 elseif prop == "Plasma"
@@ -56,5 +56,7 @@ if kick == "Solid Motor"
     Cost = Cost + 13.046;
 elseif kick == "Liquid"
     Cost = Cost + 38.73;
+elseif kick == "Hybrid"
+    Cost = Cost + 32.32;
 end
 
