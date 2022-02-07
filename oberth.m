@@ -70,7 +70,7 @@ if floor(check1) == floor(v_dep)
 elseif floor(check2) == floor(v_dep)
     beta = beta2;
 else
-    fprintf('You fucked up')
+    fprintf('\nYou fucked up\n')
 end
 alpha = 180 - beta; %angle of change in heliocentric velocity [deg]
 
