@@ -14,9 +14,9 @@ else
 end
 
 sma = 0.5 * (muSun / ((muSun / r0) - (v0^2 / 2))); %Calculate semimajor axis
-ecc = sqrt(((r0 * v0^2 / muSun) - 1)^2 * cosd(fpaDep)^2 + sind(fpaDep)^2);
+ecc = 1 - (r0/sma);
 
-initialTA = atan2d((r0*v0^2/muSun)*cosd(fpaDep)*sind(fpaDep),(r0*v0^2/muSun)*cosd(fpaDep)^2 - 1);
+initialTA = abs(acosd(1 / ecc * (sma*(1 - ecc^2)/r0 - 1)));
 finalTA = abs(acosd(1 / ecc * (sma*(1 - ecc^2)/rF - 1)));
 
 if orbitType == "Elliptic"
