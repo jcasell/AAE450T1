@@ -4,8 +4,8 @@ function [final_v, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay)
 
     %% Setting Constants and Assumed Values (values to iterate over)
     
-    array_LV = ["SLS", "Falcon Heavy", "Starship", "New Glenn", "Atlas", "Delta"]; % Array of Launch Vehicles
-    array_kick = ["Solid", "Liquid", "Nuclear", "Electric", "Hybrid", "None"]; % Array of Kick Stages
+    array_LV = ["SLS", "Falcon Heavy", "Starship", "New Glenn", "Atlas V", "Delta IV Heavy"]; % Array of Launch Vehicles
+    array_kick = ["Solid", "Liquid", "Nuclear", "Hybrid", "None"]; % Array of Kick Stages
     g_E = 9.81; % (m/s^2)
     v_esc_E = 11200; % Escape velocity of Earth from LEO m/s
     
