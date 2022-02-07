@@ -51,20 +51,19 @@ function [final_v, m_pay] = generateC3( candidateArchitecture, m_pay)
 
     %% Calculations 
 
-    m_prop = (m_kick - m_pay) * 0.25;    % PUT IN SIMPLY TO RUN
-    f_inert = 1/lambda - 1;
-    m_inert = m_kick * f_inert; % Structural mass of the kick stage (Mass minus final payload and propellant)
-    m_prop = m_kick - m_inert - m_pay; % Mass of the propellant
+    m_prop = (m_kick - m_pay) * lambda;    % PUT IN SIMPLY TO RUN
+    % f_inert = 1/lambda - 1; % This is not garunteed. With values of 0.8 lambda, it is incorrect
+    m_inert = (m_kick - m_pay - m_prop); % Structural mass of the kick stage (Mass minus final payload and propellant)
     
 
     % Calculate Mass Ratio
     MR = (m_pay+m_prop+m_inert) / (m_pay+m_inert); % Mass Ratio
-    %MR = (lambda * m_pay + m_prop) / (lambda * m_pay + m_prop(1-lambda)); % Alternate Mass Ratio Eqn.
+    %MR2 = (lambda * m_pay + m_prop) / (lambda * m_pay + m_prop(1-lambda)); % Alternate Mass Ratio Eqn.
 
     % Calculation of Velocity Infinite with rocket equation (km/s)
     v_inf = g_E * isp * log(MR); 
     final_v = (v_inf + v_esc_E)/1000;
-    if lambda == 0;
+    if lambda == 0
         final_v = v_esc_E/1000;
     end
 end
