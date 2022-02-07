@@ -70,7 +70,7 @@ if abs(check1 - v_dep) < 0.5
 elseif abs(check2 - v_dep) < 0.5
     beta = beta2;
 else
-    fprintf('\nYou fucked up\n')
+    fprintf('You fucked up')
 end
 alpha = 180 - beta; %angle of change in heliocentric velocity [deg]
 
