@@ -14,7 +14,7 @@ Telem = ["Ka" "X" "S"];     %Telemetry Band
 Prop = ["Nuclear Thermal" "Chemical" "Solar Sail" "Plasma" "None"];   %Propulsion Options
 Power = ["RTG Nuclear" "Solar Panel/Nuclear"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
-Trajectory = ["option_1","option_2]; %Option one is chained Jupiter/Neptune, option two is chained Jupiter/Saturn
+Trajectory = ["JupNep","JupSat","JupNep_O","JupSat_O"]; %Trajectory Options (O indicates oberth maneuver)
 LaunchV = ["SLS" "Falcon Heavy" "Starship" "New Glenn"];    %Launch Vehicle Options
 Kick = ["Solid Motor" "Liquid" "Nuclear" "Electric" "Hybrid" "None"];   %Kick Stages Options
 
