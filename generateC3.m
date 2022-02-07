@@ -68,6 +68,6 @@ function [final_v, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay)
     end
 
     if candidateArchitecture.Trajectory == "JupNepO" || candidateArchitecture.Trajectory == "JupSatO" 
-        final_v = final_v - 700;
+        final_v = final_v - 700/1000;
     end
 end

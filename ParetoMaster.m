@@ -16,7 +16,7 @@ Power = ["RTG Nuclear" "Solar Panel/Nuclear"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
 Traj = ["JupNep","JupSat","JupNepO","JupSatO"]; %Trajectory Options (O indicates oberth maneuver)
 LaunchV = ["SLS" "Falcon Heavy" "Starship" "New Glenn"];    %Launch Vehicle Options
-Kick = ["Solid" "Liquid" "Nuclear" "Hybrid" "None"];   %Kick Stages Options
+Kick = ["Solid" "Liquid" "Hybrid" "None"];   %Kick Stages Options
 
 %Create Results Table
 ResultsRaw = [];
