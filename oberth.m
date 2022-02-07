@@ -3,14 +3,12 @@ function [v_dep,fpa_dep] = oberth(planet_name,v_arr,fpa_arr,pass_dist)
 % This function will determine the changed trajectory of the spacecraft
 % after a gravity assist
 %
-% Inputs: candidateArchitecture - array of design options
+% Inputs: planet_name - planet being used for maneuver
 %         v_arr - arrival velocity of s/c [km/s]
 %         fpa_arr - arrival flight path angle [deg]
-%         pass_dist - pass distance to planet [km]
+%         pass_dist - constant to be applied to pass distance to planet 
 %
-% Outputs: v_eq - equivalent delta v from pass [km/s]
-%          alpha - angle of velocity change [deg]
-%          v_dep - departure velocity of s/c [km/s]
+% Outputs: v_dep - departure velocity of s/c [km/s]
 %          fpa_dep - departure flight path angle [deg]
 %
 %% Initialization
@@ -19,10 +17,6 @@ mu_sun = 132712440017.99; % grav parameter of sun [km^3/s^2]
 % Switch statement to determine SMA of planet orbit [km], Grav parameter
 % [km^3/s^2] and radius of planet [km]
 switch planet_name
-    case "Venus"
-        a_planet = 108207284;
-        mu_planet = 324858.5988;
-        r_planet = 6051.9;
     case "Jupiter"
         a_planet = 778279959;
         mu_planet = 126712767.8578;
@@ -35,13 +29,9 @@ switch planet_name
         a_planet = 4498337290;
         mu_planet = 6836534.0638;
         r_planet = 25269;
-    case "None"
-        a_planet = 0; %or just skips function?
-        mu_planet = 0; %or do this outside of function and use each case as input
-        r_planet = 0;
 end
 
-r_p = pass_dist + r_planet; %periapsis of orbit [km]
+r_p = pass_dist*r_planet + r_planet; %periapsis of orbit [km]
 
 %% Calculations
 v_planet = sqrt(mu_sun / a_planet); %heliocentric velocity of planet used for pass [km/s]
