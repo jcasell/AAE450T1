@@ -1,4 +1,4 @@
-function [v_eq,alpha,delta,v_dep,pass_dist] = gravityAssistMod(candidateArchitecture)
+function [v_dep] = gravityAssistMod(candidateArchitecture)
 %% Gravity Assist Calculation Function
 % This function will determine the changed trajectory of the spacecraft
 % after a gravity assist. Assumes that departure FPA is 0 and determines
