@@ -21,19 +21,33 @@ switch planet_name
         a_planet = 778279959;
         mu_planet = 126712767.8578;
         r_planet = 71492;
+        pass_scalar = 16;
     case "Saturn"
         a_planet = 1427387908;
         mu_planet = 37940626.0611;
         r_planet = 60268;
+        pass_scalar = 10;
     case "Neptune"
         a_planet = 4498337290;
         mu_planet = 6836534.0638;
         r_planet = 25269;
+        pass_scalar = 2;
 end
 
+rp = pass_scalar * r_planet;
 %% Calculations
 v_planet = sqrt(mu_sun / a_planet); %heliocentric velocity of planet used for pass [km/s]
 v_inf = sqrt(v_planet^2 + v_arr^2 - (2*v_planet*v_arr*cosd(fpa_arr))); %hyperbolic velocity around planet [km/s]
+
+%% Conic Values
+a_hyp = -mu_planet / (v_inf^2); %semimajor axis of hyperbola
+e_hyp = 1 + rp / abs(a_hyp); %eccentricity of hyperbola
+
+delta = 2*asind(1/e_hyp);
+
+etaSin = asind(asind(v_))
+
+b_hyp = abs(a_hyp)*sqrt(e_hyp^2 - 1); %semiminor axis of hyperbola
 
 % Departure
 v_dep = v_planet + v_inf; %departure velocity [km/s]
@@ -75,13 +89,5 @@ else
     fprintf('You fucked up\n')
 end
 
-a_hyp = -mu_planet / (v_inf^2); %semimajor axis of hyperbola
-e_hyp = 1 / sind(delta/2); %eccentricity of hyperbola
-rp = (e_hyp - 1)*abs(a_hyp); %radius of periapsis
-pass_dist = rp - r_planet; %pass distance to planet [km]
-if pass_dist < 0
-    fprintf('Collision with Planet\n')
-end
-b_hyp = abs(a_hyp)*sqrt(e_hyp^2 - 1); %semiminor axis of hyperbola
 
 end
