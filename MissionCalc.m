@@ -12,7 +12,7 @@ function [Science, Cost, Reliability, ttHP] = MissionCalc(candidateArchitecture)
 
 %Calculate Telemetry Data Rate
 DataRate = TelemetryFOA (candidateArchitecture)
-
+refDataRate = [14.6331 9.6722 6.5036]
 %Calculate Total Spacecraft Mass
 %Calculated using Planetary Mission SMAD table A-1
 m_spacecraft = m_instr / 0.15;
@@ -22,17 +22,18 @@ m_spacecraft = m_instr / 0.15;
 power_spacecraft = power_instr / 0.22;
 
 %Calculate Prop Code
-[final_v, m_pay] = generateC3( candidateArchitecture, m_instr);
+[final_v, m_pay] = generateC3( candidateArchitecture, m_spacecraft);
 
 %Calculate Trajectory
-
-tthp = 0;
+[totalTOF] = generalTrajectory(candidateArchitecture,final_v)
+refTOF = [1 1 1];
+ttHP = totalTOF(3)
 
 %Total Science
 %Science Weights phases 1 to 3
 w = [1 2 10];
 
-Science = DataRate(1)*sci_instr(1)*tof(1)*w(1)+DataRate(2)*sci_instr(2)*tof(2)*w(2)+DataRate(3)*sci_instr(3)*tof(3)*w(3)
+Science = DataRate(1)*sci_instr(1)*totalTOF(1)/refTOF(1)*w(1)+DataRate(2)*sci_instr(2)*totalTOF(2)/refTOF(2)*w(2)+DataRate(3)*sci_instr(3)*totalTOF(3)/refTOF(3)*w(3)
 
 %Total Cost
 Cost = 0;

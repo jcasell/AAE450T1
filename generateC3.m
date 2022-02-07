@@ -1,4 +1,4 @@
-function [final_v, m_pay] = generateC3( candidateArchitecture, m_instruments)
+function [final_v, m_pay] = generateC3( candidateArchitecture, m_pay)
     % Inputs: Launch Vehicle, Kick Stage Propulsion
     % Outputs: Delta V, Mass Payload, Structural Mass, Mass Propellant
 
@@ -10,7 +10,7 @@ function [final_v, m_pay] = generateC3( candidateArchitecture, m_instruments)
     v_esc_E = 11200; % Escape velocity of Earth from LEO m/s
     
     % Switch statement to determine max payload (kg), (TOTAL MASS FOR KICK STAGE), at C3 = 0
-    switch candidateArchitecture.LV 
+    switch candidateArchitecture.LaunchVehicle
         case "SLS"
             m_kick = 44300; % SLS Block 2 Assumption
         case "Falcon Heavy" % Assuming Falcon Heavy Recoverable, could do Exendable
@@ -31,18 +31,13 @@ function [final_v, m_pay] = generateC3( candidateArchitecture, m_instruments)
     % Switch statement to determine assumed ISP (Impulse), Lambda (Payload 
     % Fraction), Inert Mass Fraction for kick stage
 
-    switch candidateArchitecture.kick 
+    switch candidateArchitecture.Kick 
         case "Solid"
             isp = 225;
             lambda = 0.875;
         case "Liquid"
-            if type == "mono"
-                isp = 400;
-                lambda = 0.8;
-            else % type is biprop
                 isp = 380;
                 lambda = 0.8;
-            end 
         case "Nuclear" % Nuclear Thermal Engine
             isp = 900;
             lambda = 0.74; % US SNRE mass fraction, Dont have values for general nuclear
@@ -56,7 +51,7 @@ function [final_v, m_pay] = generateC3( candidateArchitecture, m_instruments)
 
     %% Calculations 
 
-    m_prop = (m_kick - m_instruments) * 0.25;    % PUT IN SIMPLY TO RUN
+    m_prop = (m_kick - m_pay) * 0.25;    % PUT IN SIMPLY TO RUN
     f_inert = 1/lambda - 1;
     m_inert = m_kick * f_inert; % Structural mass of the kick stage (Mass minus final payload and propellant)
     m_prop = m_kick - m_inert - m_pay; % Mass of the propellant
@@ -64,9 +59,9 @@ function [final_v, m_pay] = generateC3( candidateArchitecture, m_instruments)
 
     % Calculate Mass Ratio
     MR = (m_pay+m_prop+m_inert) / (m_pay+m_inert); % Mass Ratio
-    MR = (lambda * m_pay + m_prop) / (lamba * m_pay + m_prop(1-lambda)); % Alternate Mass Ratio Eqn.
+    %MR = (lambda * m_pay + m_prop) / (lambda * m_pay + m_prop(1-lambda)); % Alternate Mass Ratio Eqn.
 
     % Calculation of Velocity Infinite with rocket equation
-    v_inf = g_E * isp * ln(MR); 
+    v_inf = g_E * isp * log(MR); 
     final_v = v_inf + v_esc_E;
 end

@@ -13,7 +13,7 @@ function [totalTOF] = generalTrajectory(candidateArchitecture,v_inf)
 mu_sun = 132712440017.99; % grav parameter of sun [km^3/s^2]
 a_earth = 149597898; %radius of Earth orbit [km]
 TOF = 0;
-v_earth = sqrt(2*mu_sun/a_Earth); %velocity of Earth relative to Sun [km/s]
+v_earth = sqrt(2*mu_sun/a_earth); %velocity of Earth relative to Sun [km/s]
 v_0 = v_inf + v_earth; %initial velocity of s/c relative to sun [km/s]
 
 %% Calculations
