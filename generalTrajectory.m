@@ -19,13 +19,13 @@ v_0 = v_inf + v_earth; %initial velocity of s/c relative to sun [km/s]
 %% Calculations
 rad_list = getCharacteristics(candidateArchitecture.Trajectory);
 planet1 = "Jupiter";
-if (candidateArchitecture.Trajectory == "JupNep") || (candidateArchitecture.Trajectory == "JupNep_O")
+if (candidateArchitecture.Trajectory == "JupNep") || (candidateArchitecture.Trajectory == "JupNepO")
     planet2 = "Neptune";
-elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.Trajectory == "JupSat_O")
+elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.Trajectory == "JupSatO")
     planet2 = "Saturn";
 end
 
-if (candidateArchitecture.Trajectory == "JupNep_O") || (candidateArchitecture.Trajectory == "JupSat_O")
+if (candidateArchitecture.Trajectory == "JupNepO") || (candidateArchitecture.Trajectory == "JupSatO")
     %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(a_earth,v_0,rad_list(1),0);
     TOF = detTof(a_earth,v_0,rad_list(1)) + TOF;

@@ -1,27 +1,29 @@
-function DataRate = TelemetryFOA (candidateArchitecture)
+function Data = TelemetryFOA (candidateArchitecture, PhaseTime)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function Name: Telemetry FOA
-%Description: Outputs the projected data rates based on the telemetry band
-%amd comms network.
-%Inputs: candidateArchitecture (The design of the system)
-%Outputs: Data Rate (bps) (1x3 vector with data rates at the ends of the three
+%Description: Outputs the projected data per phase based on the telemetry band
+% comms network, phase times and phase distances.
+%Inputs: TelemetryBand (Name of telemetry band), CommNetwork (Name of
+%Communications network), Instrument (Instrumentation package: A,B or C),
+%PhaseTime in seconds
+%Outputs: Data (bits) (1x3 vector with data acquired by the ends of the three
 %phases)
 %Author: Vincent Haight
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Parse Variables
 TelemetryBand = candidateArchitecture.Telemetry;
 CommNetwork = candidateArchitecture.Communications;
+Instrument = candidateArchitecture.Instruments;
+
+
 
 %Phase Distances
+
 S1 = 100;%(Au)Distance from Earth to Termination Shock
 S1 = S1*1.496e11; %(m)
 
 S2 = 123;%(Au)Distance from Earth to HelioPause
 S2 = S2*1.496e11;%(m)
-
-S3 = 150;%(Au)Distance from Earth to Lifecycle End
-S3 = S3*1.496e11;%(m)
 
 %Depend on Telemetry Band
 if isequal(TelemetryBand,'Ka')
@@ -40,18 +42,31 @@ end
 
 %Depend on Comm Network
 if isequal(CommNetwork,'DSN') %can track at all times [Cost file:///C:/Users/haigh/AppData/Local/Temp/6_NASA_MOCS_2014_10_01_14.pdf pg 14] 
-    Dr = 70; %(m) Diameter of recieving antenna
+    Dr = 32; %(m) Diameter of recieving antenna
+    Weight = 1; %amount of time contact is posible
 elseif isequal(CommNetwork,'IDSN') %Can only track for ~50% of day 
     Dr = 32; %(m) Diameter of recieving antenna
+    Weight = 0.5; %amount of time contact is posible
 elseif isequal(CommNetwork,'NSN') %Only Designed for 2m km
     Dr = 13;%(m) Diameter of recieving antenna
+    Weight = 1; %amount of time contact is posible
 elseif isequal(CommNetwork,'ngVLA') %may need further research because it intends to use multiple antennae
     Dr = 18; %(m) Diameter of recieving antenna
+    Weight = 0.5; %amount of time contact is posible
 else
     disp('Communications Network must be in List (DSN, IDSN, NSN, ngVLA)')
     return
 end
-    
+
+%Depend on Instrumentation Package requirements
+if isequal(Instrument,"Minimum"')
+    S3 = 160;%(Au)Distance from Earth to Lifecycle End
+elseif isequal(Instrument,"Mid Level")
+    S3 = 260;%(Au)Distance from Earth to Lifecycle End
+elseif isequal(Instrument,"High Level")
+    S3 = 310;%(Au)Distance from Earth to Lifecycle End
+end 
+S3 = S3*1.496e11;%(m)
 
 %Depend on the Antenna
 Dt = 3.7;  %(m) Diameter of transmitting antenna (Used Voyager as reference)
@@ -82,29 +97,59 @@ GtDb = 10*log10(Gt);
 Ll = 0.95; %typical Line loss percent according to quick google search
 LlDb = 10*log10(Ll);
 
-
-
 %Power
 P = 20; %(W) Reference Power from Voyager 2 ~20 Watts
 PDb = 10 * log10(P);
-
-%Free Space Loss
-Ls1 = (Lambda / 4 / pi / S1)^2;
-Ls1Db = 10*log10(Ls1);
-Ls2 = (Lambda / 4 / pi / S2)^2;
-Ls2Db = 10*log10(Ls2);
-Ls3 = (Lambda / 4 / pi / S3)^2;
-Ls3Db = 10*log10(Ls3);
 
 %Receiver Gain
 RecEff = 0.55; %typical receive antenna efficiency (AAE590 lec6 pg7)
 Gr = pi^2 * Dr^2 * RecEff / Lambda^2;
 GrDb = 10*log10(Gr);
 
-R1Db = PDb + LlDb + GtDb + Ls1Db +LaDb + GrDb + LpDb - kDb -TsDb - Eb_NoDb;
-R2Db = PDb + LlDb + GtDb + Ls2Db +LaDb + GrDb + LpDb - kDb -TsDb - Eb_NoDb;
-R3Db = PDb + LlDb + GtDb + Ls3Db +LaDb + GrDb + LpDb - kDb -TsDb - Eb_NoDb;
+%Phase 1 Bits
+Dist1 = linspace(600000,S1,100); %Breaks the phase 1 distances into 100 slices
+MiniTime1 = PhaseTime(1) / 100;%Solves for time per slice
+prev = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist1(1), Lambda);%Finds the data rate at the start of the slice
+bits1 = 0; %initiates the number of bits in the phase 
+for ii = 2:1:100
+    current = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist1(ii), Lambda);%Bit rate at the end of the slice
+    bits1 = bits1 + (current+prev) / 2 * MiniTime1; %Adds the number of bits this slice to the total
+    prev = current;%Stores the bit rate for the beginning of the next slice
+end
 
-DataRate(1) = 10^(R1Db/10);
-DataRate(2) = 10^(R2Db/10);
-DataRate(3) = 10^(R3Db/10);
+%Phase 2 Bits
+Dist2 = linspace(S1,S2,100);%Breaks the phase 2 distances into 100 slices
+MiniTime2 = PhaseTime(2)/100;%Solves for time per slice
+prev = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist2(1), Lambda);%Finds the data rate at the start of the phase
+bits2 = 0;%initiates the number of bits in the phase 
+for ii = 2:1:100
+    current = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist2(ii), Lambda);%Finds the data rate at the start of the slice
+    bits2 = bits2 + (current+prev) / 2 * MiniTime2;%Adds the number of bits this slice to the total
+    prev = current;%Stores the bit rate for the beginning of the next slice
+end
+
+%Phase 3 Bits
+Dist3 = linspace(S2,S3,100);%Breaks the phase 3 distances into 100 slices
+MiniTime3 = PhaseTime(3)/100;%Solves for time per slice
+prev = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist3(1), Lambda);%Finds the data rate at the start of the phase
+bits3 = 0;%initiates the number of bits in the phase 
+for ii = 2:1:100
+    current = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist3(ii), Lambda);%Finds the data rate at the start of the slice
+    bits3 = bits3 + (current+prev) / 2 * MiniTime3;%Adds the number of bits this slice to the total
+    prev = current;%Stores the bit rate for the beginning of the next slice
+end
+
+%Outputs
+Data = Weight*[bits1,bits2,bits3];
+end
+
+function Rate = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, S, Lambda)
+
+    %Free Space Loss
+    Ls = (Lambda / 4 / pi / S)^2;
+    LsDb = 10*log10(Ls);
+
+    %Data Rate
+    RDb = PDb + LlDb + GtDb + LsDb + LaDb + GrDb + LpDb - kDb - TsDb - Eb_NoDb;
+    Rate = 10^(RDb/10);
+end

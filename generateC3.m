@@ -4,7 +4,7 @@ function [final_v, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay)
 
     %% Setting Constants and Assumed Values (values to iterate over)
     
-    array_LV = ["SLS", "Falcon Heavy", "Starship", "New Glenn", "Atlas V", "Delta IV Heavy"]; % Array of Launch Vehicles
+    array_LV = ["SLS", "Falcon Heavy", "Starship", "New Glenn", "Atlas V", "Vulcan 6S","Delta IV Heavy"]; % Array of Launch Vehicles
     array_kick = ["Solid", "Liquid", "Nuclear", "Hybrid", "None"]; % Array of Kick Stages
     g_E = 9.81; % (m/s^2)
     v_esc_E = 11200; % Escape velocity of Earth from LEO m/s
@@ -13,14 +13,16 @@ function [final_v, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay)
     switch candidateArchitecture.LaunchVehicle
         case "SLS"
             m_kick = 44300; % SLS Block 2 Assumption
-        case "Falcon Heavy" % Assuming Falcon Heavy Recoverable, could do Exendable
-            m_kick = 6690;
+        case "Falcon Heavy"
+            m_kick = 9979.03; % 11 tons to LEO
         case "Starship" % NEED MASS OF KICK
             m_kick = 50000; %A GUESS VALUE
         case "New Glenn"
             m_kick = 7100;
         case "Atlas V"
             m_kick = 6750;
+        case "Vulcan 6S"
+            m_kick = 10800;
         case "Delta IV Heavy"
             m_kick = 10500;
         otherwise 
@@ -38,8 +40,8 @@ function [final_v, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay)
             %check monoprop
             isp = 450; % LH2/LOX
             lambda = 0.90; % Centaur Kick Stage
-        case "Nuclear" % Nuclear Thermal Engine
-            isp = 900; 
+        case "Nuclear" % sNuclear Thermal Engine
+            isp = 875; 
             lambda = 0.74; % US SNRE mass fraction, Dont have values for general nuclear
         case "Hybrid"
             isp = 325;
@@ -54,7 +56,7 @@ function [final_v, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay)
     % Calculation mass propellant, inert mass, and Mass Ratio
     m_prop = (m_kick - m_pay) * lambda;
     m_inert = (m_kick - m_pay - m_prop); % Structural mass of the kick stage (Mass minus final payload and propellant)
-    MR = (m_pay+m_prop+m_inert) / (m_pay+m_inert); % Mass Ratio
+    MR = (m_pay + m_prop + m_inert) / (m_pay + m_inert); % Mass Ratio
 
     % Calculation of Velocity Infinite with rocket equation (km/s)
 
@@ -65,7 +67,7 @@ function [final_v, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay)
         final_v = v_esc_E/1000;
     end
 
-    if candidateArchitecture.Traj == "JupNep_O" || candidateArchitecture.Traj == "JupSat_O" 
-        final_v = final_v - 700;
+    if candidateArchitecture.Trajectory == "JupNepO" || candidateArchitecture.Trajectory == "JupSatO" 
+        final_v = final_v - 700/1000;
     end
 end
