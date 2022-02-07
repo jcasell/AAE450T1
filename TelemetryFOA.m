@@ -59,11 +59,11 @@ else
 end
 
 %Depend on Instrumentation Package requirements
-if isequal(Instrument,'A')
+if isequal(Instrument,"Minimum"')
     S3 = 160;%(Au)Distance from Earth to Lifecycle End
-elseif isequal(Instrument,'B')
+elseif isequal(Instrument,"Mid Level")
     S3 = 260;%(Au)Distance from Earth to Lifecycle End
-elseif isequal(Instrument,'C')
+elseif isequal(Instrument,"High Level")
     S3 = 310;%(Au)Distance from Earth to Lifecycle End
 end 
 S3 = S3*1.496e11;%(m)
