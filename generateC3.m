@@ -32,18 +32,18 @@ function [final_v, m_pay] = generateC3( candidateArchitecture, m_pay)
 
     switch candidateArchitecture.Kick 
         case "Solid"
-            isp = 225;
-            lambda = 0.875;
+            isp = 285;
+            lambda = 0.92; % APCP Titan SRMU 
         case "Liquid" %currently biprop
             %check monoprop
             isp = 450; % LH2/LOX
-            lambda = 0.90;
+            lambda = 0.90; % Centaur Kick Stage
         case "Nuclear" % Nuclear Thermal Engine
-            isp = 900;
+            isp = 900; 
             lambda = 0.74; % US SNRE mass fraction, Dont have values for general nuclear
         case "Hybrid"
             isp = 325;
-            lambda = 0.875;
+            lambda = 0.875; % Heister book
         otherwise % No kick stage
             isp = 0;
             lambda = 0;
