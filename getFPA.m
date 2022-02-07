@@ -1,4 +1,4 @@
-function [vArr, fpaArr] = getFPA(r0,v0,rF)
+function [vArr, fpaArr] = getFPA(r0,v0,rF,fpaDep)
 %Takes as input initial and final orbital radius and initial velocity
 %Output is arrival velocity at final radius and corresponding flight path
 %angle. Velocity in km/s and FPA in degrees.
