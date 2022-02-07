@@ -14,7 +14,8 @@ Telem = ["Ka" "X" "S"];     %Telemetry Band
 Prop = ["Nuclear Thermal" "Chemical" "Solar Sail" "Plasma" "None"];   %Propulsion Options
 Power = ["RTG Nuclear" "Solar Panel/Nuclear"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
-Traj = ["Jupiter/Neptune" "General Gravity Assist" "Oberth Maneuver"]; %Orbital Maneuver Options
+Oberth = ["Y","N"]; %Determines if there is an Oberth maneuver
+Traj = [["Jupiter","Neptune"],["Jupiter","Saturn"]]; %Shortlist of options for gravity assists
 LaunchV = ["SLS" "Falcon Heavy" "Starship" "New Glenn"];    %Launch Vehicle Options
 Kick = ["Solid Motor" "Liquid" "Nuclear" "Electric" "Hybrid" "None"];   %Kick Stages Options
 
