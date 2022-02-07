@@ -40,8 +40,8 @@ function [final_v, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay)
             %check monoprop
             isp = 450; % LH2/LOX
             lambda = 0.90; % Centaur Kick Stage
-        case "Nuclear" % Nuclear Thermal Engine
-            isp = 900; 
+        case "Nuclear" % sNuclear Thermal Engine
+            isp = 875; 
             lambda = 0.74; % US SNRE mass fraction, Dont have values for general nuclear
         case "Hybrid"
             isp = 325;
