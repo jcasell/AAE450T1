@@ -38,11 +38,9 @@ for i1 = ComNet
                                 candidateArchitecture.Trajectory = i6;
                                 candidateArchitecture.LaunchVehicle = i7;
                                 candidateArchitecture.Kick = i8;
-                                candidateArchitecture.Cost = 0;
-                                candidateArchitecture.Science = 0;
-                                candidateArchitecture.Reliability = 0;
                                 
                                 %Call Mission Program
+                                
 
                                 %Create Table of Results etc
                                 ResultsRaw = [ResultsRaw; [i1 i2 i3 i4 i5 i6 i7 i8 cost science reliability]];
