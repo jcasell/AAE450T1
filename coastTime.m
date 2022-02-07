@@ -8,7 +8,7 @@ au2km = 149597870.691; %Converts AU to kilometers
 
 phase1R = 113*au2km;
 phase2R = 120*au2km;
-phase3R = 125*au2km;
+phase3R = 150*au2km;
 
 [phase1Time, phase1Fpa, phase1V] = detTof(r0,v0,phase1R, departFPA);
 [phase2Time, phase2Fpa, phase2V] = detTof(phase1R,phase1V,phase2R, phase1Fpa);
