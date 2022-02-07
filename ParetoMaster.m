@@ -16,7 +16,7 @@ Power = ["RTG Nuclear" "Solar Panel/Nuclear"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
 Traj = ["JupNep","JupSat","JupNep_O","JupSat_O"]; %Trajectory Options (O indicates oberth maneuver)
 LaunchV = ["SLS" "Falcon Heavy" "Starship" "New Glenn"];    %Launch Vehicle Options
-Kick = ["Solid Motor" "Liquid" "Nuclear" "Electric" "Hybrid" "None"];   %Kick Stages Options
+Kick = ["Solid" "Liquid" "Nuclear" "Electric" "Hybrid" "None"];   %Kick Stages Options
 
 %Create Results Table
 ResultsRaw = [];
@@ -40,12 +40,10 @@ for i1 = ComNet
                                 candidateArchitecture.Kick = i8;
                                 
                                 %Call Mission Program
-                                cost = double(1);
-                                science= double(0);
-                                reliability = 0;
+                                [science, cost, reliability, ttHP] = MissionCalc(candidateArchitecture)
 
                                 %Create Table of Results etc
-                                ResultsRaw = [ResultsRaw; [i1 i2 i3 i4 i5 i6 i7 i8 cost science reliability]];
+                                ResultsRaw = [ResultsRaw; [i1 i2 i3 i4 i5 i6 i7 i8 cost science reliability ttHP]];
 
                             end
                         end
@@ -55,7 +53,7 @@ for i1 = ComNet
         end
     end
 end
-Results = array2table(ResultsRaw,'VariableNames', {'Communications','Telemetry','Propulsion','Power','Instruments','Trajectory','Launch Vehicle','Kick Stages','Cost','Science','Reliability'})
+Results = array2table(ResultsRaw,'VariableNames', {'Communications','Telemetry','Propulsion','Power','Instruments','Trajectory','Launch Vehicle','Kick Stages','Cost','Science','Reliability','Time to Heliopause'})
 Results.Cost = double(Results.Cost);
 Results.Science = double(Results.Science);
 Results.Reliability = double(Results.Reliability);
