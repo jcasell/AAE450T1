@@ -30,3 +30,5 @@ elseif orbitType == "Hyperbolic"
     
     tof = sqrt(abs(sma)^3 / muSun) * (ecc*sinh(finalH) - finalH - (ecc*sinh(initialH) - initialH));
 end
+
+tof = tof / (3600 * 24 * 365.25); %Convert time of flight from seconds to Julian years
