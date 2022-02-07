@@ -1,4 +1,4 @@
-function [v_eq,alpha,v_dep,fpa_dep] = oberth(candidateArchitecture,v_arr,fpa_arr,pass_dist)
+function [v_dep,fpa_dep] = oberth(candidateArchitecture,v_arr,fpa_arr,pass_dist)
 %% Gravity Assist Calculation Function
 % This function will determine the changed trajectory of the spacecraft
 % after a gravity assist
