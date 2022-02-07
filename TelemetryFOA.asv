@@ -177,22 +177,22 @@ Data = Weight*[bits1,bits2,bits3];
 %     bits2 = bits2 + (current+prev) / 2 * MiniTime2;%Adds the number of bits this slice to the total
 %     prev = current;%Stores the bit rate for the beginning of the next slice
 % end
-% 
-% %Phase 3 Bits
-% Dist3 = linspace(S2,S3,100);%Breaks the phase 3 distances into 100 slices
-% MiniTime3 = PhaseTime(3)/100;%Solves for time per slice
-% prev = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist3(1), Lambda);%Finds the data rate at the start of the phase
-% bits3 = 0;%initiates the number of bits in the phase 
-% for ii = 2:1:100
-%     current = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist3(ii), Lambda);%Finds the data rate at the start of the slice
-%     bits3 = bits3 + (current+prev) / 2 * MiniTime3;%Adds the number of bits this slice to the total
-%     prev = current;%Stores the bit rate for the beginning of the next slice
-% end
 
-% %Outputs
-% DataRef = Weight*[bits1,bits2,bits3];
-% 
-% Data = Data ./ DataRef;
+%Phase 3 Bits
+Dist3 = linspace(S2,S3,100);%Breaks the phase 3 distances into 100 slices
+MiniTime3 = PhaseTime(3)/100;%Solves for time per slice
+prev = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist3(1), Lambda);%Finds the data rate at the start of the phase
+bits3 = 0;%initiates the number of bits in the phase 
+for ii = 2:1:100
+    current = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist3(ii), Lambda);%Finds the data rate at the start of the slice
+    bits3 = bits3 + (current+prev) / 2 * MiniTime3;%Adds the number of bits this slice to the total
+    prev = current;%Stores the bit rate for the beginning of the next slice
+end
+
+%Outputs
+DataRef = Weight*[bits1,bits2,bits3];
+
+Data = Data ./ DataRef;
 
 end
 
