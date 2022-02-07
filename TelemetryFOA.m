@@ -1,14 +1,17 @@
-function DataRate = TelemetryFOA (TelemetryBand, CommNetwork)
+function DataRate = TelemetryFOA (candidateArchitecture)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function Name: Telemetry FOA
 %Description: Outputs the projected data rates based on the telemetry band
 %amd comms network.
-%Inputs: TelemetryBand (Name of telemetry band), CommNetwork (Name of
-%Communications network)
+%Inputs: candidateArchitecture (The design of the system)
 %Outputs: Data Rate (bps) (1x3 vector with data rates at the ends of the three
 %phases)
 %Author: Vincent Haight
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Parse Variables
+TelemetryBand = candidateArchitecture.Telemetry;
+CommNetwork = candidateArchitecture.Communications;
 
 %Phase Distances
 S1 = 100;%(Au)Distance from Earth to Termination Shock
