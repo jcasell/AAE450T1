@@ -2,7 +2,8 @@ function tof = detTof(r0,v0, rF, fpaDep)
 muSun = 132712440017.99; %km^3/s^2
 
 %This function determines the time of flight between two points given
-%orbital inf`ormation
+%orbital inf`ormation. Output time of flight is in Julian Years (365.25
+%Julian days per Julian year)
 
 %Check if orbit type is elliptic or hyperbolic
 vEsc = sqrt(2*muSun/r0); %Escape velocity from given r
