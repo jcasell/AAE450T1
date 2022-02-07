@@ -19,7 +19,7 @@ Cost = 0;
 
 %Communication Network Cost
 if comm == "DSN"
-    Cost = Cost + 155.155;
+    Cost = Cost + 133;
 elseif comm == "NSN"
     Cost = Cost + 113.575;
 end
