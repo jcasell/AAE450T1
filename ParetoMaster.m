@@ -20,6 +20,7 @@ Kick = ["Solid" "Liquid" "Hybrid" "None"];   %Kick Stages Options
 
 %Create Results Table
 ResultsRaw = [];
+PointColor = [];
 
 %Create Permutations of Missions
 for i1 = ComNet
@@ -33,7 +34,7 @@ for i1 = ComNet
     for i2 = TelemAllow
         for i3 = Prop
             %Only Include Relevant Combination
-            if or(or(i3 == "Solar Sail",i3 == "None"),"Plasma")
+            if or(or(i3 == "Solar Sail",i3 == "None"),i3 == "Plasma")
                 TrajAllow = ["JupNep","JupSat"];
             else
                 TrajAllow = Traj;
@@ -63,7 +64,12 @@ for i1 = ComNet
 
                                 %Create Table of Results etc
                                 ResultsRaw = [ResultsRaw; [i1 i2 i3 i4 i5 i6 i7 i8 cost science reliability ttHP]];
-
+                                
+                                if ttHP<=10;
+                                    PointColor = [PointColor;1 0 0];
+                                else
+                                    PointColor = [PointColor;0 0 1];
+                                end
                             end
                         end
                     end
@@ -75,16 +81,17 @@ end
 
 %Parse Table
 Results = array2table(ResultsRaw,'VariableNames', {'Communications','Telemetry','Propulsion','Power','Instruments','Trajectory','Launch_Vehicle','Kick_Stages','Cost','Science','Reliability','TT_Heliopause'})
-xlabel('System Cost (F2022 Dollars)')
-ylabel('Science Value')
-title('Science Value vs Cost Pareto Frontier')
 
 Results.Cost = double(Results.Cost);
 Results.Science = double(Results.Science);
 Results.Reliability = double(Results.Reliability);
 
 %Add Data Tips
-s = scatter(Results.Cost,Results.Science);
+s = scatter(Results.Cost,Results.Science,[],PointColor);
+xlabel('System Cost (F2022 Dollars)')
+ylabel('Science Value')
+title('Science Value vs Cost Pareto Frontier')
+
 row = dataTipTextRow('Cost',Results.Cost);
 s.DataTipTemplate.DataTipRows(1) = row;
 row = dataTipTextRow('Science',Results.Science);

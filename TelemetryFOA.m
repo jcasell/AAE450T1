@@ -15,7 +15,8 @@ TelemetryBand = candidateArchitecture.Telemetry;
 CommNetwork = candidateArchitecture.Communications;
 Instrument = candidateArchitecture.Instruments;
 
-
+%Convert Phase time to Seconds
+PhaseTime = PhaseTime*365*24*3600;
 
 %Phase Distances
 

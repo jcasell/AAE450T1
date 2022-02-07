@@ -23,18 +23,18 @@ power_spacecraft = power_instr / 0.22;
 
 %Calculate Trajectory
 totalTOF = generalTrajectory(candidateArchitecture,final_v);
-refTOF = [1 1 1];
+refTOF = [14.8425 4.2342 9.4374];
 ttHP = totalTOF(3);
 
 %Calculate Telemetry Data Rate
 DataRate = TelemetryFOA (candidateArchitecture,totalTOF);
-refDataRate = [14.6331 9.6722 6.5036];
+refDataRate = [1.6714e22 1.2346e9 8.8774e8];
 
 %Total Science
 %Science Weights phases 1 to 3
-w = [1 2 10];
+w = [0.1 0.3 0.6];
 
-Science = DataRate(1)/refDataRate(1)*sci_instr(1)*totalTOF(1)/refTOF(1)*w(1)+DataRate(2)/refDataRate(2)*sci_instr(2)*totalTOF(2)/refTOF(2)*w(2)+DataRate(3)/refDataRate(3)*sci_instr(3)*totalTOF(3)/refTOF(3)*w(3);
+Science = DataRate(1)/refDataRate(1)*sci_instr(1)*w(1)+DataRate(2)/refDataRate(2)*sci_instr(2)*w(2)+DataRate(3)/refDataRate(3)*sci_instr(3)*w(3);
 
 %Total Cost
 Cost = CostCalc(candidateArchitecture);
