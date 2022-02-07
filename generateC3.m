@@ -55,7 +55,7 @@ function [final_v, m_pay] = generateC3( candidateArchitecture )
 
     %% Calculations 
 
-    f_inert = 1/lambda - 1;
+    f_inert = 1/lambda - 1; % This is not garunteed. With values of 0.8 lambda, it is incorrect
     m_prop = m_kick * lambda;
     m_inert = m_kick * f_inert; % Structural mass of the kick stage (Mass minus final payload and propellant)
     m_pay = m_kick - m_inert - m_prop; % Mass of the propellant
