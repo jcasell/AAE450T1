@@ -36,7 +36,7 @@ elseif prop == "Plasma"
 end
 
 %Power Source Cost
-if power == "RTG NUclear"
+if power == "RTG Nuclear"
     Cost = Cost + 100;
 elseif power == "Solar Panel/Nuclear"
     Cost = Cost + 108;
