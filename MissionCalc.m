@@ -33,10 +33,10 @@ ttHP = totalTOF(3)
 %Science Weights phases 1 to 3
 w = [1 2 10];
 
-Science = DataRate(1)*sci_instr(1)*totalTOF(1)/refTOF(1)*w(1)+DataRate(2)*sci_instr(2)*totalTOF(2)/refTOF(2)*w(2)+DataRate(3)*sci_instr(3)*totalTOF(3)/refTOF(3)*w(3)
+Science = DataRate(1)/refDataRate(1)*sci_instr(1)*totalTOF(1)/refTOF(1)*w(1)+DataRate(2)/refDataRate(2)*sci_instr(2)*totalTOF(2)/refTOF(2)*w(2)+DataRate(3)/refDataRate(3)*sci_instr(3)*totalTOF(3)/refTOF(3)*w(3);
 
 %Total Cost
-Cost = 0;
+Cost = CostCalc(candidateArchitecture);
 
 %Return Risk
 Risk = 0;

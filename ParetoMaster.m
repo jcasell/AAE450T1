@@ -59,3 +59,4 @@ Results = array2table(ResultsRaw,'VariableNames', {'Communications','Telemetry',
 Results.Cost = double(Results.Cost);
 Results.Science = double(Results.Science);
 Results.Reliability = double(Results.Reliability);
+

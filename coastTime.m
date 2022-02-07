@@ -11,10 +11,10 @@ phase2R = 120*au2km;
 phase3R = 150*au2km;
 
 phase1Time = detTof(r0,v0,phase1R);
-[phase1V, phase1Fpa] = getFpa(r0,v0,phase1R, departFPA);
+[phase1V, phase1Fpa] = getFPA(r0,v0,phase1R, departFPA);
 
 phase2Time = detTof(phase1R,phase1V,phase2R);
-[phase2V, ~] = getFpa(phase1R,phase1V,phase2R, phase1Fpa);
+[phase2V, ~] = getFPA(phase1R,phase1V,phase2R, phase1Fpa);
 
 phase3Time = detTof(phase2R,phase2V,phase3R);
 

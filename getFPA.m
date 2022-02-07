@@ -11,4 +11,4 @@ ecc = sqrt(((r0 * v0^2 / muSun) - 1)^2 * cosd(fpaDep)^2 + sind(fpaDep)^2);
 vArr = sqrt(2*muSun*(1/rF - 1/(2*sma))); %Velocity at final orbital radius
 
 angMom = sqrt(muSun * sma * (1 - ecc^2));
-fpaArr = abs(acosd(angMom/(rF*vF))); %Flight path a ngle at final orbital radius
+fpaArr = abs(acosd(angMom/(rF*vArr))); %Flight path a ngle at final orbital radius

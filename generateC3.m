@@ -61,7 +61,7 @@ function [final_v, m_pay] = generateC3( candidateArchitecture, m_pay)
     MR = (m_pay+m_prop+m_inert) / (m_pay+m_inert); % Mass Ratio
     %MR = (lambda * m_pay + m_prop) / (lambda * m_pay + m_prop(1-lambda)); % Alternate Mass Ratio Eqn.
 
-    % Calculation of Velocity Infinite with rocket equation
+    % Calculation of Velocity Infinite with rocket equation (km/s)
     v_inf = g_E * isp * log(MR); 
-    final_v = v_inf + v_esc_E;
+    final_v = (v_inf + v_esc_E)/1000;
 end
