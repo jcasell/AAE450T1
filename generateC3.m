@@ -1,4 +1,4 @@
-function [final_v, m_pay] = generateC3( candidateArchitecture, m_pay)
+function [final_v, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay)
     % Inputs: Launch Vehicle, Kick Stage Propulsion
     % Outputs: Delta V, Mass Payload, Structural Mass, Mass Propellant
 
@@ -19,10 +19,10 @@ function [final_v, m_pay] = generateC3( candidateArchitecture, m_pay)
             m_kick = 50000; %A GUESS VALUE
         case "New Glenn"
             m_kick = 7100;
-        case "Atlas"
-            m_kick = 0;
-        case "Delta"
-            m_kick = 0;
+        case "Atlas V"
+            m_kick = 6750;
+        case "Delta IV Heavy"
+            m_kick = 10500;
         otherwise 
             m_kick = m_pay;
     end
@@ -33,7 +33,7 @@ function [final_v, m_pay] = generateC3( candidateArchitecture, m_pay)
     switch candidateArchitecture.Kick 
         case "Solid"
             isp = 285;
-            lambda = 0.92; % APCP Titan SRMU 
+            lambda = 0.92; % APCP Titan SRMU, Star 48 BV
         case "Liquid" %currently biprop
             %check monoprop
             isp = 450; % LH2/LOX
