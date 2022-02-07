@@ -141,6 +141,59 @@ end
 
 %Outputs
 Data = Weight*[bits1,bits2,bits3];
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Reference DSN-Ka 310 Au
+LaDb = 0.116;%Atmospheric Loss file:///C:/Users/haigh/AppData/Local/Temp/06_Reid_chapt6.pdf pg268
+Lambda = 1.575 / 100; %wavelength (m)
+Dr = 32; %(m) Diameter of recieving antenna
+Weight = 1; %amount of time contact is posible
+S3 = 310;%(Au)Distance from Earth to Lifecycle End
+S3 = S3*1.496e11;%(m)
+
+Gt = TranEff * (pi * Dt / Lambda)^2; %The Transmitter Gain
+GtDb = 10*log10(Gt);
+Gr = pi^2 * Dr^2 * RecEff / Lambda^2;
+GrDb = 10*log10(Gr);
+
+%Phase 1 Bits
+Dist1 = linspace(600000,S1,100); %Breaks the phase 1 distances into 100 slices
+MiniTime1 = PhaseTime(1) / 100;%Solves for time per slice
+prev = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist1(1), Lambda);%Finds the data rate at the start of the slice
+bits1 = 0; %initiates the number of bits in the phase 
+for ii = 2:1:100
+    current = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist1(ii), Lambda);%Bit rate at the end of the slice
+    bits1 = bits1 + (current+prev) / 2 * MiniTime1; %Adds the number of bits this slice to the total
+    prev = current;%Stores the bit rate for the beginning of the next slice
+end
+
+%Phase 2 Bits
+Dist2 = linspace(S1,S2,100);%Breaks the phase 2 distances into 100 slices
+MiniTime2 = PhaseTime(2)/100;%Solves for time per slice
+prev = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist2(1), Lambda);%Finds the data rate at the start of the phase
+bits2 = 0;%initiates the number of bits in the phase 
+for ii = 2:1:100
+    current = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist2(ii), Lambda);%Finds the data rate at the start of the slice
+    bits2 = bits2 + (current+prev) / 2 * MiniTime2;%Adds the number of bits this slice to the total
+    prev = current;%Stores the bit rate for the beginning of the next slice
+end
+
+%Phase 3 Bits
+Dist3 = linspace(S2,S3,100);%Breaks the phase 3 distances into 100 slices
+MiniTime3 = PhaseTime(3)/100;%Solves for time per slice
+prev = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist3(1), Lambda);%Finds the data rate at the start of the phase
+bits3 = 0;%initiates the number of bits in the phase 
+for ii = 2:1:100
+    current = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist3(ii), Lambda);%Finds the data rate at the start of the slice
+    bits3 = bits3 + (current+prev) / 2 * MiniTime3;%Adds the number of bits this slice to the total
+    prev = current;%Stores the bit rate for the beginning of the next slice
+end
+
+%Outputs
+DataRef = Weight*[bits1,bits2,bits3];
+
+Data = Data ./ DataRef;
+
 end
 
 function Rate = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, S, Lambda)
