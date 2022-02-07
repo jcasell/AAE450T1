@@ -1,4 +1,4 @@
-function Data = TelemetryFOA (TelemetryBand, CommNetwork, Instrument, PhaseTime)
+function Data = TelemetryFOA (candidateArchitecture, PhaseTime)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function Name: Telemetry FOA
 %Description: Outputs the projected data per phase based on the telemetry band
@@ -10,6 +10,11 @@ function Data = TelemetryFOA (TelemetryBand, CommNetwork, Instrument, PhaseTime)
 %phases)
 %Author: Vincent Haight
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+TelemetryBand = candidateArchitecture.Telemetry;
+CommNetwork = candidateArchitecture.Communications;
+Instrument = candidateArchitecture.Instruments;
+
 
 
 %Phase Distances
