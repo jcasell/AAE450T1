@@ -1,4 +1,4 @@
-function [final_v, m_pay] = generateC3( candidateArchitecture )
+function [final_v, m_pay] = generateC3( candidateArchitecture, m_instruments)
     % Inputs: Launch Vehicle, Kick Stage Propulsion
     % Outputs: Delta V, Mass Payload, Structural Mass, Mass Propellant
 
@@ -56,7 +56,7 @@ function [final_v, m_pay] = generateC3( candidateArchitecture )
 
     %% Calculations 
 
-    m_prop = 
+    m_prop = (m_kick - m_instruments) * 0.25;    % PUT IN SIMPLY TO RUN
     f_inert = 1/lambda - 1;
     m_inert = m_kick * f_inert; % Structural mass of the kick stage (Mass minus final payload and propellant)
     m_prop = m_kick - m_inert - m_pay; % Mass of the propellant
