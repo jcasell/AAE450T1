@@ -49,12 +49,12 @@ beta2 = 180 - beta1;
 check1 = sqrt(v_eq^2 + v_arr^2 - (2*v_eq*v_arr*cosd(beta1)));
 check2 = sqrt(v_eq^2 + v_arr^2 - (2*v_eq*v_arr*cosd(beta2)));
 
-if floor(check1) == floor(v_dep)
+if abs(check1 - v_dep) < 0.5
     beta = beta1;
-elseif floor(check2) == floor(v_dep)
+elseif abs(check2 - v_dep) < 0.5
     beta = beta2;
 else
-    fprintf('You fucked up')
+    fprintf('You fucked up\n')
 end
 
 alpha = 180 - beta;
@@ -67,12 +67,12 @@ delta2 = 180 - delta1;
 % Quadrant Check
 check1 = sqrt(v_inf^2 + v_inf^2 - (2*v_inf*v_inf*cosd(delta1)));
 check2 = sqrt(v_inf^2 + v_inf^2 - (2*v_inf*v_inf*cosd(delta2)));
-if floor(check1) == floor(v_eq)
+if abs(check1 - v_eq) < 0.5
     delta = delta1;
-elseif floor(check2) == floor(v_eq)
+elseif abs(check2 - v_eq) < 0.5
     delta = delta2;
 else
-    fprintf('You fucked up')
+    fprintf('You fucked up\n')
 end
 
 a_hyp = -mu_planet / (v_inf^2); %semimajor axis of hyperbola
@@ -80,7 +80,7 @@ e_hyp = 1 / sind(delta/2); %eccentricity of hyperbola
 rp = (e_hyp - 1)*abs(a_hyp); %radius of periapsis
 pass_dist = rp - r_planet; %pass distance to planet [km]
 if pass_dist < 0
-    fprintf('Collision with Planet')
+    fprintf('Collision with Planet\n')
 end
 b_hyp = abs(a_hyp)*sqrt(e_hyp^2 - 1); %semiminor axis of hyperbola
 
