@@ -22,8 +22,7 @@ m_spacecraft = m_instr / 0.15;
 power_spacecraft = power_instr / 0.22;
 
 %Calculate Prop Code
-[final_v, m_pay] = generateC3(candidateArchitecture, m_instr);
-
+[final_v, m_pay] = generateC3( candidateArchitecture, m_instr);
 
 %Calculate Trajectory
 
