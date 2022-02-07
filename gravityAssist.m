@@ -1,4 +1,4 @@
-function [v_dep] = gravityAssistMod(planet_name)
+function [v_dep] = gravityAssist(planet_name)
 %% Gravity Assist Calculation Function
 % This function will determine the changed trajectory of the spacecraft
 % after a gravity assist. Assumes that departure FPA is 0 and determines
@@ -30,10 +30,6 @@ switch planet_name
         a_planet = 108207284;
         mu_planet = 324858.5988;
         r_planet = 6051.9;
-    case "Mars"
-        a_planet = 227944135;
-        mu_planet = 42828.3142;
-        r_planet = 3397;
     case "Jupiter"
         a_planet = 778279959;
         mu_planet = 126712767.8578;
@@ -42,10 +38,6 @@ switch planet_name
         a_planet = 1427387908;
         mu_planet = 37940626.0611;
         r_planet = 60268;
-    case "Uranus"
-        a_planet = 2870480873;
-        mu_planet = 5794549.0070;
-        r_planet = 25559;
     case "Neptune"
         a_planet = 4498337290;
         mu_planet = 6836534.0638;
