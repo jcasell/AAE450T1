@@ -1,4 +1,4 @@
-function [v_dep] = gravityAssistMod(candidateArchitecture)
+function [v_dep] = gravityAssistMod(planet_name)
 %% Gravity Assist Calculation Function
 % This function will determine the changed trajectory of the spacecraft
 % after a gravity assist. Assumes that departure FPA is 0 and determines
@@ -25,7 +25,7 @@ char_energy = candidateArchitecture.CharacteristicEnergy; %Not sure if this is h
 
 v_inf = sqrt(char_energy); v_dep = v_Earth + v_inf; %Assumes perfectly tangential Earth departure
 
-switch candidateArchitecture.GravityAssist
+switch planet_name
     case "Venus"
         a_planet = 108207284;
         mu_planet = 324858.5988;
