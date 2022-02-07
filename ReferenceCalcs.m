@@ -3,7 +3,7 @@ clear
 close all
 
 candidateArchitecture.Communications = "DSN";
-candidateArchitecture.Telemetry = "X";
+candidateArchitecture.Telemetry = "Ka";
 candidateArchitecture.Propulsion = "Chemical";
 candidateArchitecture.Power = "RTG Nuclear";
 candidateArchitecture.Instruments = "High Level";
