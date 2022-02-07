@@ -24,9 +24,8 @@ function [final_v, m_pay] = generateC3( candidateArchitecture, m_pay)
         case "Delta"
             m_kick = 0;
         otherwise 
-            m_kick = 0;
+            m_kick = m_pay;
     end
-
 
     % Switch statement to determine assumed ISP (Impulse), Lambda (Payload 
     % Fraction), Inert Mass Fraction for kick stage
@@ -35,9 +34,10 @@ function [final_v, m_pay] = generateC3( candidateArchitecture, m_pay)
         case "Solid"
             isp = 225;
             lambda = 0.875;
-        case "Liquid"
-                isp = 380;
-                lambda = 0.8;
+        case "Liquid" %currently biprop
+            %check monoprop
+            isp = 450; % LH2/LOX
+            lambda = 0.90;
         case "Nuclear" % Nuclear Thermal Engine
             isp = 900;
             lambda = 0.74; % US SNRE mass fraction, Dont have values for general nuclear
@@ -51,19 +51,21 @@ function [final_v, m_pay] = generateC3( candidateArchitecture, m_pay)
 
     %% Calculations 
 
-    m_prop = (m_kick - m_pay) * lambda;    % PUT IN SIMPLY TO RUN
-    % f_inert = 1/lambda - 1; % This is not garunteed. With values of 0.8 lambda, it is incorrect
+    % Calculation mass propellant, inert mass, and Mass Ratio
+    m_prop = (m_kick - m_pay) * lambda;
     m_inert = (m_kick - m_pay - m_prop); % Structural mass of the kick stage (Mass minus final payload and propellant)
-    
-
-    % Calculate Mass Ratio
     MR = (m_pay+m_prop+m_inert) / (m_pay+m_inert); % Mass Ratio
-    %MR2 = (lambda * m_pay + m_prop) / (lambda * m_pay + m_prop(1-lambda)); % Alternate Mass Ratio Eqn.
 
     % Calculation of Velocity Infinite with rocket equation (km/s)
+
+    % add in how no kick stage would add in extra c3
     v_inf = g_E * isp * log(MR); 
     final_v = (v_inf + v_esc_E)/1000;
     if lambda == 0
         final_v = v_esc_E/1000;
+    end
+
+    if candidateArchitecture.Traj == "JupNep_O" || candidateArchitecture.Traj == "JupSat_O" 
+        final_v = final_v - 700;
     end
 end
