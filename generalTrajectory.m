@@ -58,6 +58,6 @@ elseif (candidateArchitecture.Trajectory == "JupNep") || (candidateArchitecture.
     phase1Time = phaseTimes(1); phase2Time = phaseTimes(2); phase3Time = phaseTimes(3);
     phase1Time = phase1Time + TOF;
 
-    totalTOF = [phase1Time,phase2Time,phase3Time];
+    totalTOF = [phase1Time,phase2Time,phase3Time]
 end
 end
