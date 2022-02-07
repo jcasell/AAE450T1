@@ -1,4 +1,4 @@
-function [phase1Time, phase2Time, phase3Time] = coastTime(r0, v0,departFPA)
+function totalTime = coastTime(r0, v0,departFPA)
 %Function to calculate time spent in each mission phase
 %Take as input initial position (r0), initial velocity (v0), and initial flight
 %path angle (departFPA). Output is time spent in each phase measured in
@@ -21,3 +21,5 @@ phase3Time = detTof(phase2R,phase2V,phase3R);
 phase1Time = phase1Time / (3600 * 24 * 365.25); %Convert each time to JY
 phase2Time = phase2Time / (3600 * 24 * 365.25);
 phase3Time = phase3Time / (3600 * 24 * 365.25);
+
+totalTime = [phase1Time, phase2Time, phase3Time];
