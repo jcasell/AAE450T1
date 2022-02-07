@@ -40,12 +40,12 @@ for i1 = ComNet
                 TrajAllow = Traj;
             end
             for i4 = Power
-                    %Only Include Relevant Combination
-                    if i4 == "Solar"
-                        InstrAllow = ["Minimum"];
-                    else
-                        InstrAllow = Instr;
-                    end
+                %Only Include Relevant Combination
+                if i4 == "Solar Panel"
+                    InstrAllow = ["Minimum"];
+                else
+                    InstrAllow = Instr;
+                end
                 for i5 = InstrAllow
                     for i6 = TrajAllow
                         for i7 = LaunchV
@@ -66,7 +66,7 @@ for i1 = ComNet
                                 ResultsRaw = [ResultsRaw; [i1 i2 i3 i4 i5 i6 i7 i8 cost science reliability ttHP]];
                                 
                                 if ttHP<=10;
-                                    PointColor = [PointColor;1 0 0];
+                                    PointColor = [PointColor;0 1 0];
                                 else
                                     PointColor = [PointColor;0 0 1];
                                 end
