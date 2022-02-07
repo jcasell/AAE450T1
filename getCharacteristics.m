@@ -9,10 +9,10 @@ function rad_list = getCharacteristics(options)
 %
 %% Options
 switch options
-    case {"JupNep","JupNep_O"}
+    case {"JupNep","JupNepO"}
         a1 = 778279959; %Jupiter [km]
         a2 = 4498337290; %Neptune [km]
-    case {"JupSat","JupSat_O"}
+    case {"JupSat","JupSatO"}
         a1 = 778279959; %Jupiter [km]
         a2 = 1427387908; %Saturn [km]
 end
