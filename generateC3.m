@@ -13,8 +13,8 @@ function [final_v, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay)
     switch candidateArchitecture.LaunchVehicle
         case "SLS"
             m_kick = 44300; % SLS Block 2 Assumption
-        case "Falcon Heavy" % Assuming Falcon Heavy Recoverable, could do Exendable
-            m_kick = 6690;
+        case "Falcon Heavy"
+            m_kick = 9979.03; % 11 tons to LEO
         case "Starship" % NEED MASS OF KICK
             m_kick = 50000; %A GUESS VALUE
         case "New Glenn"
@@ -54,7 +54,7 @@ function [final_v, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay)
     % Calculation mass propellant, inert mass, and Mass Ratio
     m_prop = (m_kick - m_pay) * lambda;
     m_inert = (m_kick - m_pay - m_prop); % Structural mass of the kick stage (Mass minus final payload and propellant)
-    MR = (m_pay+m_prop+m_inert) / (m_pay+m_inert); % Mass Ratio
+    MR = (m_pay + m_prop + m_inert) / (m_pay + m_inert); % Mass Ratio
 
     % Calculation of Velocity Infinite with rocket equation (km/s)
 
