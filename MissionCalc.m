@@ -8,11 +8,11 @@ function [Science, Cost, Reliability, ttHP] = MissionCalc(candidateArchitecture)
 %Author: Jeremy Casella
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Calculate Instrument Package and Science
-[sci_instr, cost_instr, m_instr, power_instr] = Instrumentation(candidateArchitecture)
+[sci_instr, cost_instr, m_instr, power_instr] = Instrumentation(candidateArchitecture);
 
 %Calculate Telemetry Data Rate
-DataRate = TelemetryFOA (candidateArchitecture)
-refDataRate = [14.6331 9.6722 6.5036]
+DataRate = TelemetryFOA (candidateArchitecture);
+refDataRate = [14.6331 9.6722 6.5036];
 %Calculate Total Spacecraft Mass
 %Calculated using Planetary Mission SMAD table A-1
 m_spacecraft = m_instr / 0.15;
@@ -22,12 +22,12 @@ m_spacecraft = m_instr / 0.15;
 power_spacecraft = power_instr / 0.22;
 
 %Calculate Prop Code
-[final_v, m_pay] = generateC3( candidateArchitecture, m_spacecraft);
+[final_v, m_pay] = generateC3(candidateArchitecture,m_spacecraft);
 
 %Calculate Trajectory
-[totalTOF] = generalTrajectory(candidateArchitecture,final_v)
+[totalTOF] = generalTrajectory(candidateArchitecture,final_v);
 refTOF = [1 1 1];
-ttHP = totalTOF(3)
+ttHP = totalTOF(3);
 
 %Total Science
 %Science Weights phases 1 to 3
@@ -39,4 +39,4 @@ Science = DataRate(1)/refDataRate(1)*sci_instr(1)*totalTOF(1)/refTOF(1)*w(1)+Dat
 Cost = CostCalc(candidateArchitecture);
 
 %Return Risk
-Risk = 0;
+Reliability = 0;

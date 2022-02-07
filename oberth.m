@@ -1,4 +1,4 @@
-function [v_dep,fpa_dep] = oberth(planet_name,v_arr,fpa_arr,pass_dist)
+function [v_dep,fpa_dep] = oberth(planet_name,v_arr,fpa_arr,pass_dist,deltaV)
 %% Gravity Assist Calculation Function
 % This function will determine the changed trajectory of the spacecraft
 % after a gravity assist
@@ -7,6 +7,7 @@ function [v_dep,fpa_dep] = oberth(planet_name,v_arr,fpa_arr,pass_dist)
 %         v_arr - arrival velocity of s/c [km/s]
 %         fpa_arr - arrival flight path angle [deg]
 %         pass_dist - constant to be applied to pass distance to planet 
+%         deltaV - deltaV during the oberth [km/s]
 %
 % Outputs: v_dep - departure velocity of s/c [km/s]
 %          fpa_dep - departure flight path angle [deg]
@@ -65,12 +66,12 @@ beta2 = 180 - beta1;
 check1 = sqrt(v_eq^2 + v_arr^2 - (2*v_eq*v_arr*cosd(beta1)));
 check2 = sqrt(v_eq^2 + v_arr^2 - (2*v_eq*v_arr*cosd(beta2)));
 
-if floor(check1) == floor(v_dep)
+if abs(check1 - v_dep) < 0.5
     beta = beta1;
-elseif floor(check2) == floor(v_dep)
+elseif abs(check2 - v_dep) < 0.5
     beta = beta2;
 else
-    fprintf('You fucked up')
+    fprintf('You fucked up\n')
 end
 alpha = 180 - beta; %angle of change in heliocentric velocity [deg]
 
