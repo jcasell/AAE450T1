@@ -65,12 +65,12 @@ beta2 = 180 - beta1;
 check1 = sqrt(v_eq^2 + v_arr^2 - (2*v_eq*v_arr*cosd(beta1)));
 check2 = sqrt(v_eq^2 + v_arr^2 - (2*v_eq*v_arr*cosd(beta2)));
 
-if floor(check1) == floor(v_dep)
+if abs(check1 - v_dep) < 0.5
     beta = beta1;
-elseif floor(check2) == floor(v_dep)
+elseif abs(check2 - v_dep) < 0.5
     beta = beta2;
 else
-    fprintf('You fucked up')
+    fprintf('You fucked up\n')
 end
 alpha = 180 - beta; %angle of change in heliocentric velocity [deg]
 
