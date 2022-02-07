@@ -16,7 +16,7 @@ Power = ["RTG Nuclear" "Solar Panel/Nuclear"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
 Traj = ["JupNep","JupSat","JupNep_O","JupSat_O"]; %Trajectory Options (O indicates oberth maneuver)
 LaunchV = ["SLS" "Falcon Heavy" "Starship" "New Glenn"];    %Launch Vehicle Options
-Kick = ["Solid" "Liquid" "Nuclear" "Electric" "Hybrid" "None"];   %Kick Stages Options
+Kick = ["Solid" "Liquid" "Nuclear" "Hybrid" "None"];   %Kick Stages Options
 
 %Create Results Table
 ResultsRaw = [];
@@ -40,7 +40,7 @@ for i1 = ComNet
                                 candidateArchitecture.Kick = i8;
                                 
                                 %Call Mission Program\
-                                [science, cost, reliability, ttHP] = MissionCalc(candidateArchitecture)
+                                [science, cost, reliability, ttHP] = MissionCalc(candidateArchitecture);
 
                                 %Create Table of Results etc
                                 ResultsRaw = [ResultsRaw; [i1 i2 i3 i4 i5 i6 i7 i8 cost science reliability ttHP]];
@@ -53,8 +53,32 @@ for i1 = ComNet
         end
     end
 end
-Results = array2table(ResultsRaw,'VariableNames', {'Communications','Telemetry','Propulsion','Power','Instruments','Trajectory','Launch Vehicle','Kick Stages','Cost','Science','Reliability','Time to Heliopause'})
+
+%Parse Table
+Results = array2table(ResultsRaw,'VariableNames', {'Communications','Telemetry','Propulsion','Power','Instruments','Trajectory','Launch_Vehicle','Kick_Stages','Cost','Science','Reliability','TT_Heliopause'})
 Results.Cost = double(Results.Cost);
 Results.Science = double(Results.Science);
 Results.Reliability = double(Results.Reliability);
 
+%Add Data Tips
+s = scatter(Results.Cost,Results.Science);
+row = dataTipTextRow('Cost',Results.Cost);
+s.DataTipTemplate.DataTipRows(1) = row;
+row = dataTipTextRow('Science',Results.Science);
+s.DataTipTemplate.DataTipRows(2) = row;
+row = dataTipTextRow('Communications',Results.Communications);
+s.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Telemetry',Results.Telemetry);
+s.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Propulsion',Results.Propulsion);
+s.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Power',Results.Power);
+s.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Instruments',Results.Instruments);
+s.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Trajectory',Results.Trajectory);
+s.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Launch Vehicle',Results.Launch_Vehicle);
+s.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Kick Stages',Results.Kick_Stages);
+s.DataTipTemplate.DataTipRows(end+1) = row;

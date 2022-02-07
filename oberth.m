@@ -1,4 +1,4 @@
-function [v_dep,fpa_dep] = oberth(planet_name,v_arr,fpa_arr,pass_dist)
+function [v_dep,fpa_dep] = oberth(planet_name,v_arr,fpa_arr,pass_dist,deltaV)
 %% Gravity Assist Calculation Function
 % This function will determine the changed trajectory of the spacecraft
 % after a gravity assist
@@ -7,6 +7,7 @@ function [v_dep,fpa_dep] = oberth(planet_name,v_arr,fpa_arr,pass_dist)
 %         v_arr - arrival velocity of s/c [km/s]
 %         fpa_arr - arrival flight path angle [deg]
 %         pass_dist - constant to be applied to pass distance to planet 
+%         deltaV - deltaV during the oberth [km/s]
 %
 % Outputs: v_dep - departure velocity of s/c [km/s]
 %          fpa_dep - departure flight path angle [deg]

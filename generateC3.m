@@ -16,7 +16,7 @@ function [final_v, m_pay] = generateC3( candidateArchitecture, m_pay)
         case "Falcon Heavy" % Assuming Falcon Heavy Recoverable, could do Exendable
             m_kick = 6690;
         case "Starship" % NEED MASS OF KICK
-            m_kick = 0;
+            m_kick = 50000; %A GUESS VALUE
         case "New Glenn"
             m_kick = 7100;
         case "Atlas"
@@ -64,4 +64,7 @@ function [final_v, m_pay] = generateC3( candidateArchitecture, m_pay)
     % Calculation of Velocity Infinite with rocket equation (km/s)
     v_inf = g_E * isp * log(MR); 
     final_v = (v_inf + v_esc_E)/1000;
+    if lambda == 0;
+        final_v = v_esc_E/1000;
+    end
 end
