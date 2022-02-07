@@ -49,9 +49,9 @@ beta2 = 180 - beta1;
 check1 = sqrt(v_eq^2 + v_arr^2 - (2*v_eq*v_arr*cosd(beta1)));
 check2 = sqrt(v_eq^2 + v_arr^2 - (2*v_eq*v_arr*cosd(beta2)));
 
-if floor(check1) == floor(v_dep)
+if abs(check1 - v_dep) < 0.5
     beta = beta1;
-elseif floor(check2) == floor(v_dep)
+elseif abs(check2 - v_dep) < 0.5
     beta = beta2;
 else
     fprintf('\nYou fucked up\n')
@@ -67,10 +67,10 @@ delta2 = 180 - delta1;
 % Quadrant Check
 check1 = sqrt(v_inf^2 + v_inf^2 - (2*v_inf*v_inf*cosd(delta1)));
 check2 = sqrt(v_inf^2 + v_inf^2 - (2*v_inf*v_inf*cosd(delta2)));
-if floor(check1) == floor(v_eq)
-    delta = delta1;
-elseif floor(check2) == floor(v_eq)
-    delta = delta2;
+if abs(check1 - v_dep) < 0.5
+    beta = beta1;
+elseif abs(check2 - v_dep) < 0.5
+    beta = beta2;
 else
     fprintf('\nYou fucked up\n')
 end
