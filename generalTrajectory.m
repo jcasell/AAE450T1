@@ -65,7 +65,7 @@ elseif (candidateArchitecture.Trajectory == "JupNep") || (candidateArchitecture.
     phase1Time = phase1Time + TOF;
 
     totalTOF = [phase1Time,phase2Time,phase3Time];
-elseif candidateArchitecture.Trajectory == "SolarSail"
+elseif candidateArchitecture.Propulsion == "Solar Sail"
     r0 = a_earth; rF = a_mercury; beta = 0.2;
     [tofSpiral, vF, reqFpa] = logarithmicSpiral(r0, rF, beta);
     coastPhase = coastTimeMod(rF, vF,reqFpa,beta);
