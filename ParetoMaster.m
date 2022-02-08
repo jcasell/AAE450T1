@@ -95,7 +95,7 @@ Results10.Reliability = double(Results10.Reliability);
 %Add Data Tips
 figure(1)
 s = scatter(Results.Cost,Results.Science,[],PointColor);
-xlabel('System Cost (F2022 Dollars)')
+xlabel('System Cost (F2022 Millions of Dollars)')
 ylabel('Science Value')
 title('Science Value vs Cost Pareto Frontier')
 
@@ -122,7 +122,7 @@ s.DataTipTemplate.DataTipRows(end+1) = row;
 
 figure(2)
 s = scatter(Results10.Cost,Results10.Science);
-xlabel('System Cost (F2022 Dollars)')
+xlabel('System Cost (F2022 Millions of Dollars)')
 ylabel('Science Value')
 title('Viable Results Science Value vs Cost Pareto Frontier')
 
