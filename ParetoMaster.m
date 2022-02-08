@@ -20,6 +20,7 @@ Kick = ["Solid" "Liquid" "Hybrid" "None"];   %Kick Stages Options
 
 %Create Results Table
 ResultsRaw = [];
+Results10Raw = [];
 PointColor = [];
 
 %Create Permutations of Missions
@@ -67,6 +68,7 @@ for i1 = ComNet
                                 
                                 if ttHP<=10;
                                     PointColor = [PointColor;0 1 0];
+                                    Results10Raw = [Results10Raw; [i1 i2 i3 i4 i5 i6 i7 i8 cost science reliability ttHP]];
                                 else
                                     PointColor = [PointColor;0 0 1];
                                 end
@@ -81,12 +83,17 @@ end
 
 %Parse Table
 Results = array2table(ResultsRaw,'VariableNames', {'Communications','Telemetry','Propulsion','Power','Instruments','Trajectory','Launch_Vehicle','Kick_Stages','Cost','Science','Reliability','TT_Heliopause'})
+Results10= array2table(Results10Raw,'VariableNames', {'Communications','Telemetry','Propulsion','Power','Instruments','Trajectory','Launch_Vehicle','Kick_Stages','Cost','Science','Reliability','TT_Heliopause'})
 
 Results.Cost = double(Results.Cost);
 Results.Science = double(Results.Science);
 Results.Reliability = double(Results.Reliability);
+Results10.Cost = double(Results10.Cost);
+Results10.Science = double(Results10.Science);
+Results10.Reliability = double(Results10.Reliability);
 
 %Add Data Tips
+figure(1)
 s = scatter(Results.Cost,Results.Science,[],PointColor);
 xlabel('System Cost (F2022 Dollars)')
 ylabel('Science Value')
@@ -111,4 +118,31 @@ s.DataTipTemplate.DataTipRows(end+1) = row;
 row = dataTipTextRow('Launch Vehicle',Results.Launch_Vehicle);
 s.DataTipTemplate.DataTipRows(end+1) = row;
 row = dataTipTextRow('Kick Stages',Results.Kick_Stages);
+s.DataTipTemplate.DataTipRows(end+1) = row;
+
+figure(2)
+s = scatter(Results10.Cost,Results10.Science);
+xlabel('System Cost (F2022 Dollars)')
+ylabel('Science Value')
+title('Viable Results Science Value vs Cost Pareto Frontier')
+
+row = dataTipTextRow('Cost',Results10.Cost);
+s.DataTipTemplate.DataTipRows(1) = row;
+row = dataTipTextRow('Science',Results10.Science);
+s.DataTipTemplate.DataTipRows(2) = row;
+row = dataTipTextRow('Communications',Results10.Communications);
+s.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Telemetry',Results10.Telemetry);
+s.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Propulsion',Results10.Propulsion);
+s.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Power',Results10.Power);
+s.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Instruments',Results10.Instruments);
+s.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Trajectory',Results10.Trajectory);
+s.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Launch Vehicle',Results10.Launch_Vehicle);
+s.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Kick Stages',Results10.Kick_Stages);
 s.DataTipTemplate.DataTipRows(end+1) = row;
