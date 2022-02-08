@@ -19,9 +19,7 @@ v_0 = v_inf + v_earth; %initial velocity of s/c relative to sun [km/s]
 %% Calculations
 planet1 = "Jupiter";
 
-if candidateArchitecture.Propulsion ~= "Solar Sail"
-    rad_list = getCharacteristics(candidateArchitecture.Trajectory);
-end
+rad_list = getCharacteristics(candidateArchitecture.Trajectory);
 
 if (candidateArchitecture.Trajectory == "JupNep") || (candidateArchitecture.Trajectory == "JupNepO")
     planet2 = "Neptune";
@@ -68,7 +66,7 @@ elseif (candidateArchitecture.Trajectory == "JupNep") || (candidateArchitecture.
 elseif candidateArchitecture.Propulsion == "Solar Sail"
     r0 = a_earth; rF = a_mercury; beta = 0.2;
     [tofSpiral, vF, reqFpa] = logarithmicSpiral(r0, rF, beta);
-    coastPhase = coastTimeMod(rF, vF,reqFpa,beta);
+    coastPhase = coastTimeMod(rF, vF,beta);
     totalTOF = [tofSpiral + coastPhase(1), coastPhase(2), coastPhase(3)];
 end
 end

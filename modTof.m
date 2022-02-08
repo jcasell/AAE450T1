@@ -1,5 +1,6 @@
-function [tof] = modTof(r0,v0, rF, fpaDep,mu)
-
+function [tof, vArr] = modTof(r0,v0, rF, fpaDep,beta)
+mu_sun = 132712440017.99; % grav parameter of sun [km^3/s^2]
+mu = mu_sun * (1 - beta);
 %This function determines the time of flight between two points given
 %orbital information. Inputs are initial and final orbital radii (r0 and
 %rF) as well as initial heliocentric orbital velocity (v0). The initial
@@ -21,6 +22,8 @@ ecc = sqrt(((r0 * v0^2 / mu) - 1)^2 * cosd(fpaDep)^2 + sind(fpaDep)^2);
 
 initialTA = atan2d((r0*v0^2/mu)*cosd(fpaDep)*sind(fpaDep),(r0*v0^2/mu)*cosd(fpaDep)^2 - 1);
 finalTA = abs(acosd(1 / ecc * (sma*(1 - ecc^2)/rF - 1)));
+
+vArr = sqrt(2*mu*(1/rF - 1/(2*sma))); %Velocity at final orbital radius
 
 if orbitType == "Elliptic"
     initialE = 2*atan2(tand(initialTA/2), sqrt((1 + ecc)/(1-ecc)));
