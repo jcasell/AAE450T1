@@ -4,7 +4,7 @@ close all
 
 candidateArchitecture.Communications = "DSN";
 candidateArchitecture.Telemetry = "Ka";
-candidateArchitecture.Propulsion = "Chemical";
+candidateArchitecture.Propulsion = "Solar Sail";
 candidateArchitecture.Power = "RTG Nuclear";
 candidateArchitecture.Instruments = "High Level";
 candidateArchitecture.Trajectory = "JupNep";
