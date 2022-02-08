@@ -1,11 +1,13 @@
-function [tof] = modTof(r0,v0, rF, fpaDep,mu)
-
+function [tof] = modTof(r0,v0, rF,beta)
+muSun = 132712440017.99; %Gravitational parameter of the sun [km^3/s^2];
 %This function determines the time of flight between two points given
 %orbital information. Inputs are initial and final orbital radii (r0 and
 %rF) as well as initial heliocentric orbital velocity (v0). The initial
 %flight path angle from the departure point is also required. Also, the
 %modified gravitational parameter due to a solar / electric sail is
 %required
+
+mu = muSun * (1 - beta); %Determine modified gravitational parameter based on sail lightness parameter
 
 %Check if orbit type is elliptic or hyperbolic
 vEsc = sqrt(2*mu/r0); %Escape velocity from given r
@@ -17,9 +19,9 @@ else
 end
 
 sma = 0.5 * (mu / ((mu / r0) - (v0^2 / 2))); %Calculate semimajor axis
-ecc = sqrt(((r0 * v0^2 / mu) - 1)^2 * cosd(fpaDep)^2 + sind(fpaDep)^2);
+ecc = 1 - (r0/sma);
 
-initialTA = atan2d((r0*v0^2/mu)*cosd(fpaDep)*sind(fpaDep),(r0*v0^2/mu)*cosd(fpaDep)^2 - 1);
+initialTA = abs(acosd(1 / ecc * (sma*(1 - ecc^2)/r0 - 1)));
 finalTA = abs(acosd(1 / ecc * (sma*(1 - ecc^2)/rF - 1)));
 
 if orbitType == "Elliptic"

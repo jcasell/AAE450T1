@@ -12,13 +12,17 @@ function [totalTOF] = generalTrajectory(candidateArchitecture,v_inf)
 %% Initialization
 mu_sun = 132712440017.99; % grav parameter of sun [km^3/s^2]
 a_earth = 149597898; %radius of Earth orbit [km]
+a_mercury = 57909101; %radius of Mercury orbit [km]
 TOF = 0;
 v_earth = sqrt(2*mu_sun/a_earth); %velocity of Earth relative to Sun [km/s]
 v_0 = v_inf + v_earth; %initial velocity of s/c relative to sun [km/s]
 
 %% Calculations
-rad_list = getCharacteristics(candidateArchitecture.Trajectory);
 planet1 = "Jupiter";
+if candidateArchitecture ~= "SolarSail"
+    rad_list = getCharacteristics(candidateArchitecture.Trajectory);
+end
+
 if (candidateArchitecture.Trajectory == "JupNep") || (candidateArchitecture.Trajectory == "JupNepO")
     planet2 = "Neptune";
 elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.Trajectory == "JupSatO")
@@ -58,6 +62,11 @@ elseif (candidateArchitecture.Trajectory == "JupNep") || (candidateArchitecture.
     phase1Time = phaseTimes(1); phase2Time = phaseTimes(2); phase3Time = phaseTimes(3);
     phase1Time = phase1Time + TOF;
 
-    totalTOF = [phase1Time,phase2Time,phase3Time]
+    totalTOF = [phase1Time,phase2Time,phase3Time];
+elseif candidateArchitecture.Trajectory == "SolarSail"
+    r0 = a_earth; rF = a_mercury; beta = 0.2;
+    [tofSpiral, vF, reqFpa] = logarithmicSpiral(r0, rF, beta);
+    coastPhase = coastTimeMod(rF, vF,0,beta);
+    totalTOF = [tofSpiral + coastPhase(1), coastPhase(2), coastPhase(3)];
 end
 end

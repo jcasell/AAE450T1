@@ -1,4 +1,4 @@
-function tof = detTof(r0,v0, rF, fpaDep)
+function tof = detTof(r0,v0, rF)
 muSun = 132712440017.99; %km^3/s^2
 
 %This function determines the time of flight between two points given
