@@ -1,4 +1,4 @@
-function tof = detTof(r0,v0, rF)
+function [tof, finalTA] = detTof(r0,v0, rF, initialTA)
 muSun = 132712440017.99; %km^3/s^2
 
 %This function determines the time of flight between two points given
@@ -17,7 +17,7 @@ end
 sma = 0.5 * (muSun / ((muSun / r0) - (v0^2 / 2))); %Calculate semimajor axis
 ecc = 1 - (r0/sma);
 
-initialTA = abs(acosd(1 / ecc * (sma*(1 - ecc^2)/r0 - 1)));
+%initialTA = abs(acosd(1 / ecc * (sma*(1 - ecc^2)/r0 - 1)));
 finalTA = abs(acosd(1 / ecc * (sma*(1 - ecc^2)/rF - 1)));
 
 if orbitType == "Elliptic"

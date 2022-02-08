@@ -19,7 +19,10 @@ v_0 = v_inf + v_earth; %initial velocity of s/c relative to sun [km/s]
 
 %% Calculations
 planet1 = "Jupiter";
-if candidateArchitecture ~= "SolarSail"
+<<<<<<< HEAD
+
+if candidateArchitecture.Propulsion ~= "Solar Sail"
+>>>>>>> 53aec7d936ea61a769221d62ecb74582ff2ff927
     rad_list = getCharacteristics(candidateArchitecture.Trajectory);
 end
 
@@ -32,12 +35,14 @@ end
 if (candidateArchitecture.Trajectory == "JupNepO") || (candidateArchitecture.Trajectory == "JupSatO")
     %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(a_earth,v_0,rad_list(1),0);
-    TOF = detTof(a_earth,v_0,rad_list(1)) + TOF;
+    [stageTime,finalTA] = detTof(a_earth,v_0,rad_list(1),0);
+    TOF = stageTime + TOF;
     [v_dep,fpa_dep] = oberth(planet1,v_arr,fpa_arr,32,0);
 
     %First Planet to Second Planet
     [v_arr,fpa_arr] = getFPA(rad_list(1),v_dep,rad_list(2),fpa_dep);
-    TOF = detTof(rad_list(1),v_dep,rad_list(2)) + TOF;
+    [stageTime,~] = detTof(rad_list(1),v_dep,rad_list(2),finalTA);
+    TOF = stageTime + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
 
     %Determine Total TOF 
@@ -66,7 +71,7 @@ elseif (candidateArchitecture.Trajectory == "JupNep") || (candidateArchitecture.
 elseif candidateArchitecture.Trajectory == "SolarSail"
     r0 = a_earth; rF = a_mercury; beta = 0.2;
     [tofSpiral, vF, reqFpa] = logarithmicSpiral(r0, rF, beta);
-    coastPhase = coastTimeMod(rF, vF,0,beta);
+    coastPhase = coastTimeMod(rF, vF,reqFpa,beta);
     totalTOF = [tofSpiral + coastPhase(1), coastPhase(2), coastPhase(3)];
 end
 end
