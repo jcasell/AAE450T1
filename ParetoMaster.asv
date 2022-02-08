@@ -15,7 +15,7 @@ Prop = ["Chemical" "Solar Sail" "Plasma"];   %Propulsion Options
 Power = ["RTG Nuclear" "Solar Panel/Nuclear" "Solar Panel"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
 Traj = ["JupNep" "JupSat" "JupNepO" "JupSatO"]; %Trajectory Options (O indicates oberth maneuver)
-LaunchV = ["SLS" "Falcon Heavy" "Delta IV Heavy" "Starship"];    %Launch Vehicle Options
+LaunchV = ["SLS" "Falcon Heavy"]; %"Delta IV Heavy" "Starship"];    %Launch Vehicle Options
 Kick = ["Solid" "Liquid" "Hybrid" "None"];   %Kick Stages Options
 
 %Create Results Table
@@ -145,8 +145,8 @@ s2.DataTipTemplate.DataTipRows(end+1) = row;
 row = dataTipTextRow('Trajectory',Results10.Trajectory);
 s2.DataTipTemplate.DataTipRows(end+1) = row;
 row = dataTipTextRow('Launch Vehicle',Results10.Launch_Vehicle);
-s2.DataTipTemplate.DataTipRows(end+1) = row;
+s.DataTipTemplate.DataTipRows(end+1) = row;
 row = dataTipTextRow('Kick Stages',Results10.Kick_Stages);
-s2.DataTipTemplate.DataTipRows(end+1) = row;
-row = dataTipTextRow('Time to Heliopause',Results10.TT_Heliopause);
-s2.DataTipTemplate.DataTipRows(end+1) = row;
+s.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Time to Heliopause',Results.TT_Heliopause);
+s.DataTipTemplate.DataTipRows(end+1) = row;
