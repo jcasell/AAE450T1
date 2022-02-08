@@ -16,6 +16,7 @@ CommNetwork = candidateArchitecture.Communications;
 Instrument = candidateArchitecture.Instruments;
 
 %Convert Phase time to Seconds
+PhaseTime(3) = 35-(PhaseTime(2)+PhaseTime(1));
 PhaseTime = PhaseTime*365*24*3600;
 
 %Phase Distances

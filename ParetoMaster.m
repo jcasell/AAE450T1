@@ -15,7 +15,7 @@ Prop = ["Chemical" "Solar Sail" "Plasma"];   %Propulsion Options
 Power = ["RTG Nuclear" "Solar Panel/Nuclear" "Solar Panel"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
 Traj = ["JupNep" "JupSat" "JupNepO" "JupSatO"]; %Trajectory Options (O indicates oberth maneuver)
-LaunchV = ["SLS" "Falcon Heavy" "Delta IV Heavy" "Starship"];    %Launch Vehicle Options
+LaunchV = ["SLS" "Falcon Heavy" "Vulcan 6S" "Starship"];    %Launch Vehicle Options
 Kick = ["Solid" "Liquid" "Hybrid" "None"];   %Kick Stages Options
 
 %Create Results Table
