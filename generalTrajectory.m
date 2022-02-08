@@ -19,7 +19,7 @@ v_0 = v_inf + v_earth; %initial velocity of s/c relative to sun [km/s]
 
 %% Calculations
 planet1 = "Jupiter";
-if candidateArchitecture ~= "SolarSail"
+if candidateArchitecture.Propulsion ~= "Solar Sail"
     rad_list = getCharacteristics(candidateArchitecture.Trajectory);
 end
 
