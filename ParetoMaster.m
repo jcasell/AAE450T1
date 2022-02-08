@@ -11,10 +11,10 @@ close all
 %Define Possible Matrix Options
 ComNet = ["DSN" "IDSN" "NSN" "ngVLA"]; %Communication Network Options
 Telem = ["Ka" "X" "S"];     %Telemetry Band
-Prop = ["Chemical" "Solar Sail" "Plasma" "None"];   %Propulsion Options
+Prop = ["Chemical" "Plasma" "None"];   %Propulsion Options
 Power = ["RTG Nuclear" "Solar Panel/Nuclear" "Solar Panel"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
-Traj = ["JupNep","JupSat","JupNepO","JupSatO"]; %Trajectory Options (O indicates oberth maneuver)
+Traj = ["JupNep","JupSat","JupNepO","JupSatO","Solar Sail"]; %Trajectory Options (O indicates oberth maneuver)
 LaunchV = ["SLS" "Falcon Heavy" "Delta IV Heavy" "Starship"];    %Launch Vehicle Options
 Kick = ["Solid" "Liquid" "Hybrid" "None"];   %Kick Stages Options
 

@@ -1,4 +1,5 @@
-function [tof, vArr] = modTof(r0,v0, rF, fpaDep,beta)
+function [tof, vF,fpaF] = modTof(r0,v0, rF, beta,fpa0)
+%function [tof, vArr] = modTof(r0,v0, rF, fpaDep,beta)
 mu_sun = 132712440017.99; % grav parameter of sun [km^3/s^2]
 mu = mu_sun * (1 - beta);
 %This function determines the time of flight between two points given
@@ -18,12 +19,21 @@ else
 end
 
 sma = 0.5 * (mu / ((mu / r0) - (v0^2 / 2))); %Calculate semimajor axis
-ecc = sqrt(((r0 * v0^2 / mu) - 1)^2 * cosd(fpaDep)^2 + sind(fpaDep)^2);
+ecc = sqrt(((r0 * v0^2 / mu) - 1)^2 * cosd(fpa0)^2 + sind(fpa0)^2);
+%ecc = 1 - (r0/sma); %eccentricity
 
-initialTA = atan2d((r0*v0^2/mu)*cosd(fpaDep)*sind(fpaDep),(r0*v0^2/mu)*cosd(fpaDep)^2 - 1);
-finalTA = abs(acosd(1 / ecc * (sma*(1 - ecc^2)/rF - 1)));
 
-vArr = sqrt(2*mu*(1/rF - 1/(2*sma))); %Velocity at final orbital radius
+[vF, fpaF] = modFPA(r0,v0,rF,fpa0,beta);
+
+%initialTA = abs(acosd(1 / ecc * (sma*(1 - ecc^2)/r0 - 1)));
+%finalTA = abs(acosd(1 / ecc * (sma*(1 - ecc^2)/rF - 1)));
+
+initialTA = atan2d((r0*v0^2/mu)*cosd(fpa0)*sind(fpa0),(r0*v0^2/mu)*cosd(fpa0)^2 - 1);
+finalTA = atan2d((rF*vF^2/mu)*cosd(fpaF)*sind(fpaF),(r0*v0^2/mu)*cosd(fpaF)^2 - 1);
+
+%finalTA = abs(acosd(1 / ecc * (sma*(1 - ecc^2)/rF - 1)));
+
+vF = sqrt(2*mu*(1/rF - 1/(2*sma))); %Velocity at final orbital radius
 
 if orbitType == "Elliptic"
     initialE = 2*atan2(tand(initialTA/2), sqrt((1 + ecc)/(1-ecc)));
