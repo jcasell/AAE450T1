@@ -6,9 +6,9 @@ function totalTime = coastTime(r0, v0,departFPA)
 
 au2km = 149597870.691; %Converts AU to kilometers
 
-phase1R = 113*au2km;
-phase2R = 120*au2km;
-phase3R = 150*au2km;
+phase1R = 75*au2km;
+phase2R = 90*au2km;
+phase3R = 120*au2km;
 
 phase1Time = detTof(r0,v0,phase1R);
 [phase1V, phase1Fpa] = getFPA(r0,v0,phase1R, departFPA);
