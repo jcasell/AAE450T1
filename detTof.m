@@ -1,4 +1,4 @@
-function [tof, finalTA] = detTof(r0,v0, rF,fpa0)
+function [tof, finalTA] = detTof(r0,v0,rF,fpa0)
 
 muSun = 132712440017.99; %km^3/s^2
 
@@ -32,5 +32,4 @@ elseif orbitType == "Hyperbolic"
     
     tof = sqrt(abs(sma)^3 / muSun) * (ecc*sinh(finalH) - finalH - (ecc*sinh(initialH) - initialH));
 end
-
 tof = tof / (3600 * 24 * 365.25); %Convert time of flight from seconds to Julian years

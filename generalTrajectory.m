@@ -68,6 +68,8 @@ elseif (candidateArchitecture.Trajectory == "JupNep") || (candidateArchitecture.
 elseif candidateArchitecture.Trajectory == "Solar Sail"
     r0 = a_earth; rF = a_mercury; beta = 0.2;
     [tofSpiral, vF, reqFpa] = logarithmicSpiral(r0, rF, beta);
+    v0 = vF; %Change notation; final velocity on logarithmic trajectory is initial velocity on new orbit
+    coast = radialSail(a_mercury,v0, 110*a_earth,beta);
     coastPhase = coastTimeMod(rF, vF,beta, reqFpa);
     totalTOF = [tofSpiral + coastPhase(1), coastPhase(2), coastPhase(3)];
 end
