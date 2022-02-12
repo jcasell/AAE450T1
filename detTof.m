@@ -1,4 +1,4 @@
-function [tof, finalTA] = detTof(r0,v0, rF)
+function [tof, finalTA] = detTof(r0,v0, rF,fpa0)
 
 muSun = 132712440017.99; %km^3/s^2
 
@@ -16,7 +16,7 @@ else
 end
 
 sma = 0.5 * (muSun / ((muSun / r0) - (v0^2 / 2))); %Calculate semimajor axis
-ecc = 1 - (r0/sma);
+ecc = sqrt(((0.5 * r0 * v0^2)/muSun - 1)^2 * cosd(fpa0)^2 + sind(fpa0)^2);
 
 initialTA = abs(acosd(1 / ecc * (sma*(1 - ecc^2)/r0 - 1)));
 finalTA = abs(acosd(1 / ecc * (sma*(1 - ecc^2)/rF - 1)));
