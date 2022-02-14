@@ -4,10 +4,12 @@ close all
 
 candidateArchitecture.Communications = "DSN";
 candidateArchitecture.Telemetry = "Ka";
-candidateArchitecture.Propulsion = "Solar Sail";
+% candidateArchitecture.Propulsion = "Solar Sail";
+candidateArchitecture.Propulsion = "Electric";
 candidateArchitecture.Power = "RTG Nuclear";
 candidateArchitecture.Instruments = "High Level";
-candidateArchitecture.Trajectory = "Solar Sail";
+% candidateArchitecture.Trajectory = "Solar Sail";
+candidateArchitecture.Trajectory = "JupNep";
 candidateArchitecture.LaunchVehicle = "SLS";
 candidateArchitecture.Kick = "Liquid";
 
@@ -21,6 +23,6 @@ power_spacecraft = power_instr / 0.22
 
 [final_v, m_pay] = generateC3( candidateArchitecture, m_instr)
 
-totalTOF = generalTrajectory(candidateArchitecture,final_v)
+totalTOF = generalTrajectory(candidateArchitecture,final_v,m_spacecraft)
 
 DataRate = TelemetryFOA (candidateArchitecture,totalTOF)

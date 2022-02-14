@@ -1,4 +1,4 @@
-function [totalTOF] = generalTrajectory(candidateArchitecture,v_inf)
+function [totalTOF] = generalTrajectory(candidateArchitecture,v_inf,m_spacecraft)
 %% General Trajectory Function
 % This function will take the mission input and apply the correct
 % trajectory functions to determine the TOF of each phase
@@ -27,6 +27,23 @@ if (candidateArchitecture.Trajectory == "JupNep") || (candidateArchitecture.Traj
     planet2 = "Neptune";
 elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.Trajectory == "JupSatO")
     planet2 = "Saturn";
+end
+
+if candidateArchitecture.Propulsion == "Electric"
+    % Determine change to TOF for all phases using X3 Hall Thruster
+    % Assumptions: impulsive maneuver, spacecraft of mass m_spacecraft can
+    % support 100 kW req. for X3 Hall Thruster
+    g_E = 9.81;         % [m/s^2]
+    isp = 2225;         % Avg. isp of X3 ion thruster
+    lambda = 0.5;       % High end estimate from Heister's Rocket Propulsion
+    m_inert = 230;      % Given mass of X3 ion thruster [kg] 
+    m_prop = lambda * m_inert / (1 - lambda);
+    MR = (m_spacecraft + m_prop + m_inert) / (m_spacecraft + m_inert);        % Rocket Equation Mass Ratio
+    dV = g_E * isp * log(MR);
+    v_0 = v_0 + dV/1000;      % Impulsive maneuver adds delta-V to Earth escape velocity
+    F = 5.4;            % Thrust [N]
+    mdot = F / g_E / isp; 
+    burnTime = m_prop/mdot/3600/24/365;  % Time to expend all propellant [yr]
 end
 
 if (candidateArchitecture.Trajectory == "JupNepO") || (candidateArchitecture.Trajectory == "JupSatO")
