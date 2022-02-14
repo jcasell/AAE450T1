@@ -88,9 +88,13 @@ Results10= array2table(Results10Raw,'VariableNames', {'Communications','Telemetr
 Results.Cost = double(Results.Cost);
 Results.Science = double(Results.Science);
 Results.Reliability = double(Results.Reliability);
+Results.TT_Heliopause = double(Results.TT_Heliopause);
+
 Results10.Cost = double(Results10.Cost);
 Results10.Science = double(Results10.Science);
 Results10.Reliability = double(Results10.Reliability);
+Results10.TT_Heliopause = double(Results10.TT_Heliopause);
+
 
 %Add Data Tips
 figure(1)
