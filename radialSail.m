@@ -20,6 +20,9 @@ finalTA = abs(acosd(1 / ecc * (sma*(1 - ecc^2)/rF - 1)));
 if orbitType == "Elliptic"
     initialE = 2*atan2(tand(initialTA/2), sqrt((1 + ecc)/(1-ecc)));
     finalE = 2*atan2(tand(finalTA/2), sqrt((1 + ecc)/(1-ecc)));
+    if finalE < 0
+        finalE = finalE + 2*pi;
+    end
 
     tof = sqrt(sma^3/modifiedMu) * (finalE - ecc*sin(finalE) - (initialE - ecc*sin(initialE)));
 elseif orbitType == "Hyperbolic"
