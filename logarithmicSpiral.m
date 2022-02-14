@@ -12,3 +12,6 @@ if r0 > rF %Check if spiral is moving in or out; assign FPA accordingly
 end
 
 vF = sqrt(muSun / rF) * sqrt(1 - beta*cosd(idealAlpha)^2 * (cosd(idealAlpha) - sind(idealAlpha)*tand(reqFpa)));
+tof = tof / (3600 * 24 * 365.25); %Convert time of flight from seconds to Julian years
+
+end
