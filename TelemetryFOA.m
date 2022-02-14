@@ -1,4 +1,4 @@
-function Data = TelemetryFOA (candidateArchitecture, PhaseTime)
+function Data = TelemetryFOA (candidateArchitecture, PhaseTime)%, EndOfLifeS)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function Name: Telemetry FOA
 %Description: Outputs the projected data per phase based on the telemetry band
@@ -26,6 +26,8 @@ S1 = S1*1.496e11; %(m)
 
 S2 = 123;%(Au)Distance from Earth to HelioPause
 S2 = S2*1.496e11;%(m)
+
+%S3 = EndOfLifeS; %(m) Distance from Earth at 35 years
 
 %Depend on Telemetry Band
 if isequal(TelemetryBand,'Ka')
