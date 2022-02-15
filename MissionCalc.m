@@ -24,7 +24,7 @@ power_spacecraft = power_instr / 0.22;
 %Calculate Trajectory
 totalTOF = generalTrajectory(candidateArchitecture,final_v);
 refTOF = [14.8425 4.2342 9.4374];
-ttHP = sum(TotalTOF);
+ttHP = totalTOF(1)+totalTOF(2);
 
 %Calculate Telemetry Data Rate
 DataRate = TelemetryFOA (candidateArchitecture,totalTOF);
