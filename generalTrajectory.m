@@ -67,7 +67,7 @@ elseif (candidateArchitecture.Trajectory == "JupNep") || (candidateArchitecture.
     totalTOF = [phase1Time,phase2Time,phase3Time];
 elseif candidateArchitecture.Trajectory == "Solar Sail"
     % Initialize Solar Sail Variables
-    r0 = a_earth; rF = a_mercury; beta = 0.8;
+    r0 = a_earth; rF = a_mercury; beta = 0.9;
 
     % Logarithmic Spiral
     [tofSpiral, vF, reqFpa] = logarithmicSpiral(r0, rF, beta);
@@ -78,6 +78,6 @@ elseif candidateArchitecture.Trajectory == "Solar Sail"
 
     %From 5 AU to Rest of Mission
     coastPhase = coastTime(5*a_earth, vF,fpaF);
-    totalTOF = [tofSpiral + tofRadial + coastPhase(1), coastPhase(2), coastPhase(3)];
+    totalTOF = [tofSpiral + tofRadial + coastPhase(1), coastPhase(2), coastPhase(3) - (tofSpiral + tofRadial)];
 end
 end
