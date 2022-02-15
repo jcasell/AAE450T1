@@ -11,7 +11,7 @@ close all
 %Define Possible Matrix Options
 ComNet = ["DSN" "IDSN" "NSN" "ngVLA"]; %Communication Network Options
 Telem = ["Ka" "X" "S"];     %Telemetry Band
-Prop = ["Chemical" "Solar Sail" "Plasma"];   %Propulsion Options
+Prop = ["Chemical" "Plasma"];   %Propulsion Options
 Power = ["RTG Nuclear" "Solar Panel/Nuclear" "Solar Panel"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
 Traj = ["JupNep" "JupSat" "JupNepO" "JupSatO"]; %Trajectory Options (O indicates impulse manuever during GA)
@@ -35,8 +35,10 @@ for i1 = ComNet
     for i2 = TelemAllow
         for i3 = Prop
             %Only Include Relevant Combination
-            if or(or(i3 == "Solar Sail",i3 == "None"),i3 == "Plasma")
+            if or(i3 == "None",i3 == "Plasma")
                 TrajAllow = ["JupNep","JupSat"];
+            elseif i3 == "Solar Sail"
+                TrajAllow = ["Solar Sail"]
             else
                 TrajAllow = Traj;
             end
