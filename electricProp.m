@@ -1,7 +1,4 @@
 function [DeltaV_kms] = electricProp(candidateArchitecture, m_spacecraft)
-
-% function Data = ElectricProp(totalTime,m_spacecraft)
-totalTime = [7.57,1.57,3.142];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function Name: electricProp
 %Description: Outputs delta-V provided by hall thruster assuming a
@@ -10,6 +7,7 @@ totalTime = [7.57,1.57,3.142];
 %Outputs: delta-V (km/s)
 %Authors: Thomas Beimrohr, Elijah Harris
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+totalTime = [7.57,1.57,3.142];  % DEBUG TOF input
 
 km2au = 1/149597870.691; %Converts AU to kilometers
 au2km = 149597870.691;
