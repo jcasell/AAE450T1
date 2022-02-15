@@ -66,11 +66,18 @@ elseif (candidateArchitecture.Trajectory == "JupNep") || (candidateArchitecture.
 
     totalTOF = [phase1Time,phase2Time,phase3Time];
 elseif candidateArchitecture.Trajectory == "Solar Sail"
-    r0 = a_earth; rF = a_mercury; beta = 0.2;
+    % Initialize Solar Sail Variables
+    r0 = a_earth; rF = a_mercury; beta = 0.8;
+
+    % Logarithmic Spiral
     [tofSpiral, vF, reqFpa] = logarithmicSpiral(r0, rF, beta);
+
+    % Solar Sail Radial to Sun
     v0 = vF; %Change notation; final velocity on logarithmic trajectory is initial velocity on new orbit
-    coast = radialSail(a_mercury,v0, 110*a_earth,beta);
-    coastPhase = coastTimeMod(rF, vF,beta, reqFpa);
-    totalTOF = [tofSpiral + coastPhase(1), coastPhase(2), coastPhase(3)];
+    [vF,fpaF,tofRadial] = radialSail(a_mercury,v0, 5*a_earth,beta);
+
+    %From 5 AU to Rest of Mission
+    coastPhase = coastTime(5*a_earth, vF,fpaF);
+    totalTOF = [tofSpiral + tofRadial + coastPhase(1), coastPhase(2), coastPhase(3)];
 end
 end
