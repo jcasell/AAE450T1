@@ -1,4 +1,4 @@
-function [v_dep,fpa_dep] = oberth(planet_name,v_arr,fpa_arr,pass_dist,deltaV)
+function [v_dep,fpa_dep] = singleImpulse(planet_name,v_arr,fpa_arr,pass_dist,deltaV)
 %% Gravity Assist Calculation Function
 % This function will determine the changed trajectory of the spacecraft
 % after a gravity assist
@@ -48,13 +48,14 @@ v_p_impulse = v_p + deltaV; %velocity at periapsis after impulse
 a_new_hyp = (-.5)*((mu_planet)/(((v_p_impulse^2)/2) - (mu_planet/b_hyp)));  %semimajor axis of hyperbola after manuever
 e_new_hyp = (b_hyp / abs(a_new_hyp)) + 1;      %eccentricity of hyperbola after manuever
 delta_new = 2 * asind(1 / e_new_hyp);           %turn angle after manuever
+v_inf_new = -mu_planet / a_new_hyp;             %finding v_inf after impulse maneuever at periapsis
 
 % Cosine Law and Angles
 eta = asind(v_arr*sind(fpa_arr)/v_inf); %arbitrary angle in velocity triangle [deg]
 
 % Departure
-v_dep = sqrt(v_planet^2 + v_inf^2 - (2*v_planet*v_inf*cosd(eta+delta_new))); %departure velocity after manuever [km/s]
-fpa_dep = asind(v_inf*sind(eta+delta_new)/v_dep); %departure flight path angle after manuever [deg]
+v_dep = sqrt(v_planet^2 + v_inf_new^2 - (2*v_planet*v_inf_new*cosd(eta+delta_new))); %departure velocity after manuever [km/s]
+fpa_dep = asind(v_inf_new*sind(eta+delta_new)/v_dep); %departure flight path angle after manuever [deg]
 
 % Equivalent deltaV
 delta_fpa = abs(fpa_arr - fpa_dep);
