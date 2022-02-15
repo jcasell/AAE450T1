@@ -90,4 +90,9 @@ elseif candidateArchitecture.Trajectory == "Solar Sail"
     coastPhase = coastTimeMod(rF, vF,beta, reqFpa);
     totalTOF = [tofSpiral + coastPhase(1), coastPhase(2), coastPhase(3)];
 end
+if (candidateArchitecture.Propulsion == "BHT_100") || (candidateArchitecture.Propulsion == "BHT_600")
+    % Recalculate TOF with added electric propulsion delta-V
+    deltaV = ElectricPropulsion(candidateArchitecture, m_spacecraft);
+    % Use this delta-V for unique trajectory calc
+end
 end

@@ -18,7 +18,7 @@ m_spacecraft = m_instr / 0.15;
 %Calculated using Planetary Mission SMAD table A-2
 power_spacecraft = power_instr / 0.22;
 
-%Calculate Prop Code
+%Calculate kick stage delta-V
 [final_v] = generateC3(candidateArchitecture,m_spacecraft);
 
 %Calculate Trajectory
