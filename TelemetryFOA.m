@@ -20,10 +20,10 @@ PhaseTime = PhaseTime*365*24*3600;
 
 %Phase Distances
 
-S1 = 100;%(Au)Distance from Earth to Termination Shock
+S1 = 75;%(Au)Distance from Earth to Termination Shock
 S1 = S1*1.496e11; %(m)
 
-S2 = 123;%(Au)Distance from Earth to HelioPause
+S2 = 120;%(Au)Distance from Earth to HelioPause
 S2 = S2*1.496e11;%(m)
 
 %S3 = EndOfLifeS; %(m) Distance from Earth at 35 years
