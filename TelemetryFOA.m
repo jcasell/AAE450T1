@@ -74,8 +74,8 @@ S3 = S3*1.496e11;%(m)
 %Depend on the Antenna
 Dt = 3.7;  %(m) Diameter of transmitting antenna (Used Voyager as reference)
 
-%Noise Temperature Ask TA's / Prof Mansell
-Ts = 290; %(k) found by googling but Im not confident
+%Noise Temperature
+Ts = 15; %(k) According to Prof Mansell (Cryogenically cooled antennae)
 TsDb = 10*log10(Ts);
 
 %Pointing Loss
@@ -83,9 +83,8 @@ Lp = 1; %Should change with more research
 LpDb = 10*log10(Lp);
 
 %Eb/No
-Eb_No_Req = 10; %Ideal energy per bit / spectral noise density (AAE590 lec6 pg7) in the future this will depend on the comm network
-Eb_No = 2 * Eb_No_Req; %Should be double the required rate for safety
-Eb_NoDb = 10*log10(Eb_No);%Decibel Value of the energy per bit to noise density
+Eb_No_ReqDB = 10.5; % (DB) energy per bit / spectral noise density based on SMAD fig 16-16 pg 474 with error rate 10^-6
+Eb_NoDB = 3 + Eb_No_Req; %Should be double the required rate for safety equivalent to +3 DB
 
 %Boltzmann Constant
 k = 1.38e-23; %Boltzmann Constant
@@ -97,7 +96,7 @@ Gt = TranEff * (pi * Dt / Lambda)^2; %The Transmitter Gain
 GtDb = 10*log10(Gt);
 
 %Line Loss 
-Ll = 0.95; %typical Line loss percent according to quick google search
+Ll = 0.95; %typical Line loss percent according to quick google search Confirmed by Mansell
 LlDb = 10*log10(Ll);
 
 %Power
