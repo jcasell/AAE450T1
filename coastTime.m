@@ -18,7 +18,7 @@ phase2Time = detTof(phase1R,phase1V,phase2R,phase1Fpa);
 
 ENARad = 250*au2km;
 LYARad = 300*au2km;
-ENATime = detTof(phase2R,phase2V,250,phase2Fpa);
+ENATime = detTof(phase2R,phase2V,ENARad,phase2Fpa);
 [ENAV,ENAFpa] = getFPA(phase2R,phase2V,ENARad,phase2Fpa);
 LYATime = detTof(ENARad,ENAV,LYARad,ENAFpa);
 
