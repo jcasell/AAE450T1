@@ -65,9 +65,9 @@ end
 if isequal(Instrument,"Minimum")
     S3 = 160;%(Au)Distance from Earth to Lifecycle End
 elseif isequal(Instrument,"Mid Level")
-    S3 = 260;%(Au)Distance from Earth to Lifecycle End
+    S3 = 250;%(Au)Distance from Earth to Lifecycle End
 elseif isequal(Instrument,"High Level")
-    S3 = 310;%(Au)Distance from Earth to Lifecycle End
+    S3 = 300;%(Au)Distance from Earth to Lifecycle End
 end 
 S3 = S3*1.496e11;%(m)
 
