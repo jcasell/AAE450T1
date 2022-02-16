@@ -1,4 +1,4 @@
-function [totalTOF] = generalTrajectory(candidateArchitecture,v_inf)
+function [totalTOF,ENATime,LYATime] = generalTrajectory(candidateArchitecture,v_inf)
 %% General Trajectory Function
 % This function will take the mission input and apply the correct
 % trajectory functions to determine the TOF of each phase
@@ -80,7 +80,7 @@ elseif candidateArchitecture.Trajectory == "Solar Sail"
     [v_dep,fpa_dep] = gravityAssist(planet1,v_dep,fpa_dep);
 
     %From Grav Assist to Rest of Mission
-    coastPhase = coastTime(5.2*a_earth,v_dep,fpa_dep);
+    [coastPhase,ENATime,LYATime] = coastTime(5.2*a_earth,v_dep,fpa_dep);
     totalTOF = [tofSpiral + tofRadial + coastPhase(1), coastPhase(2), coastPhase(3) - tofSpiral - tofRadial];
 end
 end
