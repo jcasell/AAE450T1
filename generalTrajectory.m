@@ -58,7 +58,13 @@ elseif (candidateArchitecture.Trajectory == "JupNep") || (candidateArchitecture.
     TOF = detTof(rad_list(1),v_dep,rad_list(2),fpa_arr) + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
 
-    %Determine Total TOF
+    if (candidateArchitecture.Propulsion == "BHT_100") || (candidateArchitecture.Propulsion == "BHT_600")
+        % Recalculate TOF with added electric propulsion delta-V in phase 1
+%         [deltaV, m_spacecraft_arr] = electricProp(candidateArchitecture, totalTOF, m_spacecraft);
+        [deltaV] = modElectricProp(candidateArchitecture, m_spacecraft);
+        v_dep = v_dep + deltaV/1000;     % Add delta-V
+    end
+    
     phaseTimes = coastTime(rad_list(2),v_dep,fpa_dep);
     phase1Time = phaseTimes(1); phase2Time = phaseTimes(2); phase3Time = phaseTimes(3);
     phase1Time = phase1Time + TOF;
@@ -72,9 +78,5 @@ elseif candidateArchitecture.Trajectory == "Solar Sail"
     coastPhase = coastTimeMod(rF, vF,beta, reqFpa);
     totalTOF = [tofSpiral + coastPhase(1), coastPhase(2), coastPhase(3)];
 end
-if (candidateArchitecture.Propulsion == "BHT_100") || (candidateArchitecture.Propulsion == "BHT_600")
-    % Recalculate TOF with added electric propulsion delta-V in phase 1
-    [deltaV, m_spacecraft_arr] = electricProp(candidateArchitecture, totalTOF, m_spacecraft);
-    % Use this delta-V for unique trajectory calc
-end
+
 end
