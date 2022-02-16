@@ -21,7 +21,7 @@ switch planet_name
         a_planet = 778279959;
         mu_planet = 126712767.8578;
         r_planet = 71492;
-        pass_scalar = 16;
+        pass_scalar = 10;
     case "Saturn"
         a_planet = 1427387908;
         mu_planet = 37940626.0611;
@@ -39,7 +39,7 @@ rp = pass_scalar * r_planet;
 v_planet = sqrt(mu_sun / a_planet); %heliocentric velocity of planet used for pass [km/s]
 v_inf = sqrt(v_planet^2 + v_arr^2 - (2*v_planet*v_arr*cosd(fpa_arr))); %hyperbolic velocity around planet [km/s]
 
-v_arr = [v_inf * sind(fpa_arr), v_inf * cosd(fpa_arr)];
+v_arr = [v_arr * sind(fpa_arr), v_arr * cosd(fpa_arr)];
 %% Conic Values
 a_hyp = -mu_planet / (v_inf^2); %semimajor axis of hyperbola
 e_hyp = 1 + rp / abs(a_hyp); %eccentricity of hyperbola
