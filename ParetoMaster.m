@@ -11,7 +11,7 @@ close all
 %Define Possible Matrix Options
 ComNet = ["DSN" "IDSN" "NSN" "ngVLA"]; %Communication Network Options
 Telem = ["Ka" "X" "S"];     %Telemetry Band
-Prop = ["Chemical" "Plasma"];   %Propulsion Options
+Prop = ["Chemical" "Solar Sail" "Plasma"];   %Propulsion Options
 Power = ["RTG Nuclear" "Solar Panel/Nuclear" "Solar Panel"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
 Traj = ["JupNep" "JupSat" "JupNepO" "JupSatO" "Solar Sail"]; %Trajectory Options (O indicates impulse manuever during GA)
@@ -71,8 +71,10 @@ for i1 = ComNet
                                 if ttHP <= 10;
                                     PointColor = [PointColor;0 1 0];
                                     Results10Raw = [Results10Raw; [i1 i2 i3 i4 i5 i6 i7 i8 cost science reliability ttHP]];
-                                else
+                                elseif ttHP <= 12
                                     PointColor = [PointColor;0 0 1];
+                                else
+                                    PointColor = [PointColor;1 0 0];
                                 end
                             end
                         end
