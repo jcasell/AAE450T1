@@ -78,6 +78,6 @@ elseif candidateArchitecture.Trajectory == "Solar Sail"
 
     %From 5 AU to Rest of Mission
     coastPhase = coastTime(5*a_earth, vF,fpaF);
-    totalTOF = [tofSpiral + tofRadial + coastPhase(1), coastPhase(2), coastPhase(3)];
+    totalTOF = [tofSpiral + tofRadial + coastPhase(1), coastPhase(2), coastPhase(3) - tofSpiral - tofRadial];
 end
 end

@@ -17,6 +17,6 @@ phase2Time = detTof(phase1R,phase1V,phase2R,phase1Fpa);
 [phase2V, phase2Fpa] = getFPA(phase1R,phase1V,phase2R, phase1Fpa);
 
 %phase3Time = detTof(phase2R,phase2V,phase3R,phase2Fpa);
-phase3Time = 35-phase2Time;
+phase3Time = 35-phase2Time-phase1Time;
 
 totalTime = [phase1Time, phase2Time, phase3Time];
