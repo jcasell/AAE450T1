@@ -3,12 +3,10 @@ muSun = 132712440017.99; %km^3/s^2
 modifiedMu = muSun * (1 - beta);
 
 % vEsc = sqrt(2 * modifiedMu / r0);
-% fpa0 = 0; %Assume initial departure from solar periapsis
+fpa0 = 0; %Assume initial departure from solar periapsis
 
-% sma = 0.5 * (modifiedMu / ((modifiedMu / r0) - (v0^2 / 2))); %Calculate semimajor axis
-sma = r0*((1 - beta)/(1 - (2*beta)));
-% ecc = sqrt(((0.5 * r0 * v0^2)/modifiedMu - 1)^2 * cosd(fpa0)^2 + sind(fpa0)^2);
-ecc = 1 - ((1 - 2*beta)/(1 - beta));
+sma = 0.5 * (modifiedMu / ((modifiedMu / r0) - (v0^2 / 2))); %Calculate semimajor axis
+ecc = sqrt(((0.5 * r0 * v0^2)/modifiedMu - 1)^2 * cosd(fpa0)^2 + sind(fpa0)^2); %eccentricity
 
 if beta > 0.5 %Orbit type is hyperbolic if velocity greater than escape
     orbitType = "Hyperbolic";

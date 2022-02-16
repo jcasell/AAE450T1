@@ -1,9 +1,9 @@
-function [final_v, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay)
+function [final_v, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay )
     % Inputs: Launch Vehicle, Kick Stage Propulsion
     % Outputs: Delta V, Mass Payload, Structural Mass, Mass Propellant
 
     %% Setting Constants and Assumed Values (values to iterate over)
-    
+  
     array_LV = ["SLS", "Falcon Heavy", "Starship", "New Glenn", "Atlas V", "Vulcan 6S","Delta IV Heavy"]; % Array of Launch Vehicles
     array_kick = ["Solid", "Liquid", "Nuclear", "Hybrid", "None"]; % Array of Kick Stages
     g_E = 9.81; % (m/s^2)
