@@ -74,10 +74,10 @@ elseif candidateArchitecture.Trajectory == "Solar Sail"
 
     % Solar Sail Radial to Sun
     v0 = vF; %Change notation; final velocity on logarithmic trajectory is initial velocity on new orbit
-    [vF,fpaF,tofRadial] = radialSail(a_mercury,v0, 5.2*a_earth,beta);
+    [v_dep,fpa_dep,tofRadial] = radialSail(a_mercury,v0, 5.2*a_earth,beta);
 
     % Grav Assist
-    [v_dep,fpa_dep] = gravityAssist(planet1,vF,fpaF);
+    [v_dep,fpa_dep] = gravityAssist(planet1,v_dep,fpa_dep);
 
     %From Grav Assist to Rest of Mission
     coastPhase = coastTime(5.2*a_earth,v_dep,fpa_dep);

@@ -21,7 +21,7 @@ switch planet_name
         a_planet = 778279959;
         mu_planet = 126712767.8578;
         r_planet = 71492;
-        pass_scalar = 10;
+        pass_scalar = 32;
     case "Saturn"
         a_planet = 1427387908;
         mu_planet = 37940626.0611;
@@ -36,6 +36,48 @@ end
 
 rp = pass_scalar * r_planet;
 %% Calculations
+v_arr_vec = [v_arr * sind(fpa_arr), v_arr * cosd(fpa_arr)];
+v_planet = sqrt(mu_sun / a_planet); %heliocentric velocity of planet used for pass [km/s]
+% v_inf = sqrt(v_planet^2 + v_arr^2 - (2*v_planet*v_arr*cosd(fpa_arr))); %hyperbolic velocity around planet [km/s]
+v_inf_minus = v_arr_vec - [0,v_planet]; %arrival v infinity vector
+v_inf = norm(v_inf_minus);
+
+
+%% Conic Values
+%New Vector Math
+a_hyp = -mu_planet / (v_inf^2); %semimajor axis of hyperbola
+e_hyp = 1 + rp / abs(a_hyp); %eccentricity of hyperbola
+
+psi = atan2d(v_inf_minus(1),v_inf_minus(2)); %Arbitrary angle for calculations
+delta = 2*asind(1/e_hyp); %turn angle
+
+v_inf_plus = [v_inf * sind(psi - delta), v_inf * cosd(psi - delta)]; %departure v infinity vector
+v_dep_vec = v_inf_plus + [0,v_planet]; %departure velocity vector 
+v_dep = norm(v_dep_vec);
+
+fpa_dep = asind((v_inf/v_dep)*sind(180 - (psi-delta))); %departure flight path angle
+dv_eq_vec = v_dep_vec - v_arr_vec; %equivalent deltaV from pass
+dv_eq = norm(dv_eq_vec);
+
+beta1 = asind(v_dep*sind(fpa_dep - fpa_arr)/dv_eq);
+beta2 = 180 - beta1;
+
+% Quadrant Check
+check1 = sqrt(dv_eq^2 + v_arr^2 - (2*dv_eq*v_arr*cosd(beta1)));
+check2 = sqrt(dv_eq^2 + v_arr^2 - (2*dv_eq*v_arr*cosd(beta2)));
+
+if abs(check1 - v_dep) < 0.5
+    beta = beta1;
+elseif abs(check2 - v_dep) < 0.5
+    beta = beta2;
+else
+    fprintf('You fucked up\n')
+end
+
+alpha = 180 - beta; %heliocentric velocity turn angle
+
+%Old Vector Math
+%{
 v_planet = sqrt(mu_sun / a_planet); %heliocentric velocity of planet used for pass [km/s]
 v_inf = sqrt(v_planet^2 + v_arr^2 - (2*v_planet*v_arr*cosd(fpa_arr))); %hyperbolic velocity around planet [km/s]
 
@@ -50,6 +92,8 @@ delta = 2*asind(1/e_hyp);
 v_dep_vec = [v_inf * sind(psi - delta), v_inf * cosd(psi - delta)];
 fpa_dep = atan2d(v_dep_vec(1),v_dep_vec(2));
 v_dep = norm(v_dep_vec);
+%}
+
 %{
 b_hyp = abs(a_hyp)*sqrt(e_hyp^2 - 1); %semiminor axis of hyperbola
 
