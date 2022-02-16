@@ -62,7 +62,7 @@ else
 end
 
 %Depend on Instrumentation Package requirements
-if isequal(Instrument,"Minimum"')
+if isequal(Instrument,"Minimum")
     S3 = 160;%(Au)Distance from Earth to Lifecycle End
 elseif isequal(Instrument,"Mid Level")
     S3 = 260;%(Au)Distance from Earth to Lifecycle End
@@ -83,8 +83,8 @@ Lp = 1; %Should change with more research
 LpDb = 10*log10(Lp);
 
 %Eb/No
-Eb_No_ReqDB = 10.5; % (DB) energy per bit / spectral noise density based on SMAD fig 16-16 pg 474 with error rate 10^-6
-Eb_NoDB = 3 + Eb_No_Req; %Should be double the required rate for safety equivalent to +3 DB
+Eb_No_ReqDb = 10.5; % (DB) energy per bit / spectral noise density based on SMAD fig 16-16 pg 474 with error rate 10^-6
+Eb_NoDb = 3 + Eb_No_ReqDb; %Should be double the required rate for safety equivalent to +3 DB
 
 %Boltzmann Constant
 k = 1.38e-23; %Boltzmann Constant
