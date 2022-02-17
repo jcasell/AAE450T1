@@ -48,7 +48,7 @@ if (candidateArchitecture.Trajectory == "JupNepO") || (candidateArchitecture.Tra
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
 
     % Add electric propulsion impulse to velocity
-    v_dep = v_dep + deltaV;
+%     v_dep = v_dep + deltaV;
     
     %Determine Total TOF 
     [phaseTimes,ENATime,LYATime] = coastTime(rad_list(2),v_dep,fpa_dep);
