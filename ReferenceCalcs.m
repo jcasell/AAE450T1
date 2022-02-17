@@ -27,9 +27,10 @@ else
     m_xenon = 0;
 end 
 
+cost_vec = CostCalc(candidateArchitecture,m_spacecraft)
+Cost = cost_vec(end)
+
 totalTOF = generalTrajectory(candidateArchitecture,final_v,m_spacecraft)
 
 DataRate = TelemetryFOA (candidateArchitecture,totalTOF)
 
-cost_vec = CostCalc(candidateArchitecture,m_spacecraft)
-Cost = cost_vec(end)
