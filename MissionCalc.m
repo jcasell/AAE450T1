@@ -22,7 +22,7 @@ power_spacecraft = power_instr / 0.22;
 [final_v] = generateC3(candidateArchitecture,m_spacecraft);
 
 %Calculate Trajectory
-totalTOF = generalTrajectory(candidateArchitecture,final_v);
+totalTOF = generalTrajectory(candidateArchitecture,final_v,m_spacecraft);
 refTOF = [14.8425 4.2342 9.4374];
 ttHP = totalTOF(1)+totalTOF(2);
 
