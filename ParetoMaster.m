@@ -9,12 +9,12 @@ clear
 close all
 
 %Define Possible Matrix Options
-ComNet = ["DSN" "IDSN" "NSN" "ngVLA"]; %Communication Network Options
+ComNet = ["DSN" "IDSN" "NSN"]; %Communication Network Options
 Telem = ["Ka" "X" "S"];     %Telemetry Band
-Prop = ["Chemical" "Solar Sail" "Plasma"];   %Propulsion Options
+Prop = ["Chemical" "Solar Sail" "BHT_100" "BHT_600"];   %Propulsion Options
 Power = ["RTG Nuclear" "Solar Panel/Nuclear" "Solar Panel"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
-Traj = ["JupNep" "JupSat" "JupNepO" "JupSatO" "Solar Sail"]; %Trajectory Options (O indicates impulse manuever during GA)
+Traj = ["JupNep" "JupSat" "JupNepO" "JupSatO"]; %Trajectory Options (O indicates impulse manuever during GA)
 LaunchV = ["SLS" "Falcon Heavy" "Vulcan 6S" "Starship"];    %Launch Vehicle Options
 Kick = ["Solid" "Liquid" "Hybrid" "None"];   %Kick Stages Options
 
@@ -38,7 +38,7 @@ for i1 = ComNet
             if or(i3 == "None",i3 == "Plasma")
                 TrajAllow = ["JupNep","JupSat"];
             elseif i3 == "Solar Sail"
-                TrajAllow = ["Solar Sail"]
+                TrajAllow = ["Solar Sail"];
             else
                 TrajAllow = Traj;
             end

@@ -1,4 +1,4 @@
-function Data = TelemetryFOA (candidateArchitecture, PhaseTime)%, EndOfLifeS)
+function Data = TelemetryFOA (candidateArchitecture, PhaseTime, EndOfLifeS)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function Name: Telemetry FOA
 %Description: Outputs the projected data per phase based on the telemetry band
@@ -26,7 +26,8 @@ S1 = S1*1.496e11; %(m)
 S2 = 120;%(Au)Distance from Earth to HelioPause
 S2 = S2*1.496e11;%(m)
 
-%S3 = EndOfLifeS; %(m) Distance from Earth at 35 years
+S3 = EndOfLifeS; %(km) Distance from Earth at 35 years
+S3 = S3 * 1000; %(m) Distance from Earth at 35 years
 
 %Depend on Telemetry Band
 if isequal(TelemetryBand,'Ka')
@@ -62,14 +63,14 @@ else
 end
 
 %Depend on Instrumentation Package requirements
-if isequal(Instrument,"Minimum")
-    S3 = 160;%(Au)Distance from Earth to Lifecycle End
-elseif isequal(Instrument,"Mid Level")
-    S3 = 260;%(Au)Distance from Earth to Lifecycle End
-elseif isequal(Instrument,"High Level")
-    S3 = 310;%(Au)Distance from Earth to Lifecycle End
-end 
-S3 = S3*1.496e11;%(m)
+%if isequal(Instrument,"Minimum")
+%    S3 = 160;%(Au)Distance from Earth to Lifecycle End
+%elseif isequal(Instrument,"Mid Level")
+%    S3 = 250;%(Au)Distance from Earth to Lifecycle End
+%elseif isequal(Instrument,"High Level")
+%    S3 = 300;%(Au)Distance from Earth to Lifecycle End
+%end 
+%S3 = S3*1.496e11;%(m)
 
 %Depend on the Antenna
 Dt = 3.7;  %(m) Diameter of transmitting antenna (Used Voyager as reference)
@@ -141,8 +142,39 @@ for ii = 2:1:100
     prev = current;%Stores the bit rate for the beginning of the next slice
 end
 
+if PhaseTime(4) < 0
+    bitsA = 0;
+    bitsB = 0;
+    return
+end
+%Bonus A Bits
+DistA = linspace(SBonusA,S3,100);%Breaks the Bonus Phase A distances into 100 slices
+MiniTimeA = PhaseTime(4)/100;%Solves for time per slice
+prev = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, DistA(1), Lambda);%Finds the data rate at the start of the phase
+bitsA = 0;%initiates the number of bits in the phase 
+for ii = 2:1:100
+    current = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, Dist3(ii), Lambda);%Finds the data rate at the start of the slice
+    bitsA = bitsA + (current+prev) / 2 * MiniTimeA;%Adds the number of bits this slice to the total
+    prev = current;%Stores the bit rate for the beginning of the next slice
+end
+
+if PhaseTime(5) < 0
+    bitsB = 0;
+    return
+end
+%Bonus B Bits
+DistB = linspace(SBonusB,S3,100);%Breaks the Bonus Phase B distances into 100 slices
+MiniTimeB = PhaseTime(5)/100;%Solves for time per slice
+prev = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, DistB(1), Lambda);%Finds the data rate at the start of the phase
+bitsB = 0;%initiates the number of bits in the phase 
+for ii = 2:1:100
+    current = GetRate(PDb, LlDb, GtDb, LaDb, GrDb, LpDb, kDb, TsDb, Eb_NoDb, DistB(ii), Lambda);%Finds the data rate at the start of the slice
+    bitsB = bitsB + (current+prev) / 2 * MiniTimeB;%Adds the number of bits this slice to the total
+    prev = current;%Stores the bit rate for the beginning of the next slice
+end
+
 %Outputs
-Data = Weight*[bits1,bits2,bits3];
+Data = Weight*[bits1,bits2,bits3, bitsA, bitsB];
 % 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % %Reference DSN-Ka 310 Au
