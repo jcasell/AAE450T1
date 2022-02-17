@@ -11,7 +11,7 @@ close all
 %Define Possible Matrix Options
 ComNet = ["DSN" "IDSN" "NSN"]; %Communication Network Options
 Telem = ["Ka" "X" "S"];     %Telemetry Band
-Prop = ["Chemical" "Solar Sail" "Plasma"];   %Propulsion Options
+Prop = ["Chemical" "Solar Sail" "BHT_100" "BHT_600"];   %Propulsion Options
 Power = ["RTG Nuclear" "Solar Panel/Nuclear" "Solar Panel"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
 Traj = ["JupNep" "JupSat" "JupNepO" "JupSatO"]; %Trajectory Options (O indicates impulse manuever during GA)
