@@ -24,5 +24,8 @@ LYATime = detTof(ENARad,ENAV,LYARad,ENAFpa);
 
 %phase3Time = detTof(phase2R,phase2V,phase3R,phase2Fpa);
 phase3Time = 35-phase2Time-phase1Time;
+%[phase3V, phase3Fpa] = getFPA(phase2R,phase2V,phase3R, phase2Fpa);
 
+phase3Dist = time2dist(phase2R,phase2V, phase3Time, phase2Fpa);
+fprintf("Final Distance: %.4f km",phase3Dist);
 totalTime = [phase1Time, phase2Time, phase3Time];

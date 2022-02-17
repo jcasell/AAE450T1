@@ -108,12 +108,19 @@ costProgRec = 0.320*(costVehRec+costIntRec);
 
 %Other Costs
 AGEcost = 1.29*(0.432*(costBusNRec/1.29)^0.907+2.244);
+
 LOOScost = 1.29*5850;
 
 %Ops Cost
 techCount = 6;
 engCount = 34-6;
 
-opsCost = 35*(techCount*150+engCount*200);
+opsCost = 1.29*35*(techCount*150+engCount*200);
 
-Cost = (10^-3)*(costVehRec+costVehNRec+costProgNRec+costProgRec+AGEcost+LOOScost+opsCost);
+total_Cost = (10^-3)*(costVehRec+costVehNRec+costProgNRec+costProgRec+AGEcost+LOOScost+opsCost+costTTC+costIntRec+costIntNRec + costProp);
+
+%Cost Vector
+Cost = [costTTC / (1E3), costProp / (1E3), costPower / (1E3), costInst / (1E3),  costKick / (1E3), costThermRec / (1E3), costThermNRec / (1E3), costAttRec / (1E3), costAttNRec / (1E3), costCommRec / (1E3), costCommNRec / (1E3), costIntRec / (1E3), costIntNRec / (1E3), costProgRec / (1E3), costProgNRec / (1E3), AGEcost / (1E3), LOOScost / (1E3), opsCost / (1E3), total_Cost];
+
+
+end

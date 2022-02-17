@@ -22,7 +22,7 @@ power_spacecraft = power_instr / 0.22;
 [final_v] = generateC3(candidateArchitecture,m_spacecraft);
 
 %Calculate Trajectory
-totalTOF = generalTrajectory(candidateArchitecture,final_v);
+totalTOF = generalTrajectory(candidateArchitecture,final_v,m_spacecraft);
 refTOF = [14.8425 4.2342 9.4374];
 ttHP = totalTOF(1)+totalTOF(2);
 
@@ -40,7 +40,8 @@ Science = DataRate(1)/refDataRate(1)*sci_instr(1)^3*w(1)+DataRate(2)/refDataRate
 Science = Science + DataRate(4)/refDataRate(4)*sci_instr(4)^3*w_bonus(1) + DataRate(5)/refDataRate(5)*sci_instr(5)^3*w_bonus(2);
 
 %Total Cost
-Cost = CostCalc(candidateArchitecture,m_spacecraft);
+cost_vec = CostCalc(candidateArchitecture,m_spacecraft);
+Cost = cost_vec(end);
 
 %Return Risk
 Reliability = 0;
