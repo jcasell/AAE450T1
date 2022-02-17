@@ -14,10 +14,14 @@ mu_sun = 132712440017.99; % grav parameter of sun [km^3/s^2]
 a_earth = 149597898; %radius of Earth orbit [km]
 a_mercury = 57909101; %radius of Mercury orbit [km]
 TOF = 0;
+deltaV = 0;
 v_earth = sqrt(2*mu_sun/a_earth); %velocity of Earth relative to Sun [km/s]
 v_0 = v_inf + v_earth; %initial velocity of s/c relative to sun [km/s]
-deltaV = 0;
 %% Calculations
+if (candidateArchitecture.Propulsion == "BHT_100") || (candidateArchitecture.Propulsion == "BHT_600")
+    deltaV = modElectricProp(candidateArchitecture, m_spacecraft)/1000;  % [km/s]
+end
+
 planet1 = "Jupiter";
 if candidateArchitecture.Trajectory ~= "Solar Sail"
     rad_list = getCharacteristics(candidateArchitecture.Trajectory);
@@ -40,7 +44,10 @@ if (candidateArchitecture.Trajectory == "JupNepO") || (candidateArchitecture.Tra
     [stageTime,~] = detTof(rad_list(1),v_dep,rad_list(2),fpa_arr);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
-
+    
+    % Add electric propulsion impulse to velocity
+    v_dep = v_dep + deltaV;     
+    
     %Determine Total TOF 
     phaseTimes = coastTime(rad_list(2),v_dep,fpa_dep);
     phase1Time = phaseTimes(1); phase2Time = phaseTimes(2); phase3Time = phaseTimes(3);
@@ -58,12 +65,8 @@ elseif (candidateArchitecture.Trajectory == "JupNep") || (candidateArchitecture.
     TOF = detTof(rad_list(1),v_dep,rad_list(2),fpa_arr) + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
 
-    if (candidateArchitecture.Propulsion == "BHT_100") || (candidateArchitecture.Propulsion == "BHT_600")
-        % Recalculate TOF with added electric propulsion delta-V in phase 1
-%         [deltaV, m_spacecraft_arr] = electricProp(candidateArchitecture, totalTOF, m_spacecraft);
-        [deltaV] = modElectricProp(candidateArchitecture, m_spacecraft);
-        v_dep = v_dep + deltaV/1000;     % Add delta-V
-    end
+    % Add electric propulsion impulse to velocity
+    v_dep = v_dep + deltaV;
     
     phaseTimes = coastTime(rad_list(2),v_dep,fpa_dep);
     phase1Time = phaseTimes(1); phase2Time = phaseTimes(2); phase3Time = phaseTimes(3);

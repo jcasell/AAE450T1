@@ -1,0 +1,12 @@
+function [deltaV] = modElectricProp(candidateArchitecture,m_spacecraft)
+%MODELECTRICPROP Output delta-V produced by specified electric propulsion system
+g = 9.81;   % [m/s^2]
+% Specs for BHT-600 Hall thruster
+isp = 1500;
+m_prop = m_spacecraft * 0.13; % [kg]
+% START DEBUG
+% m_prop = m_prop + 200;
+% END DEBUG
+m_inert = 2.8;    % [kg]
+deltaV = g*isp*log((m_inert + m_spacecraft + m_prop)/(m_inert + m_spacecraft));
+end
