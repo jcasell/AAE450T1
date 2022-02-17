@@ -1,4 +1,4 @@
-function [totalTOF,ENATime,LYATime] = generalTrajectory(candidateArchitecture,v_inf,m_spacecraft)
+function [totalTOF,ENATime,LYATime] = generalTrajectory(candidateArchitecture,v_inf,deltaV)
 %% General Trajectory Function
 % This function will take the mission input and apply the correct
 % trajectory functions to determine the TOF of each phase
@@ -14,15 +14,10 @@ mu_sun = 132712440017.99; % grav parameter of sun [km^3/s^2]
 a_earth = 149597898; %radius of Earth orbit [km]
 a_mercury = 57909101; %radius of Mercury orbit [km]
 TOF = 0;
-deltaV = 0;
 v_earth = sqrt(2*mu_sun/a_earth); %velocity of Earth relative to Sun [km/s]
 v_0 = v_inf + v_earth; %initial velocity of s/c relative to sun [km/s]
 
 %% Calculations
-if (candidateArchitecture.Propulsion == "BHT_100") || (candidateArchitecture.Propulsion == "BHT_600")
-    deltaV = modElectricProp(candidateArchitecture, m_spacecraft)/1000;  % [km/s]
-end
-
 planet1 = "Jupiter";
 if candidateArchitecture.Trajectory ~= "Solar Sail"
     rad_list = getCharacteristics(candidateArchitecture.Trajectory);
