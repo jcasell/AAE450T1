@@ -7,7 +7,8 @@ candidateArchitecture.Telemetry = "Ka";
 candidateArchitecture.Propulsion = "";
 candidateArchitecture.Power = "RTG Nuclear";
 candidateArchitecture.Instruments = "High Level";
-candidateArchitecture.Trajectory = "Solar Sail";
+%candidateArchitecture.Trajectory = "Solar Sail";
+candidateArchitecture.Trajectory = "JupSatO";
 candidateArchitecture.LaunchVehicle = "SLS";
 candidateArchitecture.Kick = "Liquid";
 
