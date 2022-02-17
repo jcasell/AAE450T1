@@ -108,13 +108,14 @@ costProgRec = 0.320*(costVehRec+costIntRec);
 
 %Other Costs
 AGEcost = 1.29*(0.432*(costBusNRec/1.29)^0.907+2.244);
+
 LOOScost = 1.29*5850;
 
 %Ops Cost
 techCount = 6;
 engCount = 34-6;
 
-opsCost = 35*(techCount*150+engCount*200);
+opsCost = 1.29*35*(techCount*150+engCount*200);
 
 total_Cost = (10^-3)*(costVehRec+costVehNRec+costProgNRec+costProgRec+AGEcost+LOOScost+opsCost+costTTC+costIntRec+costIntNRec + costProp);
 
