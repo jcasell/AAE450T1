@@ -34,7 +34,10 @@ refDataRate = [1.6714e22 1.2346e9 8.8774e8];
 %Science Weights phases 1 to 3
 w = [0.1 0.3 0.6];
 
+%Bonus Science weights
+w_bonus = [0.5 0.5];
 Science = DataRate(1)/refDataRate(1)*sci_instr(1)^3*w(1)+DataRate(2)/refDataRate(2)*sci_instr(2)^3*w(2)+DataRate(3)/refDataRate(3)*sci_instr(3)^3*w(3);
+Science = Science + DataRate(4)/refDataRate(4)*sci_instr(4)^3*w_bonus(1) + DataRate(5)/refDataRate(5)*sci_instr(5)^3*w_bonus(2);
 
 %Total Cost
 Cost = CostCalc(candidateArchitecture,m_spacecraft);
