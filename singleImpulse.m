@@ -43,12 +43,12 @@ a_hyp = -mu_planet / (v_inf^2); %semimajor axis of hyperbola
 e_hyp = (r_p / abs(a_hyp)) + 1; %eccentricity of hyperbola
 delta = 2 * asind(1 / e_hyp); %turn angle
 b_hyp = abs(a_hyp)*sqrt(e_hyp^2 - 1); %semiminor axis of hyperbola
-v_p = sqrt((2*mu_planet)*((1/b_hyp)+(1/abs(a_hyp))));   %velocity of periapsis 
+v_p = sqrt((2*mu_planet/r_p)+(mu_planet/abs(a_hyp)));   %velocity of periapsis 
 v_p_impulse = v_p + deltaV; %velocity at periapsis after impulse
-a_new_hyp = (-.5)*((mu_planet)/(((v_p_impulse^2)/2) - (mu_planet/b_hyp)));  %semimajor axis of hyperbola after manuever
-e_new_hyp = (b_hyp / abs(a_new_hyp)) + 1;      %eccentricity of hyperbola after manuever
+a_new_hyp = -mu_planet/(v_p_impulse^2 - (2*mu_planet/r_p)); %semiminor axis after maneuver
+e_new_hyp = (r_p / abs(a_new_hyp)) + 1;      %eccentricity of hyperbola after manuever
 delta_new = 2 * asind(1 / e_new_hyp);           %turn angle after manuever
-v_inf_new = -mu_planet / a_new_hyp;             %finding v_inf after impulse maneuever at periapsis
+v_inf_new = sqrt(-mu_planet / a_new_hyp);             %finding v_inf after impulse maneuever at periapsis
 
 % Cosine Law and Angles
 eta = asind(v_arr*sind(fpa_arr)/v_inf); %arbitrary angle in velocity triangle [deg]
