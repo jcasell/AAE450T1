@@ -47,20 +47,20 @@ function [final_v, v_inf,m_kick, m_prop, m_inert] = generateC3( candidateArchite
         case "Falcon Heavy Expendable"
             C3 = curvefit( m_kick );
         case "Starship" % NEED MASS OF KICK
-            %m_kick = 50000; %A GUESS VALUE
+            m_kick = 50000; %A GUESS VALUE
             C3 = curvefit( m_kick );
         case "New Glenn"
-            %m_kick = 7100;
+            m_kick = 7100;
             C3 = curvefit( m_kick );
-        case "Atlas V"
-            %m_kick = 6750;
-            C3 = curevfit( m_kick );
+%         case "Atlas V"
+%             %m_kick = 6750;
+%             C3 = curevfit( m_kick );
         case "Vulcan 6S"
             %m_kick = 10800;
             C3 = curvefit( m_kick );
-        case "Delta IV Heavy"
-            %m_kick = 10500;
-            C3 = curevfit( m_kick );
+%         case "Delta IV Heavy"
+%             %m_kick = 10500;
+%             C3 = curevfit( m_kick );
         otherwise 
             
     end
