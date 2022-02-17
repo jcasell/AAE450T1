@@ -4,9 +4,9 @@ close all
 
 candidateArchitecture.Communications = "DSN";
 candidateArchitecture.Telemetry = "Ka";
-candidateArchitecture.Propulsion = "BHT_600";
+candidateArchitecture.Propulsion = "Chemical";
 candidateArchitecture.Power = "RTG Nuclear";
-candidateArchitecture.Instruments = "High Level";
+candidateArchitecture.Instruments = "Minimum";
 %candidateArchitecture.Trajectory = "Solar Sail";
 candidateArchitecture.Trajectory = "JupSatO";
 candidateArchitecture.LaunchVehicle = "SLS";
@@ -16,7 +16,8 @@ candidateArchitecture.Kick = "Liquid";
 
 m_spacecraft = m_instr / 0.15
 
-[Cost] = CostCalc(candidateArchitecture,m_spacecraft)
+cost_vec = CostCalc(candidateArchitecture,m_spacecraft)
+Cost = cost_vec(end)
 
 power_spacecraft = power_instr / 0.22
 

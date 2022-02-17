@@ -37,7 +37,8 @@ w = [0.1 0.3 0.6];
 Science = DataRate(1)/refDataRate(1)*sci_instr(1)^3*w(1)+DataRate(2)/refDataRate(2)*sci_instr(2)^3*w(2)+DataRate(3)/refDataRate(3)*sci_instr(3)^3*w(3);
 
 %Total Cost
-Cost = CostCalc(candidateArchitecture,m_spacecraft);
+cost_vec = CostCalc(candidateArchitecture,m_spacecraft);
+Cost = cost_vec(end);
 
 %Return Risk
 Reliability = 0;
