@@ -1,4 +1,4 @@
-function [deltaV] = modElectricProp(candidateArchitecture,m_spacecraft)
+function [m_prop,deltaV] = modElectricProp(candidateArchitecture,m_spacecraft)
 %MODELECTRICPROP Output delta-V produced by specified electric propulsion system
 g = 9.81;   % [m/s^2]
 if candidateArchitecture.Propulsion == "BHT_600"
@@ -10,6 +10,9 @@ elseif candidateArchitecture.Propulsion == "BHT_100"
     % sucks)
     isp = 1000; % [s]
     m_inert = 1.6; % [kg]
+else
+    isp = 0;
+    m_inert = 0;
 end
 % START DEBUG
 debug_mass = 200;   % Manually add more propellant [kg]
