@@ -112,10 +112,17 @@ AGEcost = 1.29*(0.432*(costBusNRec/1.29)^0.907+2.244);
 LOOScost = 1.29*5850;
 
 %Ops Cost
-techCount = 6;
-engCount = 34-6;
+%Table 11-25 Ops Cost Estimate
+%Keep full team for first 5 years, cut extra staff for last 30 years
+% techCount = 6;
+% engCount = 34-6;
+% engCount_cut = engCount - 10;
+% techCount_cut = techCount - 2;
+% opsCost = 1.29*5*(techCount*150+engCount*200) + 1.29*30*(techCount_cut*150+engCount_cut*200);
 
-opsCost = 1.29*35*(techCount*150+engCount*200);
+%Table 11-29 Ops Cost Estimate
+%Keep Full Budget for first 5 years, cut 33 % for the last 30 years
+opsCost = 1.29 * 5690 * 5 + 1.29*((2/3)*5690*30);
 
 total_Cost = (10^-3)*(costVehRec+costVehNRec+costProgNRec+costProgRec+AGEcost+LOOScost+opsCost+costTTC+costIntRec+costIntNRec + costProp);
 

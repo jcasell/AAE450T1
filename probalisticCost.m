@@ -34,24 +34,24 @@ LOOScost = cost_vec(17);
 opsCost = cost_vec(18);
 
 %Find SEE of each element
-SEE_TTC = 0; %used NASA estimate instead of SMAD
-SEE_Prop = (310 / 1E6) / costProp;
-SEE_Power =0;
-SEE_Inst = 0.29; %ask about equation used later
-SEE_Kick = 0.22;
-SEE_ThermRec = 0.21;
-SEE_ThermNRec = 0.22;
-SEE_AttRec = 0.36;
-SEE_AttNRec = 0.44;
-SEE_CommRec = 0.39;
-SEE_CommNRec = 0.38;
-SEE_IntRec = 0.34;
-SEE_IntNRec = 0.42; 
-SEE_ProgRec = 0.4;
-SEE_ProgNRec = 0.5;
-SEE_AGE = 0.37;
-SEE_LOOS = 0;
-SEE_ops = 0;
+SEE_TTC = 0.2; %dummy value
+SEE_Prop = (310 / 1E6) / costProp; %SMAD, check
+SEE_Power =0.2;%dummy value
+SEE_Inst = 0.29; %ask about equation used later , SMAD
+SEE_Kick = 0.22; %SMAD
+SEE_ThermRec = 0.21; %SMAD
+SEE_ThermNRec = 0.22; %SMAD
+SEE_AttRec = 0.36; %SMAD
+SEE_AttNRec = 0.44; %SMAD
+SEE_CommRec = 0.39; %SMAD
+SEE_CommNRec = 0.38; %SMAD
+SEE_IntRec = 0.34; %SMAD
+SEE_IntNRec = 0.42; %SMAD
+SEE_ProgRec = 0.4; %SMAD
+SEE_ProgNRec = 0.5; %SMAD
+SEE_AGE = 0.37; %SMAD
+SEE_LOOS = 0.2; %dummy value
+SEE_ops = 0; %dummy value
 
 
 avgCost = cost_vec(end);
