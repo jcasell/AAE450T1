@@ -1,0 +1,16 @@
+% Code to curvefit Launch vehicle C3 values vs mass of payload
+clc;
+clear all;
+
+C3 = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70];
+Mass_V6S = [10850, 9960, 9130, 8340, 7630, 6950, 6310, 5710, 5150, 4610, 4120, 3685, 3250, 2835, 2420, 2100, 1780, 1575, 1370, 1070, 770];
+
+coefficients = polyfit(Mass_V6S, C3, 3);
+
+xFit = linspace(min(Mass_V6S), max(Mass_FHe), 1000);
+yFit = polyval(coefficients , xFit);
+
+plot(Mass_V6S, C3, 'b.', 'MarkerSize', 15);
+hold on; % Set hold on so the next plot does not blow away the one we just drew.
+plot(xFit, yFit, 'r-', 'LineWidth', 2); % Plot fitted line.
+grid on;

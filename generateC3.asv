@@ -14,12 +14,11 @@ function [final_v, v_inf,m_kick, m_prop, m_inert] = generateC3( candidateArchite
     % Fraction), Inert Mass Fraction for kick stage
 
     switch candidateArchitecture.Kick 
-        case "Solid" 
+        case "Star 48" % Solid Rocket 
             isp = 285;
             lambda = 0.92; % APCP Titan SRMU, Star 48 BV
             m_kick = ;
-        case "Liquid" %currently biprop
-            %check monoprop
+        case "Centaur V" %Liquid
             isp = 450; % LH2/LOX
             lambda = 0.90; % Centaur Kick Stage
             m_kick = ;
@@ -36,31 +35,40 @@ function [final_v, v_inf,m_kick, m_prop, m_inert] = generateC3( candidateArchite
             
     end
 
-    %% Switch statement to determine max payload (kg), (TOTAL MASS FOR KICK STAGE), at C3 = 0
+    %% Switch statement to determine C3 (km^2/s^2) at given 
+    % Uses equations from curvefit of C3 vs mass
     switch candidateArchitecture.LaunchVehicle
         case "SLS"
             %m_kick = 44300; % SLS Block 2 Assumption at C3 = 0;
             C3 = curvefit( m_kick );
-        case "Falcon Heavy"
+        case "Falcon Heavy Recoverable"
             %m_kick = 9979.03; % 11 tons to LEO
-            C3 = curvefit( m_kick );
+            C3 = -6.19433969053741e-11 * (m_kick)^3 + ...
+                1.348688172148435e-06 * (m_kick)^2 -0.0160 * m_kick ...
+                + 64.84;
         case "Falcon Heavy Expendable"
-            C3 = curvefit( m_kick );
-        case "Starship" % NEED MASS OF KICK
-            m_kick = 50000; %A GUESS VALUE
+            C3 = -2.202623249080307e-11 * (m_kick)^3 + ...
+                8.680612077815912e-07 * (m_kick)^2 -0.0155 * m_kick ...
+                + 110.4074;
+        case "Starship" % NEED M0ASS OF KICK
+            %m_kick = 50000; %A GUESS VALUE
             C3 = curvefit( m_kick );
         case "New Glenn"
-            m_kick = 7100;
-            C3 = curvefit( m_kick );
-%         case "Atlas V"
-%             %m_kick = 6750;
-%             C3 = curevfit( m_kick );
+            %m_kick = 7100;
+            C3 = -4.42248334552639e-11 * (m_kick)^3 + ...
+                4.98373417329502e-07 * (m_kick)^2 + -0.0055 * m_kick ...
+                + 30.7952;
         case "Vulcan 6S"
             %m_kick = 10800;
-            C3 = curvefit( m_kick );
-%         case "Delta IV Heavy"
-%             %m_kick = 10500;
-%             C3 = curevfit( m_kick );
+            C3 = -6.89376184059982e-11 * (m_kick)^3 + ...
+                1.82960892594491e-06 * (m_kick)^2 + -0.0225 * m_kick ...
+                + 116.117;
+%       case "Delta IV Heavy"
+%           %m_kick = 10500;
+%           C3 = curevfit( m_kick );
+%       case "Atlas V"
+%           %m_kick = 6750;
+%           C3 = curevfit( m_kick );
         otherwise 
             
     end
