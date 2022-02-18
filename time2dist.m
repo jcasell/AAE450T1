@@ -11,7 +11,7 @@ checkFlag = 0;
 initialTA = acosd(1 / ecc * (sma*(1 - ecc^2)/r0 - 1));
 initialH = 2*atanh(tand(initialTA/2) * sqrt((ecc - 1)/(ecc + 1)));
 
-t2p = (ecc*sinh(initialH) - initialH) / sqrt(muSun / abs(sma)^3);
+% t2p = (ecc*sinh(initialH) - initialH) / sqrt(muSun / abs(sma)^3);
 guessR = 150 * au2km;
 
 while checkFlag == 0 
@@ -19,17 +19,19 @@ while checkFlag == 0
     finalH = 2*atanh(tand(finalTA/2) * sqrt((ecc - 1)/(ecc + 1)));
     
     travelTime = (ecc*sinh(finalH) - finalH - ecc*sinh(initialH) + initialH) / sqrt(muSun / abs(sma)^3);
-    coastPhase = travelTime - t2p; coastPhase = coastPhase / (3600*24*365.25);
+    travelTime = travelTime / (3600*24*365.25);
+%     coastPhase = travelTime - t2p; coastPhase = coastPhase / (3600*24*365.25);
    
-    checkParam = 35 - (coastPhase + elapsedTime);
+%     checkParam = 35 - (coastPhase + elapsedTime);
+    checkParam = elapsedTime - travelTime;
     if abs(checkParam) <= 0.5
         checkFlag = 1;
     end
 
     if checkParam > 0
-        guessR = guessR*1.05;
+        guessR = guessR*1.005;
     else
-        guessR = guessR*0.95;
+        guessR = guessR*0.995;
     end
 end
 
