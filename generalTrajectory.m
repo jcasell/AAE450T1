@@ -64,7 +64,7 @@ elseif candidateArchitecture.Trajectory == "JupSat"
     phase1Time = phase1Time + TOF;
 
     totalTOF = [phase1Time,phase2Time,phase3Time];
-elseif candidateArchitecture.Trajectory == "Log Spiral"
+elseif (candidateArchitecture.Trajectory == "Log Spiral") || (candidateArchitecture.Trajectory == "SolarGrav")
     % Initialize Solar Sail Variables
     r0 = a_earth; rF = a_mercury; beta = 0.9;
 
