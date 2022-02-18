@@ -1,12 +1,12 @@
-function [final_v, added_V,m_kick, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay, kick_Stage, num_Kick )
+function [final_v, added_V,m_kick, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay )
     % Inputs: Launch Vehicle, Kick Stage Propulsion, C3 values (0,10,20,30,40,50,60,70,80,90,100, 110, 120)
     % Outputs: Delta V, Delta V caused by Kick Stage, Mass Payload, Structural Mass, Mass Propellant
 
     %% Setting Constants and Assumed Values (values to iterate over)
   
     array_LV = ["SLS", "Falcon Heavy", "Starship", "New Glenn", "Atlas V", "Vulcan 6S","Delta IV Heavy"]; % Array of Launch Vehicles
-    array_kick = ["Solid", "Liquid", "Nuclear", "Hybrid", "None"]; % Array of Kick Stages
-    kick_stage = ["Centaur III", "Centaur V", "Star 48"];
+    kick_Stage = ["Centaur III", "Centaur V", "Star 48"];
+    num_Kick = [0, 1, 2];
     g_E = 9.81; % (m/s^2)
     v_esc_E = 11200; % Escape velocity of Earth from LEO m/s
     
@@ -36,7 +36,7 @@ function [final_v, added_V,m_kick, m_prop, m_inert] = generateC3( candidateArchi
     end
 
     %% Adding the combination of the mass of kick if kick stage = 2
-    if( num_Kick == 2 )
+    if( candidateArchitecture.num_Kick == 2 )
         
     end 
 
@@ -78,7 +78,7 @@ function [final_v, added_V,m_kick, m_prop, m_inert] = generateC3( candidateArchi
     end
 
     %% Calculations     
-    if(num_Kick == 1)        
+    if(candidateArchitecture.num_Kick == 1)        
         % Calculation mass propellant, inert mass, and Mass Ratio
         m_prop = (m_kick - m_pay) * lambda;
         m_inert = (m_kick - m_pay - m_prop); % Structural mass of the kick stage (Mass minus final payload and propellant)
@@ -86,21 +86,20 @@ function [final_v, added_V,m_kick, m_prop, m_inert] = generateC3( candidateArchi
 
         % Calculation of Velocity Infinite with rocket equation (km/s)
         added_V = g_E * isp * log(MR); 
-    elseif(num_kick == 2)
-        %stage1:
+    elseif(candidateArchitecture.num_Kick == 2)
+        %Stage 1:
         m_prop1 = (m_kick1 - m_pay - m_kick2) * lambda1;
         m_inert1 = (m_kick1 - m_pay - m_kick2 - m_prop1); 
         MR = ((m_pay + m_kick2) + m_prop1 + m_inert1) / (m_pay + m_inert1); 
 
         added_V = g_E * isp * log(MR); 
         
-        %stage2:
+        %Stage 2:
         m_prop2 = (m_kick2 - m_pay) * lambda1;
         m_inert2 = (m_kick2 - m_pay - m_prop2); 
         MR = (m_pay + m_prop2 + m_inert2) / (m_pay + m_inert2); 
 
         added_V = added_V + g_E * isp * log(MR);
-
     else %num_kick = 0
         added_V = 0;
     end
