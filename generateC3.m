@@ -1,4 +1,4 @@
-function [final_v, added_V,m_kick, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay )
+function [final_v, added_V, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay )
     % Inputs: Launch Vehicle, Kick Stage Propulsion, C3 values (0,10,20,30,40,50,60,70,80,90,100, 110, 120)
     % Outputs: Delta V, Delta V caused by Kick Stage, Mass Payload, Structural Mass, Mass Propellant
 
@@ -17,11 +17,11 @@ function [final_v, added_V,m_kick, m_prop, m_inert] = generateC3( candidateArchi
         case "Star 48BV" % Solid Rocket 
             isp = 286;
             lambda = 0.939;
-            m_kick = 2137 + m_pay;
+            m_kick1 = 2137 + m_pay;
         case "Centaur V" %Liquid
             isp = 451; % LH2/LOX
             lambda = 0.91; % Centaur Kick Stage
-            m_kick = 22825 + m_pay;
+            m_kick1 = 22825 + m_pay;
         case "Nuclear" % LOOK AT BMX TECHNOLOGIES
             isp = 875; 
             lambda = 0.74; 
@@ -31,7 +31,7 @@ function [final_v, added_V,m_kick, m_prop, m_inert] = generateC3( candidateArchi
             lambda = 0.875; 
             m_kick = ;
         otherwise % No kick stage
-            m_kick = m_pay;
+            m_kick1 = m_pay;
             
     end
 
@@ -44,34 +44,34 @@ function [final_v, added_V,m_kick, m_prop, m_inert] = generateC3( candidateArchi
     % Uses equations from curvefit of C3 vs mass
     switch candidateArchitecture.LaunchVehicle
         case "SLS Block 1"
-            C3 = -1.36254651049771e-11 * (m_kick)^3 + ...
-                8.34210950132914e-07 * (m_kick)^2 + -0.0189976032356646 ...
-                * m_kick + 172.041984919931;
+            C3 = -1.36254651049771e-11 * (m_kick1)^3 + ...
+                8.34210950132914e-07 * (m_kick1)^2 + -0.0189976032356646 ...
+                * m_kick1 + 172.041984919931;
         case "SLS Block 1B"
-            C3 = -1.15085276593111e-12 * (m_kick)^3 + ...
-                1.18020100654521e-07 * (m_kick)^2 + ...
-                -0.00587448959766228 * m_kick + 119.768784427882;
+            C3 = -1.15085276593111e-12 * (m_kick1)^3 + ...
+                1.18020100654521e-07 * (m_kick1)^2 + ...
+                -0.00587448959766228 * m_kick1 + 119.768784427882;
         case "SLS Block 2"
-            C3 = -1.10638439713243e-12 * (m_kick)^3 + ...
-                1.21222227649818e-07 * (m_kick)^2 + ...
-                -0.00602174622627308 * m_kick + 124.597075687923;
+            C3 = -1.10638439713243e-12 * (m_kick1)^3 + ...
+                1.21222227649818e-07 * (m_kick1)^2 + ...
+                -0.00602174622627308 * m_kick1 + 124.597075687923;
         case "Falcon Heavy Recoverable"
-            C3 = -6.19433969053741e-11 * (m_kick)^3 + ...
-                1.348688172148435e-06 * (m_kick)^2 + -0.0160 * m_kick ...
+            C3 = -6.19433969053741e-11 * (m_kick1)^3 + ...
+                1.348688172148435e-06 * (m_kick1)^2 + -0.0160 * m_kick1 ...
                 + 64.84;
 %         case "Falcon Heavy Expendable"
 %             C3 = -2.202623249080307e-11 * (m_kick)^3 + ...
 %                 8.680612077815912e-07 * (m_kick)^2 + -0.0155 * m_kick ...
 %                 + 110.4074;
         case "Starship" 
-            C3 = curvefit( m_kick );
+            C3 = curvefit( m_kick1 );
         case "New Glenn"
-            C3 = -4.42248334552639e-11 * (m_kick)^3 + ...
-                4.98373417329502e-07 * (m_kick)^2 + -0.0055 * m_kick ...
+            C3 = -4.42248334552639e-11 * (m_kick1)^3 + ...
+                4.98373417329502e-07 * (m_kick1)^2 + -0.0055 * m_kick1 ...
                 + 30.7952;
         case "Vulcan 6S"
-            C3 = -6.89376184059982e-11 * (m_kick)^3 + ...
-                1.82960892594491e-06 * (m_kick)^2 + -0.0225 * m_kick ...
+            C3 = -6.89376184059982e-11 * (m_kick1)^3 + ...
+                1.82960892594491e-06 * (m_kick1)^2 + -0.0225 * m_kick1 ...
                 + 116.117;
         otherwise 
             
@@ -80,8 +80,8 @@ function [final_v, added_V,m_kick, m_prop, m_inert] = generateC3( candidateArchi
     %% Calculations     
     if(candidateArchitecture.num_Kick == 1)        
         % Calculation mass propellant, inert mass, and Mass Ratio
-        m_prop = (m_kick - m_pay) * lambda;
-        m_inert = (m_kick - m_pay - m_prop); % Structural mass of the kick stage (Mass minus final payload and propellant)
+        m_prop = (m_kick1 - m_pay) * lambda;
+        m_inert = (m_kick1 - m_pay - m_prop); % Structural mass of the kick stage (Mass minus final payload and propellant)
         MR = (m_pay + m_prop + m_inert) / (m_pay + m_inert); % Mass Ratio
 
         % Calculation of Velocity Infinite with rocket equation (km/s)
