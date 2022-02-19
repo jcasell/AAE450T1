@@ -1,7 +1,7 @@
 function [Science, Cost, Reliability, ttHP] = MissionCalc(candidateArchitecture)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function Name: MissionCalc
-%Description: Calculaes results of a given candidate arcitecture mission.
+%Description: Calculates results of a given candidate arcitecture mission.
 %Inputs: candidateArchitecture (Design of Mission from Morph Matrix)
 %Outputs: Science (Science Value), Cost (F2022 Dollars Total Mission Cost),
 %Reliability (Mission Reliability), ttHP(Time to Heliopause)
@@ -29,7 +29,7 @@ else
 end 
 
 %Calculate Trajectory
-totalTOF = generalTrajectory(candidateArchitecture,final_v,deltaV);
+[totalTOF,~,~] = generalTrajectory(candidateArchitecture,final_v,deltaV);
 refTOF = [14.8425 4.2342 9.4374];
 ttHP = totalTOF(1)+totalTOF(2);
 

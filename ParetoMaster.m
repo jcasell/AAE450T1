@@ -14,7 +14,7 @@ Telem = ["Ka" "X" "S"];     %Telemetry Band
 Prop = ["Chemical" "Solar Sail" "BHT_100" "BHT_600"];   %Propulsion Options
 Power = ["RTG Nuclear" "Solar Panel/Nuclear" "Solar Panel"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
-Traj = ["JupNep" "JupSat" "JupNepO" "JupSatO"]; %Trajectory Options (O indicates impulse manuever during GA)
+Traj = ["JupSat" "JupSatO" "Log Spiral" "Solar Grav"]; %Trajectory Options (O indicates impulse manuever during GA)
 LaunchV = ["SLS" "Falcon Heavy" "Vulcan 6S" "Starship"];    %Launch Vehicle Options
 Kick = ["Solid" "Liquid" "Hybrid" "None"];   %Kick Stages Options
 
