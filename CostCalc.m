@@ -127,7 +127,7 @@ LOOScost = 1.29*5850;
 
 %Table 11-29 Ops Cost Estimate
 %Keep Full Budget for first 5 years, cut 33 % for the last 30 years
-opsCost = 1.29 * 5690 * 5 + 1.29*((2/3)*5690*30);
+opsCost = 1.29 * 5690 * 10;
 
 total_Cost = (costVehRec+costVehNRec+costProgNRec+costProgRec+AGEcost+LOOScost+opsCost+costTTC+costIntRec+costIntNRec);
 

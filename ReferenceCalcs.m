@@ -13,9 +13,12 @@ candidateArchitecture.LaunchVehicle = "SLS";
 candidateArchitecture.Kick = "Liquid";
 
 
+
 [sci_instr, cost_instr, m_instr, power_instr] = Instrumentation(candidateArchitecture)
 
 m_spacecraft = m_instr / 0.15
+
+cost_vec = CostCalc(candidateArchitecture,m_spacecraft)
 
 power_spacecraft = power_instr / 0.22
 
