@@ -29,12 +29,12 @@ else
 end 
 
 %Calculate Trajectory
-[totalTOF,~,~,EndOfLifeS] = generalTrajectory(candidateArchitecture,final_v,deltaV);
+[totalTOF,ENATime,LYATime,EndOfLifeS] = generalTrajectory(candidateArchitecture,final_v,deltaV);
 refTOF = [14.8425 4.2342 9.4374];
 ttHP = totalTOF(1)+totalTOF(2);
 
 %Calculate Telemetry Data Rate
-DataRate = TelemetryFOA (candidateArchitecture,totalTOF,EndOfLifeS);
+DataRate = TelemetryFOA (candidateArchitecture,totalTOF,ENATime,LYATime,EndOfLifeS);
 refDataRate = [1.6714e22 1.2346e9 8.8774e8];
 
 %Total Science
