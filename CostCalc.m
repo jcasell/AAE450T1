@@ -1,4 +1,4 @@
-function [Cost] = CostCalc(candidateArchitecture,m_spacecraft)
+function [Cost] = CostCalc(candidateArchitecture,m_spacecraft,m_xenon)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function Name: CostCalc
 %Description: Calculates cost of Morph Matrix components
@@ -17,6 +17,8 @@ kick =  candidateArchitecture.Kick;
 
 %All Costs in Thousands
 
+%Assuming no non recurring costs for Prop, TTC, Power, Instruments, Kick
+
 %Communication Network Cost
 if comm == "DSN"
     costTTC = 133*10^3;
@@ -33,8 +35,10 @@ elseif prop == "Chemical"
     costProp = 11.3*10^3;
 elseif prop == "Solar Sail"
     costProp = 35*10^3;
-elseif prop == "Plasma"
-    costProp =  45*10^3;
+elseif prop == "BHT_100"
+    costProp =  5*10^2 + m_xenon;   % $1000/kg Xenon estimated from https://trs.jpl.nasa.gov/bitstream/handle/2014/45452/08-2765_A1b.pdf?sequence=1
+elseif prop == "BHT_600"        % Thruster costs estimated from above AIAA report
+    costProp =  3*10^3 + m_xenon;
 else
     costProp = 0;
 end
@@ -71,9 +75,9 @@ end
 %SMAD Cost Calculations Includes Non-Recurring Developement and Single
 %System Cost
 
-%Spacecraft Bus if NO OTHER CER
-%costBusNRec = 1.29*(108*m_spacecraft)
-%costBusRec = 1.29*(283.5*(m_spacecraft^0.716));
+%Spacecraft Bus if NO OTHER CER Used
+optionalBusCostNRec = 1.29*(108*m_spacecraft);
+optionalBusCostRec = 1.29*(283.5*(m_spacecraft^0.716));
 
 %Structure and Thermal Control
 % 6% of total mass using table A-2 SMAD
@@ -86,7 +90,7 @@ costAttNRec = 1.29*(324*(m_spacecraft*0.06));
 costAttRec = 1.29*(795*(m_spacecraft*0.06)^0.593);
 
 %Total Bus Cost SUM OF ABOVE
-costBusRec = costThermRec+costAttRec+costPower+costKick;
+costBusRec = costThermRec+costAttRec+costPower+costKick+costProp;
 costBusNRec = costThermNRec+costAttNRec;
 
 %Communications Payload
@@ -94,13 +98,14 @@ costBusNRec = costThermNRec+costAttNRec;
 costCommNRec = 1.29*(618*(m_spacecraft*0.07));
 costCommRec = 1.29*(189*(m_spacecraft*0.07));
 
+%Space Vehicle Cost SUM OF ABOVE USE IN TOTAL WITH PROG AND OTHER
+costVehRec = costBusRec+costCommRec+costInst;
+costVehNRec = costBusNRec + costCommNRec;
+
 %Integration Assembly and Test
 costIntRec = 0.195*(costBusRec+costCommRec+costInst);
 costIntNRec = 0.124*(costBusNRec+costCommNRec);
 
-%Space Vehicle Cost SUM OF ABOVE USE IN TOTAL WITH PROG AND OTHER
-costVehRec = costBusRec+costCommRec+costInst;
-costVehNRec = costBusNRec + costCommNRec;
 
 %Prog Lev Cost
 costProgNRec = 0.357*(costVehNRec+costIntNRec);
@@ -108,12 +113,26 @@ costProgRec = 0.320*(costVehRec+costIntRec);
 
 %Other Costs
 AGEcost = 1.29*(0.432*(costBusNRec/1.29)^0.907+2.244);
+
 LOOScost = 1.29*5850;
 
 %Ops Cost
-techCount = 6;
-engCount = 34-6;
+%Table 11-25 Ops Cost Estimate
+%Keep full team for first 5 years, cut extra staff for last 30 years
+% techCount = 6;
+% engCount = 34-6;
+% engCount_cut = engCount - 10;
+% techCount_cut = techCount - 2;
+% opsCost = 1.29*5*(techCount*150+engCount*200) + 1.29*30*(techCount_cut*150+engCount_cut*200);
 
-opsCost = 35*(techCount*150+engCount*200);
+%Table 11-29 Ops Cost Estimate
+%Keep Full Budget for first 5 years, cut 33 % for the last 30 years
+opsCost = 1.29 * 5690 * 5 + 1.29*((2/3)*5690*30);
 
-Cost = (10^-3)*(costVehRec+costVehNRec+costProgNRec+costProgRec+AGEcost+LOOScost+opsCost);
+total_Cost = (costVehRec+costVehNRec+costProgNRec+costProgRec+AGEcost+LOOScost+opsCost+costTTC+costIntRec+costIntNRec);
+
+%Cost Vector
+Cost = [costTTC, costProp, costPower, costInst,  costKick, costThermRec, costThermNRec, costAttRec, costAttNRec, costCommRec, costCommNRec, costIntRec, costIntNRec, costProgRec, costProgNRec, AGEcost, LOOScost, opsCost, total_Cost]/(1e3);
+
+
+end
