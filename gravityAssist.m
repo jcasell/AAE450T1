@@ -1,4 +1,4 @@
-function [v_dep,fpa_dep] = gravityAssist(planet_name,v_arr,fpa_arr)
+function [v_dep,fpa_dep,dv_eq_vec] = gravityAssist(planet_name,v_arr,fpa_arr)
 %% Gravity Assist Calculation Function
 % This function will determine the changed trajectory of the spacecraft
 % after a gravity assist. Assumes that departure FPA is 0 and determines

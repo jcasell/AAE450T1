@@ -24,10 +24,9 @@ currentV = v0; currentFPA = 0;
 for i = 1:2
     [sma, ecc, ta0,taf] = getTA(rList(i),currentV,rList(i+1),currentFPA);
     [vArrival, fpaArr] = getFPA(rList(i),currentV,rList(i+1),currentFPA);
-    [currentV,currentFPA] = gravityAssist(planetList{i},vArrival,fpaArr);
+    [currentV,currentFPA,eqDV] = gravityAssist(planetList{i},vArrival,fpaArr);
 
     paramList(i,:) = [sma,ecc,ta0,taf];
-    
 end
 
 disp(paramList);
