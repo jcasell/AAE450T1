@@ -6,7 +6,7 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
   
     array_LV = ["SLS Block 1", "SLS Block 1B", "SLS BLock 2", "Falcon Heavy", "Starship", "New Glenn", "Vulcan 6S"]; % Array of Launch Vehicles
     kick_Stage = ["Star 48BV", "Centaur V", "Nuclear", "Hybrid", "Centaur V & Star 48BV", ...
-        "Centaur V & Nuclear", "Centaur V & Hybrid", "Star 48BV & Hybrid", "Star48 BV & Nuclear", ...
+        "Centaur V & Nuclear", "Centaur V & Hybrid", "Star 48BV & Hybrid", "Star 48 BV & Nuclear", ...
         "Hybrid & Nuclear", "No Kick Stage"];
     num_Kick = [0, 1, 2];
     g_E = 9.81; % (m/s^2)
@@ -120,6 +120,8 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
     invalid = false;
     if(C3 < 0) 
         invalid = true;
+        final_v = 0;
+        added_V = 0;
         return
     end 
 
