@@ -147,6 +147,7 @@ if PhaseTime(4) < 0
     bitsB = 0;
     return
 end
+
 %Bonus A Bits
 DistA = linspace(SBonusA,S3,100);%Breaks the Bonus Phase A distances into 100 slices
 MiniTimeA = PhaseTime(4)/100;%Solves for time per slice

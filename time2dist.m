@@ -22,7 +22,7 @@ while checkFlag == 0
     coastPhase = travelTime - t2p; coastPhase = coastPhase / (3600*24*365.25);
    
     checkParam = 35 - (coastPhase + elapsedTime);
-    if abs(checkParam) <= 0.5
+    if abs(checkParam) <= 0.25 %Time of flight must be within a certain year range. Here, it is 0.5 years (6 months)
         checkFlag = 1;
     end
 
