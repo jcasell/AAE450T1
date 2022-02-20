@@ -46,13 +46,27 @@ else
 end
 
 %Power Source Cost
-if power == "RTG Nuclear"
-    costPower = 100*10^3;
-elseif power == "Solar Panel/Nuclear"
-    costPower = 108*10^3;
-else
-    costPower = 0;
+%Instrument Power Calc
+if inst == "Minimum"
+    instPower = 302.6666667;
+elseif inst == "Mid Level"
+    instPower = 436;
+elseif inst == "High Level"
+    instPower = 596;
 end
+%Power Source Cost Calculation
+if prop == "BHT_100"
+    costPower = (instPower+75)*270*1.28/1000;
+elseif prop =="BHT_600"
+    costPower = (instPower+300)*270*1.28/1000;
+else
+    costPower = (instPower)*270*1.28/1000;
+end
+
+if power == "Solar Panel/Nuclear"
+    costPower = costPower + 8;
+end
+
 
 %Instrument Package Cost
 if inst == "Minimum"
@@ -64,14 +78,29 @@ elseif inst == "High Level"
 end
 
 %Kick Stage Cost
-if kick == "Solid Motor"
-    costKick = 13.046*10^3;
-elseif kick == "Liquid"
-    costKick = 38.73*10^3;
-elseif kick == "Hybrid"
-    costKick = 32.32*10^3;
-else
-    costKick = 0;
+switch candidateArchitecture.Kick 
+    case "Star 48BV"
+        costKick = 79.32;
+    case "Centaur V"
+        costKick = 72;
+    case "Nuclear" 
+        costKick = 378.26;
+    case "Hybrid" 
+        costKick = 81.66675143;
+    case "Centaur V & Star 48BV"
+        costKick = 79.32811264 + 72;
+    case "Centaur V & Nuclear" 
+        costKick = 72 + 378.16;
+    case "Centaur V & Hybrid"
+        costKick = 72 + 81.66675143;
+     case "Star 48BV & Hybrid"
+        costKick = 79.32 + 81.66675143;
+    case "Star 48BV & Nuclear"
+        costKick = 79.32 + 378.26;
+    case "Hybrid & Nuclear"
+        costKick = 81.66675143 + 378.26;
+    otherwise 
+        costKick = 0;
 end
 
 %SMAD Cost Calculations Includes Non-Recurring Developement and Single
