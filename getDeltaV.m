@@ -28,5 +28,5 @@ else
     m_prop = 0;
     m_inert = 0;
 end
-deltaV = g*isp*log((m_inert + m_spacecraft + m_prop)/(m_inert + m_spacecraft))/1000; % [km/s]
+deltaV = g*isp*log((m_inert + m_spacecraft + m_prop)/(m_inert + m_spacecraft)); % [m/s]
 end
