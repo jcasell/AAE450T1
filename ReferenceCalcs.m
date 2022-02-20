@@ -13,6 +13,7 @@ candidateArchitecture.LaunchVehicle = "SLS Block 2";
 candidateArchitecture.Kick = "Star48BV";
 candidateArchitecture.num_Kick = 1;
 
+[science, cost, reliability, ttHP, invalid] = MissionCalc(candidateArchitecture)
 
 
 [sci_instr, cost_instr, m_instr, power_instr] = Instrumentation(candidateArchitecture)
