@@ -18,8 +18,8 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
     switch candidateArchitecture.Kick 
         case "Star 48BV" % Solid Rocket 
             isp = 286;
-            lambda = 0.928;
-            m_kick1 = 4772 + m_pay;
+            lambda = 0.939;
+            m_kick1 = 2624 + m_pay;
         case "Centaur V" %Liquid
             isp = 451; % LH2/LOX
             lambda = 0.91; % Centaur Kick Stage
@@ -36,8 +36,8 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
             isp1 = 451; % LH2/LOX
             lambda1 = 0.91; % Centaur Kick Stage
             isp2 = 286; %Star 48BV
-            lambda2 = 0.928;
-            m_kick2 = 4772 + m_pay;
+            lambda2 = 0.939;
+            m_kick2 = 2624 + m_pay;
             m_kick1 = 22825 + m_kick2; %Centaur Kick Stage hauling Star48BV
         case "Centaur V & Nuclear" % LOOK AT BMX TECHNOLOGIES
             isp1 = 451; % LH2/LOX
@@ -59,14 +59,14 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
             isp2 = 325;
             lambda2 = 0.875;
             m_kick2 = 2200 + m_pay; %hybrid
-            m_kick1 = 4772 + m_kick2;
+            m_kick1 = 2624 + m_kick2;
         case "Star 48BV & Nuclear" % Solid Rocket 
             isp2 = 875;
             lambda2 = 0.74;
             isp1 = 286;
             lambda1 = 0.939;
             m_kick2 = 2547.375 + m_pay; %needs to be updated, nuclear
-            m_kick1 = 4772 + m_kick2;
+            m_kick1 = 2624 + m_kick2;
         case "Hybrid & Nuclear" % Hybrid & Nuclear
             isp1 = 875; % nuclear
             lambda1 = 0.74; % nuclear
