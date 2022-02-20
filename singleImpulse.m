@@ -26,10 +26,6 @@ switch planet_name
         a_planet = 1427387908;
         mu_planet = 37940626.0611;
         r_planet = 60268;
-    case "Neptune"
-        a_planet = 4498337290;
-        mu_planet = 6836534.0638;
-        r_planet = 25269;
 end
 
 r_p = pass_dist*r_planet + r_planet; %periapsis of orbit [km]

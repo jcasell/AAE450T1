@@ -1,4 +1,4 @@
-function [Science, Cost, Reliability, ttHP] = MissionCalc(candidateArchitecture)
+function [Science, Cost, Reliability, ttHP, invalid] = MissionCalc(candidateArchitecture)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function Name: MissionCalc
 %Description: Calculates results of a given candidate arcitecture mission.
@@ -19,7 +19,7 @@ m_spacecraft = m_instr / 0.15;
 power_spacecraft = power_instr / 0.22;
 
 %Calculate Prop Code
-[final_v, added_V] = generateC3(candidateArchitecture,m_spacecraft);
+[final_v, invalid, added_V] = generateC3(candidateArchitecture,m_spacecraft);
 
 if (candidateArchitecture.Propulsion == "BHT_600") || (candidateArchitecture.Propulsion == "BHT_100")
     [m_xenon,deltaV] = modElectricProp(candidateArchitecture,m_spacecraft);
@@ -34,7 +34,7 @@ refTOF = [14.8425 4.2342 9.4374];
 ttHP = totalTOF(1)+totalTOF(2);
 
 %Calculate Telemetry Data Rate
-DataRate = TelemetryFOA (candidateArchitecture,totalTOF);
+DataRate = TelemetryFOA (candidateArchitecture,totalTOF,EndOfLifeS);
 refDataRate = [1.6714e22 1.2346e9 8.8774e8];
 
 %Total Science

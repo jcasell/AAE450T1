@@ -9,8 +9,9 @@ candidateArchitecture.Power = "RTG Nuclear";
 candidateArchitecture.Instruments = "Mid Level";
 %candidateArchitecture.Trajectory = "Solar Sail";
 candidateArchitecture.Trajectory = "JupSatO";
-candidateArchitecture.LaunchVehicle = "SLS";
-candidateArchitecture.Kick = "Liquid";
+candidateArchitecture.LaunchVehicle = "SLS Block 2";
+candidateArchitecture.Kick = "Star48BV";
+candidateArchitecture.num_Kick = 1;
 
 
 
@@ -19,10 +20,11 @@ candidateArchitecture.Kick = "Liquid";
 m_spacecraft = m_instr / 0.15
 
 cost_vec = CostCalc(candidateArchitecture,m_spacecraft)
+total_cost = cost_vec(end)
 
 power_spacecraft = power_instr / 0.22
 
-[final_v, m_pay] = generateC3( candidateArchitecture, m_instr)
+[final_v, invalid, added_V] = generateC3(candidateArchitecture,m_spacecraft);
 
 [totalTOF,~,~,endOfLifeDist] = generalTrajectory(candidateArchitecture,final_v,m_spacecraft)
 
