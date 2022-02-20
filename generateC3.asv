@@ -4,7 +4,7 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
 
     %% Setting Constants and Assumed Values (values to iterate over)
   
-    array_LV = ["SLS Block 1", "SLS Block 1B", "SLS BLock 2", "Falcon Heavy", "Starship", "New Glenn", "Vulcan 6S"]; % Array of Launch Vehicles
+    array_LV = ["SLS", "Falcon Heavy", "Starship", "New Glenn", "Atlas V", "Vulcan 6S","Delta IV Heavy"]; % Array of Launch Vehicles
     kick_Stage = ["Star 48BV", "Centaur V", "Nuclear", "Hybrid", "Centaur V & Star 48BV", ...
         "Centaur V & Nuclear", "Centaur V & Hybrid", "Star 48BV & Hybrid", "Star48 BV & Nuclear", ...
         "Hybrid & Nuclear", "No Kick Stage"];
@@ -27,11 +27,11 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
         case "Nuclear" % LOOK AT BMX TECHNOLOGIES
             isp = 875; 
             lambda = 0.74; 
-            m_kick = 2547.375;
+            m_kick = ;
         case "Hybrid" % LOOK AT SIERRA NEVADA
             isp = 325;
             lambda = 0.875; 
-            m_kick = 2200;
+            m_kick = ;
         case "Centaur V & Star 48BV" %Liquid
             isp1 = 451; % LH2/LOX
             lambda1 = 0.91; % Centaur Kick Stage
@@ -116,8 +116,7 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
         otherwise 
             C3 = -1;
     end
-    
-    invalid = false
+
     if(C3 < 0) 
         invalid = true;
         return
