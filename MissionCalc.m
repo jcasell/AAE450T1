@@ -29,7 +29,7 @@ else
 end 
 
 %Calculate Trajectory
-[totalTOF,~,~] = generalTrajectory(candidateArchitecture,final_v,deltaV);
+[totalTOF,~,~,EndOfLifeS] = generalTrajectory(candidateArchitecture,final_v,deltaV);
 refTOF = [14.8425 4.2342 9.4374];
 ttHP = totalTOF(1)+totalTOF(2);
 
