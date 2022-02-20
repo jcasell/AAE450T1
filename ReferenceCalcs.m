@@ -19,6 +19,7 @@ candidateArchitecture.Kick = "Liquid";
 m_spacecraft = m_instr / 0.15
 
 cost_vec = CostCalc(candidateArchitecture,m_spacecraft)
+total_cost = cost_vec(end)
 
 power_spacecraft = power_instr / 0.22
 
