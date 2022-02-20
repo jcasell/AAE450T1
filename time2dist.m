@@ -20,11 +20,11 @@ while checkFlag == 0
     
     travelTime = (ecc*sinh(finalH) - finalH - ecc*sinh(initialH) + initialH) / sqrt(muSun / abs(sma)^3);
     travelTime = travelTime / (3600*24*365.25);
-%     coastPhase = travelTime - t2p; coastPhase = coastPhase / (3600*24*365.25);
+    %coastPhase = travelTime - t2p; coastPhase = coastPhase / (3600*24*365.25);
    
-%     checkParam = 35 - (coastPhase + elapsedTime);
+    %checkParam = 35 - (coastPhase + elapsedTime);
     checkParam = elapsedTime - travelTime;
-    if abs(checkParam) <= 0.5
+    if abs(checkParam) <= 0.25 %Time of flight must be within a certain year range. Here, it is 0.5 years (6 months)
         checkFlag = 1;
     end
 
@@ -36,26 +36,3 @@ while checkFlag == 0
 end
 
 totalDistance = guessR;
-
-%{
-initialH = 2*atanh(tand(initialTA/2) * sqrt((ecc - 1)/(ecc + 1))); %Feeling good about initialH
-
-initialN = ecc*sinh(initialH) - initialH; %Feeling good about this value based on t - tp
-
-meanMotion = sqrt(muSun / abs(sma)^3); %Calculate mean motion of hyperbolic orbit
-finalN = meanMotion * elapsedTime * (3600 * 24 * 365.25) + initialN; %Determine the final mean anomaly using the mean motion
-
-numIte = 10; %Specify number of times to check iterations for Newton method
-
-H = zeros(1, numIte); %Preallocate array of E iterations
-H(1,1) = finalN; %Set first iteration of E equal to M guess
-
-for n = 1:1:numIte-1 %Use Newtonian method outlined in notes to converge on solution for E
-    H(n+1) = H(n) - (H(n) - ecc*sin(H(n)) - finalN) / (1 - ecc*cos(H(n))); %Store each iteration of E
-end
-
-finalH = H(end);
-finalTA = 2*atand(sqrt((ecc + 1)/(ecc - 1)) * tanh(finalH/2));
-
-totalDistance = sma * (1 - ecc^2) / (1 + ecc*cosd(finalTA));
-%}

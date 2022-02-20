@@ -74,6 +74,14 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
             lambda2 = 0.74; % nuclear
             m_kick2 = 0 + m_pay; %needs to be updated, nuclear
             m_kick1 = 0 + m_kick2; %Centaur Kick Stage hauling Hybrid
+%         case "Nuclear" % LOOK AT BMX TECHNOLOGIES
+%             isp = 875; 
+%             lambda = 0.74; 
+%             m_kick = ;
+%         case "Hybrid" % LOOK AT SIERRA NEVADA
+%             isp = 325;
+%             lambda = 0.875; 
+%             m_kick = ;
         otherwise % No kick stage
             m_kick1 = m_pay;
             

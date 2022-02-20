@@ -1,4 +1,4 @@
-function [totalTime,ENATime,LYATime] = coastTime(r0, v0,departFpa)
+function [totalTime,ENATime,LYATime, phase3Dist] = coastTime(r0, v0,departFpa)
 %Function to calculate time spent in each mission phase
 %Take as input initial position (r0), initial velocity (v0), and initial flight
 %path angle (departFPA). Output is time spent in each phase measured in
@@ -18,7 +18,6 @@ phase2Time = detTof(phase1R,phase1V,phase2R,phase1Fpa);
 
 phase3Time = 35-phase2Time-phase1Time;
 phase3Dist = time2dist(phase2R,phase2V, phase3Time, phase2Fpa);
-fprintf("Final Distance: %.4f AU\n",phase3Dist/au2km);
 
 if (phase3Dist/au2km) > 250
     ENARad = 250*au2km; %dist for ENA
@@ -26,7 +25,6 @@ if (phase3Dist/au2km) > 250
     ENATime = phase3Time - ENATime;
 else
     ENATime = 0;
-    LYATime = 0;
 end
 
 if (phase3Dist/au2km) > 300
