@@ -18,9 +18,9 @@ v_earth = sqrt(2*mu_sun/a_earth); %velocity of Earth relative to Sun [km/s]
 v_0 = v_inf + v_earth; %initial velocity of s/c relative to sun [km/s]
 
 %% Calculations
-planet1 = "Jupiter";
-planet2 = "Saturn";
-rad_list = [778279959,1427387908];
+if and(candidateArchitecture.Trajectory ~= "Log Spiral",candidateArchitecture.Trajectory ~= "Solar Grav")
+    [rad_list,planet1,planet2] = getCharacteristics(candidateArchitecture.Trajectory);
+end
 
 if candidateArchitecture.Trajectory == "JupSatO"
     %Earth to First Planet
@@ -44,7 +44,7 @@ if candidateArchitecture.Trajectory == "JupSatO"
     phase1Time = phase1Time + TOF;
 
     totalTOF = [phase1Time,phase2Time,phase3Time];
-elseif candidateArchitecture.Trajectory == "JupSat"
+elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.Trajectory == "MarsJup")
     %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(a_earth,v_0,rad_list(1),0);
     TOF = detTof(a_earth,v_0,rad_list(1),fpa_arr) + TOF;
@@ -64,7 +64,7 @@ elseif candidateArchitecture.Trajectory == "JupSat"
     phase1Time = phase1Time + TOF;
 
     totalTOF = [phase1Time,phase2Time,phase3Time];
-elseif (candidateArchitecture.Trajectory == "Log Spiral") || (candidateArchitecture.Trajectory == "SolarGrav")
+elseif (candidateArchitecture.Trajectory == "Log Spiral") || (candidateArchitecture.Trajectory == "Solar Grav")
     % Initialize Solar Sail Variables
     r0 = a_earth; rF = a_mercury; beta = 0.9;
 
@@ -75,9 +75,9 @@ elseif (candidateArchitecture.Trajectory == "Log Spiral") || (candidateArchitect
     v0 = vF; %Change notation; final velocity on logarithmic trajectory is initial velocity on new orbit
     [v_dep,fpa_dep,tofRadial] = radialSail(a_mercury,v0, 5.2*a_earth,beta);
 
-    if candidateArchitecture.Trajectory == "SolarGrav"
+    if candidateArchitecture.Trajectory == "Solar Grav"
         % Grav Assist
-        [v_dep,fpa_dep] = gravityAssist(planet1,v_dep,fpa_dep);
+        [v_dep,fpa_dep] = gravityAssist("Jupiter",v_dep,fpa_dep);
     end
 
     % Rest of Mission

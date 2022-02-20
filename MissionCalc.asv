@@ -19,14 +19,14 @@ m_spacecraft = m_instr / 0.15;
 power_spacecraft = power_instr / 0.22;
 
 %Calculate Prop Code
-[final_v, invalid, added_V] = generateC3(candidateArchitecture,m_spacecraft);
+[final_v, invalid, added_V] = generateC3(candidateArchitecture,m_spacecraft)
 
 if invalid == true
+    return
     Science = 0;
     Cost = 0;
-    Reliability = 0;
-    ttHP = 0;
-    return
+    m_instr = 0;
+    
 end
 
 if (candidateArchitecture.Propulsion == "BHT_600") || (candidateArchitecture.Propulsion == "BHT_100")

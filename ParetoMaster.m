@@ -53,7 +53,7 @@ for i1 = ComNet
                                 elseif i8 == 1;
                                     KickAllow = ["Star 48BV","Centaur V","Nuclear","Hybrid"];
                                 elseif i8 == 2;
-                                    KickAllow = ["Centaur V & Star 48BV","Centaur V & Nuclear","Centaur V & Hybrid","Star 48BV & Hybrid","Star48 BV & Nuclear","Hybrid & Nuclear"];
+                                    KickAllow = ["Centaur V & Star 48BV","Centaur V & Nuclear","Centaur V & Hybrid","Star 48BV & Hybrid","Star 48BV & Nuclear","Hybrid & Nuclear"];
                                 end
                                 for i9 = KickAllow
                                     candidateArchitecture.Communications = i1;
@@ -63,9 +63,9 @@ for i1 = ComNet
                                     candidateArchitecture.Instruments = i5;
                                     candidateArchitecture.Trajectory = i6;
                                     candidateArchitecture.LaunchVehicle = i7;
-                                    candidateArchitecture.num_Kick = i8
+                                    candidateArchitecture.num_Kick = i8;
                                     candidateArchitecture.Kick = i9;
-                                    
+                              
                                     %Call Mission Program
                                     [science, cost, reliability, ttHP, invalid] = MissionCalc(candidateArchitecture);
 
