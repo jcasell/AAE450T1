@@ -31,7 +31,7 @@ end
 %Propulsion Cost
 if prop == "Nuclear Thermal"
     costProp = 3000*10^3;
-elseif prop == "Chemical"
+elseif prop == "OMS"
     costProp = 11.3*10^3;
 elseif prop == "Solar Sail"
     costProp = 35*10^3;
@@ -55,18 +55,17 @@ elseif inst == "High Level"
     instPower = 596;
 end
 %Power Source Cost Calculation
-if prop == "BHT_100"
-    costPower = (instPower+75)*270*1.28/1000;
-elseif prop =="BHT_600"
-    costPower = (instPower+300)*270*1.28/1000;
+if prop == "BHT-100"
+    costPower = (instPower+75)*270*1.28;
+elseif prop =="BHT-600"
+    costPower = (instPower+300)*270*1.28;
 else
-    costPower = (instPower)*270*1.28/1000;
+    costPower = (instPower)*270*1.28;
 end
 
 if power == "Solar Panel/Nuclear"
-    costPower = costPower + 8;
+    costPower = costPower + 8*1000;
 end
-
 
 %Instrument Package Cost
 if inst == "Minimum"
@@ -80,25 +79,25 @@ end
 %Kick Stage Cost
 switch candidateArchitecture.Kick 
     case "Star 48BV"
-        costKick = 79.32;
+        costKick = 79.32*10^3;
     case "Centaur V"
-        costKick = 72;
+        costKick = 72*10^3;
     case "Nuclear" 
-        costKick = 378.26;
+        costKick = 378.26*10^3;
     case "Hybrid" 
-        costKick = 81.66675143;
+        costKick = 81.66675143*10^3;
     case "Centaur V & Star 48BV"
-        costKick = 79.32811264 + 72;
+        costKick = (79.32811264 + 72)*10^3;
     case "Centaur V & Nuclear" 
-        costKick = 72 + 378.16;
+        costKick = (72 + 378.16)*10^3;
     case "Centaur V & Hybrid"
-        costKick = 72 + 81.66675143;
+        costKick = (72 + 81.66675143)*10^3;
      case "Star 48BV & Hybrid"
-        costKick = 79.32 + 81.66675143;
+        costKick = (79.32 + 81.66675143)*10^3;
     case "Star 48BV & Nuclear"
-        costKick = 79.32 + 378.26;
+        costKick = (79.32 + 378.26)*10^3;
     case "Hybrid & Nuclear"
-        costKick = 81.66675143 + 378.26;
+        costKick = (81.66675143 + 378.26)*10^3;
     otherwise 
         costKick = 0;
 end

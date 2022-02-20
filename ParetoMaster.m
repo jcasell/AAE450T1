@@ -12,13 +12,8 @@ tic
 %Define Possible Matrix Options
 ComNet = ["DSN"]; %Communication Network Options
 Telem = ["Ka" "X" "S"];     %Telemetry Band
-<<<<<<< Updated upstream
 Prop = ["OMS" "Solar Sail" "BHT-100" "BHT-600"];   %Propulsion Options
-Power = ["RTG Nuclear" "Solar Panel/Nuclear" "Solar Panel"];  %Power Source Options
-=======
-Prop = ["Chemical" "Solar Sail" "BHT_100" "BHT_600"];   %Propulsion Options
 Power = ["RTG Nuclear"];  %Power Source Options
->>>>>>> Stashed changes
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
 Traj = ["JupSat" "JupSatO" "Log Spiral" "Solar Grav" "MarsJup"]; %Trajectory Options (O indicates impulse manuever during GA)
 LaunchV = ["SLS Block 2", "Falcon Heavy", "Starship", "New Glenn", "Vulcan 6S"];    %Launch Vehicle Options
@@ -45,7 +40,7 @@ for i1 = ComNet
     for i2 = TelemAllow
         for i3 = Prop
 
-            if i3 == "Chemical"
+            if i3 == "OMS"
                 TrajAllow = ["JupSatO"];
             elseif i3 == "Solar Sail"
                 TrajAllow = ["Log Spiral" "Solar Grav"];

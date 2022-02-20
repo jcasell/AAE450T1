@@ -25,6 +25,8 @@ elseif candidateArchitecture.Propulsion == "OMS"
 else
     isp = 0;
     m_inert = 0;
+    m_prop = 0;
+    m_inert = 0;
 end
 deltaV = g*isp*log((m_inert + m_spacecraft + m_prop)/(m_inert + m_spacecraft))/1000; % [km/s]
 end
