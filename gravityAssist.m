@@ -27,11 +27,11 @@ switch planet_name
         mu_planet = 37940626.0611;
         r_planet = 60268;
         pass_scalar = 10;
-    case "Neptune"
-        a_planet = 4498337290;
-        mu_planet = 6836534.0638;
-        r_planet = 25269;
-        pass_scalar = 2;
+    case "Mars"
+        a_planet = 227987000;
+        mu_planet = 42828;
+        r_planet = 3396.2;
+        pass_scalar = 1.1;
 end
 
 rp = pass_scalar * r_planet;
