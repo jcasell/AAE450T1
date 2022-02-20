@@ -1,4 +1,4 @@
-function Data = TelemetryFOA (candidateArchitecture, PhaseTime, EndOfLifeS)
+function Data = TelemetryFOA (candidateArchitecture, PhaseTime,ENATime,LYATime,EndOfLifeS)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function Name: Telemetry FOA
 %Description: Outputs the projected data per phase based on the telemetry band
@@ -11,6 +11,7 @@ function Data = TelemetryFOA (candidateArchitecture, PhaseTime, EndOfLifeS)
 %Author: Vincent Haight
 %Contributer: Lauren Risany
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+PhaseTime = [PhaseTime ENATime LYATime];
 
 TelemetryBand = candidateArchitecture.Telemetry;
 CommNetwork = candidateArchitecture.Communications;
