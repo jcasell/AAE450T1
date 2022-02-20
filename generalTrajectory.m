@@ -39,7 +39,7 @@ if candidateArchitecture.Trajectory == "JupSatO"
     v_dep = v_dep + deltaV;
     
     %Determine Total TOF 
-    [phaseTimes,ENATime,LYATime] = coastTime(rad_list(2),v_dep,fpa_dep);
+    [phaseTimes,ENATime,LYATime,eolDist] = coastTime(rad_list(2),v_dep,fpa_dep);
     phase1Time = phaseTimes(1); phase2Time = phaseTimes(2); phase3Time = phaseTimes(3);
     phase1Time = phase1Time + TOF;
 
@@ -59,7 +59,7 @@ elseif candidateArchitecture.Trajectory == "JupSat"
     v_dep = v_dep + deltaV;
     
     %Determine Total TOF
-    [phaseTimes,ENATime,LYATime] = coastTime(rad_list(2),v_dep,fpa_dep);
+    [phaseTimes,ENATime,LYATime,eolDist] = coastTime(rad_list(2),v_dep,fpa_dep);
     phase1Time = phaseTimes(1); phase2Time = phaseTimes(2); phase3Time = phaseTimes(3);
     phase1Time = phase1Time + TOF;
 
