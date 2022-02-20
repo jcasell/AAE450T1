@@ -1,11 +1,13 @@
-function [final_v, added_V, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay )
+function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay )
     % Inputs: Launch Vehicle, Kick Stage Propulsion, C3 values (0,10,20,30,40,50,60,70,80,90,100, 110, 120)
     % Outputs: Delta V, Delta V caused by Kick Stage, Mass Payload, Structural Mass, Mass Propellant
 
     %% Setting Constants and Assumed Values (values to iterate over)
   
     array_LV = ["SLS", "Falcon Heavy", "Starship", "New Glenn", "Atlas V", "Vulcan 6S","Delta IV Heavy"]; % Array of Launch Vehicles
-    kick_Stage = ["Centaur III", "Centaur V", "Star 48"];
+    kick_Stage = ["Star 48BV", "Centaur V", "Nuclear", "Hybrid", "Centaur V & Star 48BV", ...
+        "Centaur V & Nuclear", "Centaur V & Hybrid", "Star 48BV & Hybrid", "Star48 BV & Nuclear", ...
+        "Hybrid & Nuclear", "No Kick Stage"];
     num_Kick = [0, 1, 2];
     g_E = 9.81; % (m/s^2)
     v_esc_E = 11200; % Escape velocity of Earth from LEO m/s
@@ -30,15 +32,52 @@ function [final_v, added_V, m_prop, m_inert] = generateC3( candidateArchitecture
             isp = 325;
             lambda = 0.875; 
             m_kick = ;
+        case "Centaur V & Star 48BV" %Liquid
+            isp1 = 451; % LH2/LOX
+            lambda1 = 0.91; % Centaur Kick Stage
+            isp2 = 286; %Star 48BV
+            lambda2 = 0.939;
+            m_kick2 = 2137 + m_pay;
+            m_kick1 = 22825 + m_kick2; %Centaur Kick Stage hauling Star48BV
+        case "Centaur V & Nuclear" % LOOK AT BMX TECHNOLOGIES
+            isp1 = 451; % LH2/LOX
+            lambda1 = 0.91; % Centaur Kick Stage
+            isp2 = 875; 
+            lambda2 = 0.74; 
+            m_kick2 = 0 + m_pay; %needs to be updated, nuclear
+            m_kick1 = 22825 + m_kick2; %Centaur Kick Stage hauling Nuclear
+        case "Centaur V & Hybrid" % LOOK AT SIERRA NEVADA
+            isp1 = 451; % LH2/LOX
+            lambda1 = 0.91; % Centaur Kick Stage
+            isp2 = 325;
+            lambda2 = 0.875; 
+            m_kick2 = 0 + m_pay; %needs to be updated, hybrid
+            m_kick1 = 22825 + m_kick2; %Centaur Kick Stage hauling Hybrid
+         case "Star 48BV & Hybrid" % Solid Rocket 
+            isp1 = 286;
+            lambda1 = 0.939;
+            isp2 = 325;
+            lambda2 = 0.875;
+            m_kick2 = 0 + m_pay; %hybrid
+            m_kick1 = 2137 + m_kick2;
+        case "Star 48BV & Nuclear" % Solid Rocket 
+            isp1 = 286;
+            lambda1 = 0.939;
+            isp2 = 875;
+            lambda2 = 0.74;
+            m_kick2 = 0 + m_pay; %needs to be updated, nuclear
+            m_kick1 = 2137 + m_kick2;
+        case "Hybrid & Nuclear" % Hybrid & Nuclear
+            isp1 = 325; % hybrid
+            lambda1 = 0.875; % Hybrid Kick Stage
+            isp2 = 875; % nuclear
+            lambda2 = 0.74; % nuclear
+            m_kick2 = 0 + m_pay; %needs to be updated, nuclear
+            m_kick1 = 0 + m_kick2; %Centaur Kick Stage hauling Hybrid
         otherwise % No kick stage
             m_kick1 = m_pay;
             
     end
-
-    %% Adding the combination of the mass of kick if kick stage = 2
-    if( candidateArchitecture.num_Kick == 2 )
-        
-    end 
 
     %% Switch statement to determine C3 (km^2/s^2) at given payload mass
     % Uses equations from curvefit of C3 vs mass
@@ -64,7 +103,8 @@ function [final_v, added_V, m_prop, m_inert] = generateC3( candidateArchitecture
 %                 8.680612077815912e-07 * (m_kick)^2 + -0.0155 * m_kick ...
 %                 + 110.4074;
         case "Starship" 
-            C3 = curvefit( m_kick1 );
+            C3 = (0.0047^2 * (log(1500 / (5*m_kick1+120) ) )^2 -0.0032^2 ) ...
+                *1E6;
         case "New Glenn"
             C3 = -4.42248334552639e-11 * (m_kick1)^3 + ...
                 4.98373417329502e-07 * (m_kick1)^2 + -0.0055 * m_kick1 ...
@@ -74,8 +114,13 @@ function [final_v, added_V, m_prop, m_inert] = generateC3( candidateArchitecture
                 1.82960892594491e-06 * (m_kick1)^2 + -0.0225 * m_kick1 ...
                 + 116.117;
         otherwise 
-            
+            C3 = -1;
     end
+
+    if(C3 < 0) 
+        invalid = true;
+        return
+    end 
 
     %% Calculations     
     if(candidateArchitecture.num_Kick == 1)        
@@ -92,14 +137,14 @@ function [final_v, added_V, m_prop, m_inert] = generateC3( candidateArchitecture
         m_inert1 = (m_kick1 - m_pay - m_kick2 - m_prop1); 
         MR = ((m_pay + m_kick2) + m_prop1 + m_inert1) / (m_pay + m_inert1); 
 
-        added_V = g_E * isp * log(MR); 
+        added_V = g_E * isp1 * log(MR); 
         
         %Stage 2:
-        m_prop2 = (m_kick2 - m_pay) * lambda1;
+        m_prop2 = (m_kick2 - m_pay) * lambda2;
         m_inert2 = (m_kick2 - m_pay - m_prop2); 
         MR = (m_pay + m_prop2 + m_inert2) / (m_pay + m_inert2); 
 
-        added_V = added_V + g_E * isp * log(MR);
+        added_V = added_V + g_E * isp2 * log(MR);
     else %num_kick = 0
         added_V = 0;
     end
