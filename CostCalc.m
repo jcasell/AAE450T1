@@ -120,7 +120,7 @@ costAttNRec = 1.29*(324*(m_spacecraft*0.06));
 costAttRec = 1.29*(795*(m_spacecraft*0.06)^0.593);
 
 %Total Bus Cost SUM OF ABOVE
-costBusRec = costThermRec+costAttRec+costPower+costKick+costProp;
+costBusRec = costThermRec+costAttRec+costPower+costProp;
 costBusNRec = costThermNRec+costAttNRec;
 
 %Communications Payload
@@ -153,13 +153,13 @@ LOOScost = 1.29*5850;
 % engCount = 34-6;
 % engCount_cut = engCount - 10;
 % techCount_cut = techCount - 2;
-% opsCost = 1.29*5*(techCount*150+engCount*200) + 1.29*30*(techCount_cut*150+engCount_cut*200);
+% opsCost = 1.29*5*(techCount*150+engCount*200) + 1.29*5*(techCount_cut*150+engCount_cut*200);
 
 %Table 11-29 Ops Cost Estimate
 %Keep Full Budget for first 5 years, cut 33 % for the last 30 years
 opsCost = 1.29 * 5690 * 10;
 
-total_Cost = (costVehRec+costVehNRec+costProgNRec+costProgRec+AGEcost+LOOScost+opsCost+costTTC+costIntRec+costIntNRec);
+total_Cost = (costVehRec+costVehNRec+costProgNRec+costProgRec+AGEcost+LOOScost+opsCost+costTTC+costIntRec+costIntNRec+costKick);
 
 %Cost Vector
 Cost = [costTTC, costProp, costPower, costInst,  costKick, costThermRec, costThermNRec, costAttRec, costAttNRec, costCommRec, costCommNRec, costIntRec, costIntNRec, costProgRec, costProgNRec, AGEcost, LOOScost, opsCost, total_Cost]/(1e3);

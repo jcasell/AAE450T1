@@ -14,17 +14,17 @@ candidateArchitecture.num_Kick = 2;
 
 [science, cost, reliability, ttHP, invalid] = MissionCalc(candidateArchitecture)
 
-% %Calculate Instrument Package and Science
-% [sci_instr, cost_instr, m_instr, power_instr] = Instrumentation(candidateArchitecture);
-% 
-% %Calculate Total Spacecraft Mass
-% %Calculated using Planetary Mission SMAD table A-1
-% m_spacecraft = m_instr / 0.15;
-% 
-% %Calculate Power
-% %Calculated using Planetary Mission SMAD table A-2
-% power_spacecraft = power_instr / 0.22;
-% 
+%Calculate Instrument Package and Science
+[sci_instr, cost_instr, m_instr, power_instr] = Instrumentation(candidateArchitecture);
+
+%Calculate Total Spacecraft Mass
+%Calculated using Planetary Mission SMAD table A-1
+m_spacecraft = m_instr / 0.15
+
+%Calculate Power
+%Calculated using Planetary Mission SMAD table A-2
+power_spacecraft = power_instr / 0.22
+
 % %Calculate Prop Code
 % [final_v, invalid, added_V] = generateC3(candidateArchitecture,m_spacecraft)
 % 

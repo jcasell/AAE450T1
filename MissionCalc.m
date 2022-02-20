@@ -53,7 +53,7 @@ Science = DataRate(1)/refDataRate(1)*sci_instr(1)^3*w(1)+DataRate(2)/refDataRate
 Science = Science + DataRate(4)/refDataRate(4)*sci_instr(4)^3*w_bonus(1) + DataRate(5)/refDataRate(5)*sci_instr(5)^3*w_bonus(2);
 
 %Total Cost
-cost_vec = CostCalc(candidateArchitecture,m_spacecraft,m_prop)
+cost_vec = CostCalc(candidateArchitecture,m_spacecraft,m_prop);
 Cost = cost_vec(end);
 
 %Return Risk
