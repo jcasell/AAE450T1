@@ -9,11 +9,14 @@ function Data = TelemetryFOA (candidateArchitecture, PhaseTime, EndOfLifeS)
 %Outputs: Data (bits) (1x3 vector with data acquired by the ends of the three
 %phases)
 %Author: Vincent Haight
+%Contributer: Lauren Risany
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 TelemetryBand = candidateArchitecture.Telemetry;
 CommNetwork = candidateArchitecture.Communications;
 Instrument = candidateArchitecture.Instruments;
+
+C = 3e8; % the speed of light in m/s
 
 %Convert Phase time to Seconds
 PhaseTime = PhaseTime*365*24*3600;
@@ -43,6 +46,8 @@ else
     disp('Telemetry Band must be in List (Ka, X, S)')
     return
 end
+
+f = C / Lambda; % freqency of signal in Hz
 
 %Depend on Comm Network
 if isequal(CommNetwork,'DSN') %can track at all times [Cost file:///C:/Users/haigh/AppData/Local/Temp/6_NASA_MOCS_2014_10_01_14.pdf pg 14] 
@@ -80,8 +85,11 @@ Ts = 15; %(k) According to Prof Mansell (Cryogenically cooled antennae)
 TsDb = 10*log10(Ts);
 
 %Pointing Loss
-Lp = 1; %Should change with more research
-LpDb = 10*log10(Lp);
+%OLD CALC: Lp = 1; %Should change with more research
+%           LpDb = 10*log10(Lp);
+e = 1; % antenna pointing offset
+theta = 1; % antenna beamwidth in degrees, assumed from Voyager 2
+LpDb = -12*((e / theta)^2);
 
 %Eb/No
 Eb_No_ReqDb = 10.5; % (DB) energy per bit / spectral noise density based on SMAD fig 16-16 pg 474 with error rate 10^-6
@@ -104,10 +112,12 @@ LlDb = 10*log10(Ll);
 P = 20; %(W) Reference Power from Voyager 2 ~20 Watts
 PDb = 10 * log10(P);
 
-%Receiver Gain
+%Receiver Gain in decibles 
 RecEff = 0.55; %typical receive antenna efficiency (AAE590 lec6 pg7)
-Gr = pi^2 * Dr^2 * RecEff / Lambda^2;
-GrDb = 10*log10(Gr);
+% OLD CALC: Gr = pi^2 * Dr^2 * RecEff / Lambda^2; 
+%           GrDb = 10*log10(Gr);
+% Source: https://engineering.purdue.edu/AAECourses/aae450/2008/spring/report_archive/report2nddraftuploads/appendix/avionics/A.2.2.3%20Link%20Budget%20Analysis.doc
+GrDb = -159.59 + log10(Dr) + 20*log10(f) + 10*log10(RecEff);
 
 %Phase 1 Bits
 Dist1 = linspace(600000,S1,100); %Breaks the phase 1 distances into 100 slices
