@@ -27,11 +27,11 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
         case "Nuclear" % LOOK AT BMX TECHNOLOGIES
             isp = 875; 
             lambda = 0.74; 
-            m_kick = 2547.375;
+            m_kick1 = 2547.375;
         case "Hybrid" % LOOK AT SIERRA NEVADA
             isp = 325;
             lambda = 0.875; 
-            m_kick = 2200;
+            m_kick1 = 2200;
         case "Centaur V & Star 48BV" %Liquid
             isp1 = 451; % LH2/LOX
             lambda1 = 0.91; % Centaur Kick Stage
@@ -44,36 +44,36 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
             lambda1 = 0.91; % Centaur Kick Stage
             isp2 = 875; 
             lambda2 = 0.74; 
-            m_kick2 = 0 + m_pay; %needs to be updated, nuclear
+            m_kick2 = 2547.375 + m_pay; %needs to be updated, nuclear
             m_kick1 = 22825 + m_kick2; %Centaur Kick Stage hauling Nuclear
         case "Centaur V & Hybrid" % LOOK AT SIERRA NEVADA
             isp1 = 451; % LH2/LOX
             lambda1 = 0.91; % Centaur Kick Stage
             isp2 = 325;
             lambda2 = 0.875; 
-            m_kick2 = 0 + m_pay; %needs to be updated, hybrid
+            m_kick2 = 2200 + m_pay; %needs to be updated, hybrid
             m_kick1 = 22825 + m_kick2; %Centaur Kick Stage hauling Hybrid
          case "Star 48BV & Hybrid" % Solid Rocket 
             isp1 = 286;
             lambda1 = 0.939;
             isp2 = 325;
             lambda2 = 0.875;
-            m_kick2 = 0 + m_pay; %hybrid
+            m_kick2 = 2200 + m_pay; %hybrid
             m_kick1 = 2137 + m_kick2;
         case "Star 48BV & Nuclear" % Solid Rocket 
-            isp1 = 286;
-            lambda1 = 0.939;
-            isp2 = 875;
-            lambda2 = 0.74;
-            m_kick2 = 0 + m_pay; %needs to be updated, nuclear
-            m_kick1 = 2137 + m_kick2;
+            isp1 = 875;
+            lambda1 = 0.74;
+            isp2 = 286;
+            lambda2 = 0.939;
+            m_kick2 = 2137 + m_pay; %needs to be updated, nuclear
+            m_kick1 = 2547.375 + m_kick2;
         case "Hybrid & Nuclear" % Hybrid & Nuclear
-            isp1 = 325; % hybrid
-            lambda1 = 0.875; % Hybrid Kick Stage
-            isp2 = 875; % nuclear
-            lambda2 = 0.74; % nuclear
-            m_kick2 = 0 + m_pay; %needs to be updated, nuclear
-            m_kick1 = 0 + m_kick2; %Centaur Kick Stage hauling Hybrid
+            isp1 = 875; % nuclear
+            lambda1 = 0.74; % nuclear
+            isp2 = 325; % hybrid
+            lambda2 = 0.875; % Hybrid Kick Stage
+            m_kick2 = 2200 + m_pay; %needs to be updated, nuclear
+            m_kick1 = 2547.375 + m_kick2; %Centaur Kick Stage hauling Hybrid
         otherwise % No kick stage
             m_kick1 = m_pay;
             
@@ -103,7 +103,7 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
 %                 8.680612077815912e-07 * (m_kick)^2 + -0.0155 * m_kick ...
 %                 + 110.4074;
         case "Starship" 
-            C3 = (0.0047^2 * (log(1500 / (5*m_kick1+120) ) )^2 -0.0032^2 ) ...
+            C3 = (0.0047^2 * (log(1500 / (5 * m_kick1+120) ) )^2 -0.0032^2 ) ...
                 *1E6;
         case "New Glenn"
             C3 = -4.42248334552639e-11 * (m_kick1)^3 + ...
@@ -117,7 +117,7 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
             C3 = -1;
     end
     
-    invalid = false
+    invalid = false;
     if(C3 < 0) 
         invalid = true;
         return
@@ -134,9 +134,9 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
         added_V = g_E * isp * log(MR); 
     elseif(candidateArchitecture.num_Kick == 2)
         %Stage 1:
-        m_prop1 = (m_kick1 - m_pay - m_kick2) * lambda1;
-        m_inert1 = (m_kick1 - m_pay - m_kick2 - m_prop1); 
-        MR = ((m_pay + m_kick2) + m_prop1 + m_inert1) / (m_pay + m_inert1); 
+        m_prop1 = (m_kick1 - m_kick2) * lambda1;
+        m_inert1 = (m_kick1 - m_kick2 - m_prop1); 
+        MR = (m_kick2 + m_prop1 + m_inert1) / (m_kick2 + m_inert1); 
 
         added_V = g_E * isp1 * log(MR); 
         
@@ -151,8 +151,4 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
     end
     
     final_v = (added_V + sqrt(C3) + v_esc_E)/1000;
-
-    if candidateArchitecture.Trajectory == "JupNepO" || candidateArchitecture.Trajectory == "JupSatO" 
-        final_v = final_v - 700/1000;
-    end
 end
