@@ -82,7 +82,7 @@ optionalBusCostRec = 1.29*(283.5*(m_spacecraft^0.716));
 %Structure and Thermal Control
 % 6% of total mass using table A-2 SMAD
 costThermNRec = 1.29*(646*(m_spacecraft*0.06)^0.684);
-costThermRec = 1.29*(22.5*(m_spacecraft*0.06));
+costThermRec = 1.29*(22.6*(m_spacecraft*0.06));
 
 %Attitude Determination and Control System
 % 6% of total mass using table A-2 SMAD
