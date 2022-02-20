@@ -103,7 +103,7 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
 %                 8.680612077815912e-07 * (m_kick)^2 + -0.0155 * m_kick ...
 %                 + 110.4074;
         case "Starship" 
-            C3 = (0.0047^2 * (log(1500 / (5 * m_kick1+120) ) )^2 -0.0032^2 ) ...
+            C3 = (0.0047^2 * (log(1500 / (5 * (m_kick1 / 1000)+120) ) )^2 - 0.0032^2 ) ...
                 *1E6;
         case "New Glenn"
             C3 = -4.42248334552639e-11 * (m_kick1)^3 + ...
@@ -153,8 +153,4 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
     end
     
     final_v = (added_V + sqrt(C3) + v_esc_E)/1000;
-
-    if candidateArchitecture.Trajectory == "JupNepO" || candidateArchitecture.Trajectory == "JupSatO" 
-        final_v = final_v - 700/1000;
-    end
 end
