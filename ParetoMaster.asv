@@ -49,13 +49,14 @@ for i1 = ComNet
                         for i7 = LaunchV
                             for i8 = NumKick
                                 if i8 == 0;
-                                    KickAllow = ["No Kick Stage"];
+                                    KickAllow = ["None"]
                                 elseif i8 == 1;
-                                    KickAllow = ["Star 48BV","Centaur V","Nuclear","Hybrid"];
+                                    KickAllow = ["Star 48BV", "Centaur V", "Nuclear", "Hybrid"]
                                 elseif i8 == 2;
-                                    KickAllow = ["Centaur V & Star 48BV","Centaur V & Nuclear","Centaur V & Hybrid","Star 48BV & Hybrid","Star48 BV & Nuclear","Hybrid & Nuclear"];
-                                end
-                                for i9 = KickAllow
+                                    KickAllow = ["Centaur V & Star 48BV", ...
+        "Centaur V & Nuclear", "Centaur V & Hybrid", "Star 48BV & Hybrid", "Star48 BV & Nuclear", ...
+        "Hybrid & Nuclear"]
+                                for i9 = Kick
                                     candidateArchitecture.Communications = i1;
                                     candidateArchitecture.Telemetry = i2;
                                     candidateArchitecture.Propulsion = i3;
@@ -69,7 +70,7 @@ for i1 = ComNet
                                     %Call Mission Program
                                     [science, cost, reliability, ttHP, invalid] = MissionCalc(candidateArchitecture);
 
-                                    if invalid == false
+                                    if invalid = 0
                                         %Create Table of Results etc
                                         ResultsRaw = [ResultsRaw; [i1 i2 i3 i4 i5 i6 i7 i8 i9 cost science reliability ttHP]];
                                         
