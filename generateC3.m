@@ -1,4 +1,4 @@
-function [final_v, added_V, m_prop, m_inert] = generateC3( candidateArchitecture, m_pay )
+function [final_v, added_V] = generateC3( candidateArchitecture, m_pay )
     % Inputs: Launch Vehicle, Kick Stage Propulsion, C3 values (0,10,20,30,40,50,60,70,80,90,100, 110, 120)
     % Outputs: Delta V, Delta V caused by Kick Stage, Mass Payload, Structural Mass, Mass Propellant
 
@@ -22,14 +22,14 @@ function [final_v, added_V, m_prop, m_inert] = generateC3( candidateArchitecture
             isp = 451; % LH2/LOX
             lambda = 0.91; % Centaur Kick Stage
             m_kick1 = 22825 + m_pay;
-        case "Nuclear" % LOOK AT BMX TECHNOLOGIES
-            isp = 875; 
-            lambda = 0.74; 
-            m_kick = ;
-        case "Hybrid" % LOOK AT SIERRA NEVADA
-            isp = 325;
-            lambda = 0.875; 
-            m_kick = ;
+%         case "Nuclear" % LOOK AT BMX TECHNOLOGIES
+%             isp = 875; 
+%             lambda = 0.74; 
+%             m_kick = ;
+%         case "Hybrid" % LOOK AT SIERRA NEVADA
+%             isp = 325;
+%             lambda = 0.875; 
+%             m_kick = ;
         otherwise % No kick stage
             m_kick1 = m_pay;
             

@@ -19,7 +19,7 @@ m_spacecraft = m_instr / 0.15;
 power_spacecraft = power_instr / 0.22;
 
 %Calculate Prop Code
-[final_v] = generateC3(candidateArchitecture,m_spacecraft);
+[final_v, added_V] = generateC3(candidateArchitecture,m_spacecraft);
 
 if (candidateArchitecture.Propulsion == "BHT_600") || (candidateArchitecture.Propulsion == "BHT_100")
     [m_xenon,deltaV] = modElectricProp(candidateArchitecture,m_spacecraft);

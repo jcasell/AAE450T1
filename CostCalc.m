@@ -17,6 +17,8 @@ kick =  candidateArchitecture.Kick;
 
 %All Costs in Thousands
 
+%Assuming no non recurring costs for Prop, TTC, Power, Instruments, Kick
+
 %Communication Network Cost
 if comm == "DSN"
     costTTC = 133*10^3;
@@ -73,9 +75,9 @@ end
 %SMAD Cost Calculations Includes Non-Recurring Developement and Single
 %System Cost
 
-%Spacecraft Bus if NO OTHER CER
-%costBusNRec = 1.29*(108*m_spacecraft)
-%costBusRec = 1.29*(283.5*(m_spacecraft^0.716));
+%Spacecraft Bus if NO OTHER CER Used
+optionalBusCostNRec = 1.29*(108*m_spacecraft);
+optionalBusCostRec = 1.29*(283.5*(m_spacecraft^0.716));
 
 %Structure and Thermal Control
 % 6% of total mass using table A-2 SMAD
@@ -88,7 +90,7 @@ costAttNRec = 1.29*(324*(m_spacecraft*0.06));
 costAttRec = 1.29*(795*(m_spacecraft*0.06)^0.593);
 
 %Total Bus Cost SUM OF ABOVE
-costBusRec = costThermRec+costAttRec+costPower+costKick;
+costBusRec = costThermRec+costAttRec+costPower+costKick+costProp;
 costBusNRec = costThermNRec+costAttNRec;
 
 %Communications Payload
@@ -96,13 +98,14 @@ costBusNRec = costThermNRec+costAttNRec;
 costCommNRec = 1.29*(618*(m_spacecraft*0.07));
 costCommRec = 1.29*(189*(m_spacecraft*0.07));
 
+%Space Vehicle Cost SUM OF ABOVE USE IN TOTAL WITH PROG AND OTHER
+costVehRec = costBusRec+costCommRec+costInst;
+costVehNRec = costBusNRec + costCommNRec;
+
 %Integration Assembly and Test
 costIntRec = 0.195*(costBusRec+costCommRec+costInst);
 costIntNRec = 0.124*(costBusNRec+costCommNRec);
 
-%Space Vehicle Cost SUM OF ABOVE USE IN TOTAL WITH PROG AND OTHER
-costVehRec = costBusRec+costCommRec+costInst;
-costVehNRec = costBusNRec + costCommNRec;
 
 %Prog Lev Cost
 costProgNRec = 0.357*(costVehNRec+costIntNRec);
@@ -126,10 +129,10 @@ LOOScost = 1.29*5850;
 %Keep Full Budget for first 5 years, cut 33 % for the last 30 years
 opsCost = 1.29 * 5690 * 5 + 1.29*((2/3)*5690*30);
 
-total_Cost = (10^-3)*(costVehRec+costVehNRec+costProgNRec+costProgRec+AGEcost+LOOScost+opsCost+costTTC+costIntRec+costIntNRec + costProp);
+total_Cost = (costVehRec+costVehNRec+costProgNRec+costProgRec+AGEcost+LOOScost+opsCost+costTTC+costIntRec+costIntNRec);
 
 %Cost Vector
-Cost = [costTTC / (1E3), costProp / (1E3), costPower / (1E3), costInst / (1E3),  costKick / (1E3), costThermRec / (1E3), costThermNRec / (1E3), costAttRec / (1E3), costAttNRec / (1E3), costCommRec / (1E3), costCommNRec / (1E3), costIntRec / (1E3), costIntNRec / (1E3), costProgRec / (1E3), costProgNRec / (1E3), AGEcost / (1E3), LOOScost / (1E3), opsCost / (1E3), total_Cost];
+Cost = [costTTC, costProp, costPower, costInst,  costKick, costThermRec, costThermNRec, costAttRec, costAttNRec, costCommRec, costCommNRec, costIntRec, costIntNRec, costProgRec, costProgNRec, AGEcost, LOOScost, opsCost, total_Cost]/(1e3);
 
 
 end

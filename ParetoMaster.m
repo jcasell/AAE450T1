@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Script Name: ParetoMaster
 %Description: Calculates and Plots Pareto for Analysis
-%Author: Jeremy Casella
+%Author: Jeremy Casella and Brendan Jones
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clc
@@ -15,8 +15,9 @@ Prop = ["Chemical" "Solar Sail" "BHT_100" "BHT_600"];   %Propulsion Options
 Power = ["RTG Nuclear" "Solar Panel/Nuclear" "Solar Panel"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
 Traj = ["JupSat" "JupSatO" "Log Spiral" "Solar Grav"]; %Trajectory Options (O indicates impulse manuever during GA)
-LaunchV = ["SLS" "Falcon Heavy" "Vulcan 6S" "Starship"];    %Launch Vehicle Options
-Kick = ["Solid" "Liquid" "Hybrid" "None"];   %Kick Stages Options
+LaunchV = ["SLS Block 1", "SLS Block 1B", "SLS Block 2", "Falcon Heavy Recoverable", "Starship", "Vulcan 6S"];    %Launch Vehicle Options
+Kick = ["Star 48BV" "Centaur V"];   %Kick Stages Options
+NumKick = [0 1 2];
 
 %Create Results Table
 ResultsRaw = [];
@@ -34,14 +35,6 @@ for i1 = ComNet
 
     for i2 = TelemAllow
         for i3 = Prop
-            %Only Include Relevant Combination
-            if or(i3 == "None",i3 == "Plasma")
-                TrajAllow = ["JupNep","JupSat"];
-            elseif i3 == "Solar Sail"
-                TrajAllow = ["Solar Sail"];
-            else
-                TrajAllow = Traj;
-            end
             for i4 = Power
                 %Only Include Relevant Combination
                 if i4 == "Solar Panel"
@@ -50,31 +43,34 @@ for i1 = ComNet
                     InstrAllow = Instr;
                 end
                 for i5 = InstrAllow
-                    for i6 = TrajAllow
+                    for i6 = Traj
                         for i7 = LaunchV
                             for i8 = Kick
-                                candidateArchitecture.Communications = i1;
-                                candidateArchitecture.Telemetry = i2;
-                                candidateArchitecture.Propulsion = i3;
-                                candidateArchitecture.Power = i4;
-                                candidateArchitecture.Instruments = i5;
-                                candidateArchitecture.Trajectory = i6;
-                                candidateArchitecture.LaunchVehicle = i7;
-                                candidateArchitecture.Kick = i8;
-                                
-                                %Call Mission Program\
-                                [science, cost, reliability, ttHP] = MissionCalc(candidateArchitecture);
-
-                                %Create Table of Results etc
-                                ResultsRaw = [ResultsRaw; [i1 i2 i3 i4 i5 i6 i7 i8 cost science reliability ttHP]];
-                                
-                                if ttHP <= 10;
-                                    PointColor = [PointColor;0 1 0];
-                                    Results10Raw = [Results10Raw; [i1 i2 i3 i4 i5 i6 i7 i8 cost science reliability ttHP]];
-                                elseif ttHP <= 12
-                                    PointColor = [PointColor;0 0 1];
-                                else
-                                    PointColor = [PointColor;1 0 0];
+                                for i9 = NumKick
+                                    candidateArchitecture.Communications = i1;
+                                    candidateArchitecture.Telemetry = i2;
+                                    candidateArchitecture.Propulsion = i3;
+                                    candidateArchitecture.Power = i4;
+                                    candidateArchitecture.Instruments = i5;
+                                    candidateArchitecture.Trajectory = i6;
+                                    candidateArchitecture.LaunchVehicle = i7;
+                                    candidateArchitecture.Kick = i8;
+                                    candidateArchitecture.num_Kick = i9
+                                    
+                                    %Call Mission Program\
+                                    [science, cost, reliability, ttHP] = MissionCalc(candidateArchitecture);
+    
+                                    %Create Table of Results etc
+                                    ResultsRaw = [ResultsRaw; [i1 i2 i3 i4 i5 i6 i7 i8 i9 cost science reliability ttHP]];
+                                    
+                                    if ttHP <= 10;
+                                        PointColor = [PointColor;0 1 0];
+                                        Results10Raw = [Results10Raw; [i1 i2 i3 i4 i5 i6 i7 i8 i9 cost science reliability ttHP]];
+                                    elseif ttHP <= 12
+                                        PointColor = [PointColor;0 0 1];
+                                    else
+                                        PointColor = [PointColor;1 0 0];
+                                    end
                                 end
                             end
                         end
@@ -86,8 +82,8 @@ for i1 = ComNet
 end
 
 %Parse Table
-Results = array2table(ResultsRaw,'VariableNames', {'Communications','Telemetry','Propulsion','Power','Instruments','Trajectory','Launch_Vehicle','Kick_Stages','Cost','Science','Reliability','TT_Heliopause'})
-Results10= array2table(Results10Raw,'VariableNames', {'Communications','Telemetry','Propulsion','Power','Instruments','Trajectory','Launch_Vehicle','Kick_Stages','Cost','Science','Reliability','TT_Heliopause'})
+Results = array2table(ResultsRaw,'VariableNames', {'Communications','Telemetry','Propulsion','Power','Instruments','Trajectory','Launch_Vehicle','Kick_Stages','Number_Kick','Cost','Science','Reliability','TT_Heliopause'})
+Results10= array2table(Results10Raw,'VariableNames', {'Communications','Telemetry','Propulsion','Power','Instruments','Trajectory','Launch_Vehicle','Kick_Stages','Number_Kick','Cost','Science','Reliability','TT_Heliopause'})
 
 Results.Cost = double(Results.Cost);
 Results.Science = double(Results.Science);
@@ -127,6 +123,8 @@ row = dataTipTextRow('Launch Vehicle',Results.Launch_Vehicle);
 s.DataTipTemplate.DataTipRows(end+1) = row;
 row = dataTipTextRow('Kick Stages',Results.Kick_Stages);
 s.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Number of Kick Stages',Results.Number_Kick);
+s.DataTipTemplate.DataTipRows(end+1) = row;
 row = dataTipTextRow('Time to Heliopause',Results.TT_Heliopause);
 s.DataTipTemplate.DataTipRows(end+1) = row;
 
@@ -155,6 +153,8 @@ s2.DataTipTemplate.DataTipRows(end+1) = row;
 row = dataTipTextRow('Launch Vehicle',Results10.Launch_Vehicle);
 s2.DataTipTemplate.DataTipRows(end+1) = row;
 row = dataTipTextRow('Kick Stages',Results10.Kick_Stages);
+s2.DataTipTemplate.DataTipRows(end+1) = row;
+row = dataTipTextRow('Number of Kick Stages',Results10.Number_Kick);
 s2.DataTipTemplate.DataTipRows(end+1) = row;
 row = dataTipTextRow('Time to Heliopause',Results10.TT_Heliopause);
 s2.DataTipTemplate.DataTipRows(end+1) = row;
