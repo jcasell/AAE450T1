@@ -57,19 +57,21 @@ for i1 = ComNet
                                     candidateArchitecture.Kick = i8;
                                     candidateArchitecture.num_Kick = i9
                                     
-                                    %Call Mission Program\
-                                    [science, cost, reliability, ttHP] = MissionCalc(candidateArchitecture);
-    
-                                    %Create Table of Results etc
-                                    ResultsRaw = [ResultsRaw; [i1 i2 i3 i4 i5 i6 i7 i8 i9 cost science reliability ttHP]];
-                                    
-                                    if ttHP <= 10;
-                                        PointColor = [PointColor;0 1 0];
-                                        Results10Raw = [Results10Raw; [i1 i2 i3 i4 i5 i6 i7 i8 i9 cost science reliability ttHP]];
-                                    elseif ttHP <= 12
-                                        PointColor = [PointColor;0 0 1];
-                                    else
-                                        PointColor = [PointColor;1 0 0];
+                                    %Call Mission Program
+                                    [science, cost, reliability, ttHP, invalid] = MissionCalc(candidateArchitecture);
+
+                                    if invalid = 0
+                                        %Create Table of Results etc
+                                        ResultsRaw = [ResultsRaw; [i1 i2 i3 i4 i5 i6 i7 i8 i9 cost science reliability ttHP]];
+                                        
+                                        if ttHP <= 10;
+                                            PointColor = [PointColor;0 1 0];
+                                            Results10Raw = [Results10Raw; [i1 i2 i3 i4 i5 i6 i7 i8 i9 cost science reliability ttHP]];
+                                        elseif ttHP <= 12
+                                            PointColor = [PointColor;0 0 1];
+                                        else
+                                            PointColor = [PointColor;1 0 0];
+                                        end
                                     end
                                 end
                             end
