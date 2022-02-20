@@ -1,4 +1,4 @@
-function [totalTOF,ENATime,LYATime] = generalTrajectory(candidateArchitecture,v_inf,deltaV)
+function [totalTOF,ENATime,LYATime,eolDist] = generalTrajectory(candidateArchitecture,v_inf,deltaV)
 %% General Trajectory Function
 % This function will take the mission input and apply the correct
 % trajectory functions to determine the TOF of each phase
@@ -39,7 +39,7 @@ if candidateArchitecture.Trajectory == "JupSatO"
     v_dep = v_dep + deltaV;
     
     %Determine Total TOF 
-    [phaseTimes,ENATime,LYATime] = coastTime(rad_list(2),v_dep,fpa_dep);
+    [phaseTimes,ENATime,LYATime,eolDist] = coastTime(rad_list(2),v_dep,fpa_dep);
     phase1Time = phaseTimes(1); phase2Time = phaseTimes(2); phase3Time = phaseTimes(3);
     phase1Time = phase1Time + TOF;
 
@@ -59,7 +59,7 @@ elseif candidateArchitecture.Trajectory == "JupSat"
     v_dep = v_dep + deltaV;
     
     %Determine Total TOF
-    [phaseTimes,ENATime,LYATime] = coastTime(rad_list(2),v_dep,fpa_dep);
+    [phaseTimes,ENATime,LYATime,eolDist] = coastTime(rad_list(2),v_dep,fpa_dep);
     phase1Time = phaseTimes(1); phase2Time = phaseTimes(2); phase3Time = phaseTimes(3);
     phase1Time = phase1Time + TOF;
 
@@ -81,7 +81,7 @@ elseif (candidateArchitecture.Trajectory == "Log Spiral") || (candidateArchitect
     end
 
     % Rest of Mission
-    [coastPhase,ENATime,LYATime] = coastTime(5.2*a_earth,v_dep,fpa_dep);
+    [coastPhase,ENATime,LYATime, eolDist] = coastTime(5.2*a_earth,v_dep,fpa_dep);
     totalTOF = [tofSpiral + tofRadial + coastPhase(1), coastPhase(2), coastPhase(3) - tofSpiral - tofRadial];
 end
 end
