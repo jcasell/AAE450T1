@@ -4,7 +4,7 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
 
     %% Setting Constants and Assumed Values (values to iterate over)
   
-    array_LV = ["SLS", "Falcon Heavy", "Starship", "New Glenn", "Atlas V", "Vulcan 6S","Delta IV Heavy"]; % Array of Launch Vehicles
+    array_LV = ["SLS Block 1", "SLS Block 1B", "SLS BLock 2", "Falcon Heavy", "Starship", "New Glenn", "Vulcan 6S"]; % Array of Launch Vehicles
     kick_Stage = ["Star 48BV", "Centaur V", "Nuclear", "Hybrid", "Centaur V & Star 48BV", ...
         "Centaur V & Nuclear", "Centaur V & Hybrid", "Star 48BV & Hybrid", "Star48 BV & Nuclear", ...
         "Hybrid & Nuclear", "No Kick Stage"];
@@ -19,19 +19,19 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
         case "Star 48BV" % Solid Rocket 
             isp = 286;
             lambda = 0.939;
-            m_kick1 = 2137 + m_pay;
+            m_kick = 2137 + m_pay;
         case "Centaur V" %Liquid
             isp = 451; % LH2/LOX
             lambda = 0.91; % Centaur Kick Stage
-            m_kick1 = 22825 + m_pay;
+            m_kick = 22825 + m_pay;
         case "Nuclear" % LOOK AT BMX TECHNOLOGIES
             isp = 875; 
             lambda = 0.74; 
-            m_kick = ;
+            m_kick = 2547.375;
         case "Hybrid" % LOOK AT SIERRA NEVADA
             isp = 325;
             lambda = 0.875; 
-            m_kick = ;
+            m_kick = 2200;
         case "Centaur V & Star 48BV" %Liquid
             isp1 = 451; % LH2/LOX
             lambda1 = 0.91; % Centaur Kick Stage
@@ -116,7 +116,8 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
         otherwise 
             C3 = -1;
     end
-
+    
+    invalid = false;
     if(C3 < 0) 
         invalid = true;
         return
@@ -125,8 +126,8 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
     %% Calculations     
     if(candidateArchitecture.num_Kick == 1)        
         % Calculation mass propellant, inert mass, and Mass Ratio
-        m_prop = (m_kick1 - m_pay) * lambda;
-        m_inert = (m_kick1 - m_pay - m_prop); % Structural mass of the kick stage (Mass minus final payload and propellant)
+        m_prop = (m_kick - m_pay) * lambda;
+        m_inert = (m_kick - m_pay - m_prop); % Structural mass of the kick stage (Mass minus final payload and propellant)
         MR = (m_pay + m_prop + m_inert) / (m_pay + m_inert); % Mass Ratio
 
         % Calculation of Velocity Infinite with rocket equation (km/s)
