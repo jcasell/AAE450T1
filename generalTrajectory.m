@@ -18,7 +18,7 @@ v_earth = sqrt(2*mu_sun/a_earth); %velocity of Earth relative to Sun [km/s]
 v_0 = v_inf + v_earth; %initial velocity of s/c relative to sun [km/s]
 
 %% Calculations
-if or(candidateArchitecture.Trajectory ~= "Log Spiral",candidateArchitecture.Trajectory ~= "SolarGrav")
+if and(candidateArchitecture.Trajectory ~= "Log Spiral",candidateArchitecture.Trajectory ~= "Solar Grav")
     [rad_list,planet1,planet2] = getCharacteristics(candidateArchitecture.Trajectory);
 end
 
@@ -64,7 +64,7 @@ elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.
     phase1Time = phase1Time + TOF;
 
     totalTOF = [phase1Time,phase2Time,phase3Time];
-elseif (candidateArchitecture.Trajectory == "Log Spiral") || (candidateArchitecture.Trajectory == "SolarGrav")
+elseif (candidateArchitecture.Trajectory == "Log Spiral") || (candidateArchitecture.Trajectory == "Solar Grav")
     % Initialize Solar Sail Variables
     r0 = a_earth; rF = a_mercury; beta = 0.9;
 
@@ -75,9 +75,9 @@ elseif (candidateArchitecture.Trajectory == "Log Spiral") || (candidateArchitect
     v0 = vF; %Change notation; final velocity on logarithmic trajectory is initial velocity on new orbit
     [v_dep,fpa_dep,tofRadial] = radialSail(a_mercury,v0, 5.2*a_earth,beta);
 
-    if candidateArchitecture.Trajectory == "SolarGrav"
+    if candidateArchitecture.Trajectory == "Solar Grav"
         % Grav Assist
-        [v_dep,fpa_dep] = gravityAssist(planet1,v_dep,fpa_dep);
+        [v_dep,fpa_dep] = gravityAssist("Jupiter",v_dep,fpa_dep);
     end
 
     % Rest of Mission

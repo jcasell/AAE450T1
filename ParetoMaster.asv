@@ -63,9 +63,9 @@ for i1 = ComNet
                                     candidateArchitecture.Instruments = i5;
                                     candidateArchitecture.Trajectory = i6;
                                     candidateArchitecture.LaunchVehicle = i7;
-                                    candidateArchitecture.num_Kick = i8;
+                                    candidateArchitecture.num_Kick = i8
                                     candidateArchitecture.Kick = i9;
-                              
+                                    
                                     %Call Mission Program
                                     [science, cost, reliability, ttHP, invalid] = MissionCalc(candidateArchitecture);
 
