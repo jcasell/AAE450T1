@@ -151,8 +151,4 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
     end
     
     final_v = (added_V + sqrt(C3) + v_esc_E)/1000;
-
-    if candidateArchitecture.Trajectory == "JupNepO" || candidateArchitecture.Trajectory == "JupSatO" 
-        final_v = final_v - 700/1000;
-    end
 end
