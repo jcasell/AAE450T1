@@ -1,4 +1,4 @@
-function [Cost] = CostCalc(candidateArchitecture,m_spacecraft,m_xenon)
+function [Cost] = CostCalc(candidateArchitecture,m_spacecraft,m_prop)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function Name: CostCalc
 %Description: Calculates cost of Morph Matrix components
@@ -35,10 +35,12 @@ elseif prop == "Chemical"
     costProp = 11.3*10^3;
 elseif prop == "Solar Sail"
     costProp = 35*10^3;
-elseif prop == "BHT_100"
-    costProp =  5*10^2 + m_xenon;   % $1000/kg Xenon estimated from https://trs.jpl.nasa.gov/bitstream/handle/2014/45452/08-2765_A1b.pdf?sequence=1
-elseif prop == "BHT_600"        % Thruster costs estimated from above AIAA report
-    costProp =  3*10^3 + m_xenon;
+elseif prop == "OMS"
+    costProp = m_prop * 9.8472*10^-3;   % MMH + N2O4 https://yarchive.net/space/rocket/fuels/fuel_costs.html
+elseif prop == "BHT-100"
+    costProp =  5*10^2 + m_prop;   % $1000/kg Xenon estimated from https://trs.jpl.nasa.gov/bitstream/handle/2014/45452/08-2765_A1b.pdf?sequence=1
+elseif prop == "BHT-600"        % Thruster costs estimated from above AIAA report
+    costProp =  3*10^3 + m_prop;
 else
     costProp = 0;
 end
