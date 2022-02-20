@@ -7,15 +7,21 @@
 clc
 clear
 close all
+tic
 
 %Define Possible Matrix Options
-ComNet = ["DSN" "IDSN" "NSN"]; %Communication Network Options
+ComNet = ["DSN"]; %Communication Network Options
 Telem = ["Ka" "X" "S"];     %Telemetry Band
+<<<<<<< Updated upstream
 Prop = ["OMS" "Solar Sail" "BHT-100" "BHT-600"];   %Propulsion Options
 Power = ["RTG Nuclear" "Solar Panel/Nuclear" "Solar Panel"];  %Power Source Options
+=======
+Prop = ["Chemical" "Solar Sail" "BHT_100" "BHT_600"];   %Propulsion Options
+Power = ["RTG Nuclear"];  %Power Source Options
+>>>>>>> Stashed changes
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
 Traj = ["JupSat" "JupSatO" "Log Spiral" "Solar Grav" "MarsJup"]; %Trajectory Options (O indicates impulse manuever during GA)
-LaunchV = ["SLS Block 1", "SLS Block 1B", "SLS BLock 2", "Falcon Heavy", "Starship", "New Glenn", "Vulcan 6S"];    %Launch Vehicle Options
+LaunchV = ["SLS Block 2", "Falcon Heavy", "Starship", "New Glenn", "Vulcan 6S"];    %Launch Vehicle Options
 Kick = ["Star 48BV", "Centaur V", "Nuclear", "Hybrid", "Centaur V & Star 48BV", ...
         "Centaur V & Nuclear", "Centaur V & Hybrid", "Star 48BV & Hybrid", "Star48 BV & Nuclear", ...
         "Hybrid & Nuclear", "No Kick Stage"];   %Kick Stages Options
@@ -25,6 +31,7 @@ NumKick = [0 1 2];
 ResultsRaw = [];
 Results10Raw = [];
 PointColor = [];
+PointColor10 = [];
 
 %Create Permutations of Missions
 for i1 = ComNet
@@ -37,6 +44,15 @@ for i1 = ComNet
 
     for i2 = TelemAllow
         for i3 = Prop
+
+            if i3 == "Chemical"
+                TrajAllow = ["JupSatO"];
+            elseif i3 == "Solar Sail"
+                TrajAllow = ["Log Spiral" "Solar Grav"];
+            else
+                TrajAllow = ["JupSat" "MarsJup"];
+            end
+
             for i4 = Power
                 %Only Include Relevant Combination
                 if i4 == "Solar Panel"
@@ -45,7 +61,7 @@ for i1 = ComNet
                     InstrAllow = Instr;
                 end
                 for i5 = InstrAllow
-                    for i6 = Traj
+                    for i6 = TrajAllow
                         for i7 = LaunchV
                             for i8 = NumKick
                                 if i8 == 0;
@@ -73,11 +89,15 @@ for i1 = ComNet
                                         %Create Table of Results etc
                                         ResultsRaw = [ResultsRaw; [i1 i2 i3 i4 i5 i6 i7 i8 i9 cost science reliability ttHP]];
                                         
-                                        if ttHP <= 10;
-                                            PointColor = [PointColor;0 1 0];
+                                        if ttHP <= 11;
+                                            if ttHP <= 10;
+                                                PointColor = [PointColor;0 1 0];
+                                                PointColor10 = [PointColor10;0 1 0];
+                                            else
+                                                PointColor = [PointColor;0 0 1];
+                                                PointColor10 = [PointColor10;0 0 1];
+                                            end
                                             Results10Raw = [Results10Raw; [i1 i2 i3 i4 i5 i6 i7 i8 i9 cost science reliability ttHP]];
-                                        elseif ttHP <= 12
-                                            PointColor = [PointColor;0 0 1];
                                         else
                                             PointColor = [PointColor;1 0 0];
                                         end
@@ -140,7 +160,7 @@ row = dataTipTextRow('Time to Heliopause',Results.TT_Heliopause);
 s.DataTipTemplate.DataTipRows(end+1) = row;
 
 figure(2)
-s2 = scatter(Results10.Cost,Results10.Science);
+s2 = scatter(Results10.Cost,Results10.Science,[],PointColor10);
 xlabel('System Cost (F2022 Millions of Dollars)')
 ylabel('Science Value')
 title('Viable Results Science Value vs Cost Pareto Frontier')
@@ -169,3 +189,5 @@ row = dataTipTextRow('Kick Stages',Results10.Kick_Stages);
 s2.DataTipTemplate.DataTipRows(end+1) = row;
 row = dataTipTextRow('Time to Heliopause',Results10.TT_Heliopause);
 s2.DataTipTemplate.DataTipRows(end+1) = row;
+
+toc

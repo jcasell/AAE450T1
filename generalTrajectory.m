@@ -36,7 +36,7 @@ if candidateArchitecture.Trajectory == "JupSatO"
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
 
     % Add electric propulsion impulse to velocity
-    v_dep = v_dep + deltaV;
+    v_dep = v_dep + deltaV*10^-3;
     
     %Determine Total TOF 
     [phaseTimes,ENATime,LYATime,eolDist] = coastTime(rad_list(2),v_dep,fpa_dep);
@@ -56,7 +56,7 @@ elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
 
     % Add electric propulsion impulse to velocity
-    v_dep = v_dep + deltaV;
+    v_dep = v_dep + deltaV*10^-3;
     
     %Determine Total TOF
     [phaseTimes,ENATime,LYATime,eolDist] = coastTime(rad_list(2),v_dep,fpa_dep);
