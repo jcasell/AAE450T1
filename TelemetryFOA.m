@@ -33,6 +33,12 @@ S2 = S2*1.496e11;%(m)
 S3 = EndOfLifeS; %(km) Distance from Earth at 35 years
 S3 = S3 * 1000; %(m) Distance from Earth at 35 years
 
+SBonusA = 250;%(Au)Distance from Earth to beginning of time when ENA is usable
+SBonusA = SBonusA*1.496e11;%(m)
+
+SBonusB = 300;%(Au)Distance from Earth to beginning of time when LYA is usable
+SBonusB = SBonusB*1.496e11;%(m)
+
 %Depend on Telemetry Band
 if isequal(TelemetryBand,'Ka')
     LaDb = 0.116;%Atmospheric Loss file:///C:/Users/haigh/AppData/Local/Temp/06_Reid_chapt6.pdf pg268
