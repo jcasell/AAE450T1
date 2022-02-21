@@ -10,7 +10,7 @@ function [rad_list,planet1,planet2] = getCharacteristics(options)
 %
 %% Options
 switch options
-    case {"MarsJup"}
+    case {"MarsJup","MarsJupO"}
         a1 = 227944135; %Mars [km]
         a2 = 778279959; %Jupiter [km]
         planet1 = "Mars";
