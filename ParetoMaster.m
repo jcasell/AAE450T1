@@ -12,7 +12,7 @@ tic
 %Define Possible Matrix Options
 ComNet = ["DSN"]; %Communication Network Options
 Telem = ["Ka" "X" "S"];     %Telemetry Band
-Prop = ["OMS" "Solar Sail" "BHT-200" "BHT-600"];   %Propulsion Options
+Prop = ["Chemical" "Solar Sail" "BHT-200" "BHT-600"];   %Propulsion Options
 Power = ["RTG Nuclear"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
 Traj = ["JupSat" "JupSatO" "Log Spiral" "Solar Grav" "MarsJup" "MarsJupO"]; %Trajectory Options (O indicates impulse manuever during GA)
@@ -40,8 +40,7 @@ for i1 = ComNet
 
     for i2 = TelemAllow
         for i3 = Prop
-
-            if i3 == "OMS"
+            if i3 == "Chemical"
                 TrajAllow = ["JupSatO" "MarsJupO"];
             elseif i3 == "Solar Sail"
                 TrajAllow = ["Log Spiral" "Solar Grav"];

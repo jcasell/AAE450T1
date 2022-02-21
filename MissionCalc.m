@@ -14,9 +14,10 @@ function [Science, Cost, Reliability, ttHP, invalid] = MissionCalc(candidateArch
 %Calculated using Planetary Mission SMAD table A-1
 m_spacecraft = m_instr / 0.15;
 
-if (candidateArchitecture.Propulsion == "OMS")
-    m_spacecraft = m_spacecraft + 120;
-end
+% DEBUG: add additional propellant to spacecraft mass
+m_debug = 0;  % [kg]
+%
+m_spacecraft = m_spacecraft + m_debug;
 
 %Calculate Power
 %Calculated using Planetary Mission SMAD table A-2
@@ -33,7 +34,7 @@ if invalid == true
     return
 end
 
-[m_prop,deltaV] = getDeltaV(candidateArchitecture,m_spacecraft);
+[burnTime,m_prop,deltaV] = getDeltaV(candidateArchitecture,m_spacecraft);
 
 %Calculate Trajectory
 [totalTOF,ENATime,LYATime,EndOfLifeS] = generalTrajectory(candidateArchitecture,final_v,deltaV);
@@ -53,7 +54,7 @@ Science = DataRate(1)/refDataRate(1)*sci_instr(1)^3*w(1)+DataRate(2)/refDataRate
 Science = Science + DataRate(4)/refDataRate(4)*sci_instr(4)^3*w_bonus(1) + DataRate(5)/refDataRate(5)*sci_instr(5)^3*w_bonus(2);
 
 %Total Cost
-cost_vec = CostCalc(candidateArchitecture,m_spacecraft,m_prop);
+cost_vec = CostCalc(candidateArchitecture,m_spacecraft,m_prop,burnTime);
 Cost = cost_vec(end);
 
 %Return Risk
