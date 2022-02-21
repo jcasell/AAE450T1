@@ -19,7 +19,8 @@ Traj = ["JupSat" "JupSatO" "Log Spiral" "Solar Grav" "MarsJup"]; %Trajectory Opt
 LaunchV = ["SLS Block 2", "Falcon Heavy", "Starship", "New Glenn", "Vulcan 6S"];    %Launch Vehicle Options
 Kick = ["Star 48BV", "Centaur V", "Nuclear", "Hybrid", "Centaur V & Star 48BV", ...
         "Centaur V & Nuclear", "Centaur V & Hybrid", "Star 48BV & Hybrid", "Star48 BV & Nuclear", ...
-        "Hybrid & Nuclear", "No Kick Stage"];   %Kick Stages Options
+        "Hybrid & Nuclear", "Castor 30XL & Star 48BV", "Castor 30XL & Nuclear", ...
+        "Castor 30XL & Hybrid", "No Kick Stage"];   %Kick Stages Options
 NumKick = [0 1 2];
 
 %Create Results Table
@@ -64,7 +65,7 @@ for i1 = ComNet
                                 elseif i8 == 1;
                                     KickAllow = ["Star 48BV","Centaur V","Nuclear","Hybrid"];
                                 elseif i8 == 2;
-                                    KickAllow = ["Centaur V & Star 48BV","Centaur V & Nuclear","Centaur V & Hybrid","Star 48BV & Hybrid","Star 48BV & Nuclear","Hybrid & Nuclear"];
+                                    KickAllow = ["Centaur V & Star 48BV","Centaur V & Nuclear","Centaur V & Hybrid","Star 48BV & Hybrid","Star 48BV & Nuclear","Hybrid & Nuclear", "Castor 30XL & Star 48BV", "Castor 30XL & Nuclear", "Castor 30XL & Hybrid"];
                                 end
                                 for i9 = KickAllow
                                     candidateArchitecture.Communications = i1;
