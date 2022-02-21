@@ -13,18 +13,18 @@ candidateArchitecture.Kick = "Centaur V & Star 48BV";
 candidateArchitecture.num_Kick = 2;
 
 [science, cost, reliability, ttHP, invalid] = MissionCalc(candidateArchitecture)
-
-
-[final_v, invalid, added_V] = generateC3( candidateArchitecture, 800 )
-
-
-
 %Calculate Instrument Package and Science
 [sci_instr, cost_instr, m_instr, power_instr] = Instrumentation(candidateArchitecture);
 
 %Calculate Total Spacecraft Mass
 %Calculated using Planetary Mission SMAD table A-1
 m_spacecraft = m_instr / 0.15
+
+[final_v, invalid, added_V] = generateC3( candidateArchitecture, m_spacecraft)
+
+
+
+
 
 %Returns Cost Vector (To check for errors)
 [m_prop,deltaV] = getDeltaV(candidateArchitecture,m_spacecraft);
