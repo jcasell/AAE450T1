@@ -44,6 +44,28 @@ if candidateArchitecture.Trajectory == "JupSatO"
     phase1Time = phase1Time + TOF;
 
     totalTOF = [phase1Time,phase2Time,phase3Time];
+elseif candidateArchitecture.Trajectory == "MarsJupO"
+    %Earth to Mars
+    [v_arr,fpa_arr] = getFPA(a_earth,v_0,rad_list(1),0);
+    [stageTime,~] = detTof(a_earth,v_0,rad_list(1),fpa_arr);
+    TOF = stageTime + TOF;
+    [v_dep,fpa_dep] = singleImpulse(planet1,v_arr,fpa_arr,2,0.7); %2 is planetary radii for periapsis; 0.7 is delta V applied at periapsis.
+
+    %Mars to Jupiter
+    [v_arr,fpa_arr] = getFPA(rad_list(1),v_dep,rad_list(2),fpa_dep);
+    [stageTime,~] = detTof(rad_list(1),v_dep,rad_list(2),fpa_arr);
+    TOF = stageTime + TOF;
+    [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
+
+    % Add electric propulsion impulse to velocity
+    v_dep = v_dep + deltaV*10^-3;
+    
+    %Determine Total TOF 
+    [phaseTimes,ENATime,LYATime,eolDist] = coastTime(rad_list(2),v_dep,fpa_dep);
+    phase1Time = phaseTimes(1); phase2Time = phaseTimes(2); phase3Time = phaseTimes(3);
+    phase1Time = phase1Time + TOF;
+
+    totalTOF = [phase1Time,phase2Time,phase3Time];
 elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.Trajectory == "MarsJup")
     %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(a_earth,v_0,rad_list(1),0);

@@ -26,6 +26,11 @@ switch planet_name
         a_planet = 1427387908;
         mu_planet = 37940626.0611;
         r_planet = 60268;
+
+    case "Mars"
+        a_planet = 227944135;
+        mu_planet = 42828.314258067;
+        r_planet = 3397;
 end
 
 r_p = pass_dist*r_planet + r_planet; %periapsis of orbit [km]
