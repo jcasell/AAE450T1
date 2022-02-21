@@ -29,7 +29,7 @@ else
     m_inert = 0;
 end
 % DEBUG: add more propellant mass
-m_debug = 0;
+m_debug = 20;
 m_prop = m_prop + m_debug;  % [kg]
 %
 deltaV = g*isp*log((m_inert + m_spacecraft + m_prop)/(m_inert + m_spacecraft)); % [m/s]
