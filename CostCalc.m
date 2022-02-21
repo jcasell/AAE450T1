@@ -31,14 +31,14 @@ end
 %Propulsion Cost
 if prop == "Nuclear Thermal"
     costProp = 3000*10^3;
-elseif prop == "Chemical"
+elseif prop == "OMS"
     costProp = 11.3*10^3;
 elseif prop == "Solar Sail"
     costProp = 35*10^3;
 elseif prop == "BHT-200"
-    costProp =  0.12*10^3 + m_prop;   % $1000/kg Xenon estimated from https://trs.jpl.nasa.gov/bitstream/handle/2014/45452/08-2765_A1b.pdf?sequence=1
+    costProp =  0.12*10^3 + m_prop/10;   % $1000/kg Xenon estimated from https://trs.jpl.nasa.gov/bitstream/handle/2014/45452/08-2765_A1b.pdf?sequence=1
 elseif prop == "BHT-600"        % Thruster costs estimated from above AIAA report
-    costProp =  0.36*10^3 + m_prop;
+    costProp =  0.36*10^3 + m_prop/10; %10th of the price for Krypton
 else
     costProp = 0;
 end
@@ -159,16 +159,16 @@ LOOScost = 1.29*5850;
 
 %Ops Cost
 %Table 11-25 Ops Cost Estimate
-%Keep full team for first 5 years, cut extra staff for last 30 years
-% techCount = 6;
-% engCount = 34-6;
-% engCount_cut = engCount - 10;
-% techCount_cut = techCount - 2;
-% opsCost = 1.29*5*(techCount*150+engCount*200) + 1.29*5*(techCount_cut*150+engCount_cut*200);
+%Keep full team for 1 year of maneuvers, cut extra staff for last 30 years
+techCount = 6;
+engCount = 34-6;
+engCount_cut = 2;
+techCount_cut = 1;
+opsCost = 1.29*1*(techCount*150+engCount*200) + 1.29*34*(techCount_cut*150+engCount_cut*200);
 
 %Table 11-29 Ops Cost Estimate
 %Keep Full Budget for first 5 years, cut 33 % for the last 30 years
-opsCost = 1.29 * 5690 * 10;
+%opsCost = 1.29 * 5690 * 10;
 
 total_Cost = (costVehRec+costVehNRec+costProgNRec+costProgRec+AGEcost+LOOScost+opsCost+costTTC+costIntRec+costIntNRec+costKick);
 
