@@ -35,12 +35,10 @@ elseif prop == "Chemical"
     costProp = 11.3*10^3;
 elseif prop == "Solar Sail"
     costProp = 35*10^3;
-elseif prop == "OMS"
-    costProp = m_prop * 9.8472*10^-3;   % MMH + N2O4 https://yarchive.net/space/rocket/fuels/fuel_costs.html
 elseif prop == "BHT-200"
-    costProp =  8*10^2 + m_prop;   % $1000/kg Xenon estimated from https://trs.jpl.nasa.gov/bitstream/handle/2014/45452/08-2765_A1b.pdf?sequence=1
+    costProp =  0.12*10^3 + m_prop;   % $1000/kg Xenon estimated from https://trs.jpl.nasa.gov/bitstream/handle/2014/45452/08-2765_A1b.pdf?sequence=1
 elseif prop == "BHT-600"        % Thruster costs estimated from above AIAA report
-    costProp =  3*10^3 + m_prop;
+    costProp =  0.36*10^3 + m_prop;
 else
     costProp = 0;
 end

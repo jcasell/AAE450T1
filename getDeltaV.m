@@ -18,7 +18,7 @@ elseif candidateArchitecture.Propulsion == "BHT-200"
     m_inert_frac =  44 / 516;
     m_prop = (m_spacecraft * m_prop_frac - m_inert) / (1 + 44/516);    %  [kg]
     m_inert = m_inert + m_prop * m_inert_frac;
-elseif candidateArchitecture.Propulsion == "OMS"
+elseif candidateArchitecture.Propulsion == "Chemical"
     isp = 316;  % Space Shuttle OMS [s]
     lambda = 0.85; % https://link.springer.com/content/pdf/10.1007%2F978-3-642-22537-6_3.pdf
     m_prop = m_prop_frac * m_spacecraft * lambda;
