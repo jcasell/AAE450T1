@@ -63,7 +63,7 @@ for i1 = ComNet
                                 if i8 == 0;
                                     KickAllow = ["No Kick Stage"];
                                 elseif i8 == 1;
-                                    KickAllow = ["Star 48BV","Centaur V","Nuclear","Hybrid"];
+                                    KickAllow = ["Star 48BV","Centaur V","Nuclear","Hybrid", "Castor 30XL"];
                                 elseif i8 == 2;
                                     KickAllow = ["Centaur V & Star 48BV","Centaur V & Nuclear","Centaur V & Hybrid","Star 48BV & Hybrid","Star 48BV & Nuclear","Hybrid & Nuclear", "Castor 30XL & Star 48BV", "Castor 30XL & Nuclear", "Castor 30XL & Hybrid"];
                                 end
