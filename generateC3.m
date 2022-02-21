@@ -183,5 +183,5 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
         added_V = 0;
     end
     
-    final_v = (added_V + v_esc_E)/1000 + sqrt(C3);
+    final_v = added_V/1000 + sqrt(C3);
 end
