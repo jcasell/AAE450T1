@@ -11,11 +11,10 @@ if candidateArchitecture.Propulsion == "BHT-600"
     m_inert_frac =  44 / 516;   % 44 kg tank holds 516 kg Xe (Tank: L-XTA 300 l)
     m_prop = (m_spacecraft * m_prop_frac - m_inert) / (1 + 44/516);    %  [kg]
     m_inert = m_inert + m_prop * m_inert_frac;
-elseif candidateArchitecture.Propulsion == "BHT-100"
-    % Specs for BHT-100 Hall thruster (just to demonstrate that low thrust
-    % sucks)
-    isp = 1000; % [s]
-    m_inert = 1.6; % [kg]
+elseif candidateArchitecture.Propulsion == "BHT-200"
+    % Specs for BHT-200 Hall thruster
+    isp = 1390; % [s]
+    m_inert = 1; % [kg]
     m_inert_frac =  44 / 516;
     m_prop = (m_spacecraft * m_prop_frac - m_inert) / (1 + 44/516);    %  [kg]
     m_inert = m_inert + m_prop * m_inert_frac;
@@ -30,7 +29,7 @@ else
     m_inert = 0;
 end
 % DEBUG: add more propellant mass
-m_debug = 0;
+m_debug = 75;
 m_prop = m_prop + m_debug;  % [kg]
 %
 deltaV = g*isp*log((m_inert + m_spacecraft + m_prop)/(m_inert + m_spacecraft)); % [m/s]
