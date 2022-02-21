@@ -31,7 +31,7 @@ end
 %Propulsion Cost
 if prop == "Nuclear Thermal"
     costProp = 3000*10^3;
-elseif prop == "OMS"
+elseif prop == "Chemical"
     costProp = 11.3*10^3;
 elseif prop == "Solar Sail"
     costProp = 35*10^3;
@@ -67,6 +67,11 @@ if power == "Solar Panel/Nuclear"
     costPower = costPower + 8*1000;
 end
 
+if (power == "Solar Panel/Nuclear" || power == "RTG Nuclear")
+    RTG_approval_cost = 1.10 * 40.3 * 10^3;
+    costPower = costPower + RTG_approval_cost;
+end
+
 %Instrument Package Cost
 if inst == "Minimum"
     costInst = 126.6*10^3;
@@ -82,28 +87,18 @@ switch candidateArchitecture.Kick
         costKick = 5.73*10^3;
     case "Centaur V"
         costKick = 7.01*10^3;
-    case "Nuclear" 
-        costKick = 24.59*10^3;
     case "Hybrid" 
         costKick = 6.37*10^3;
     case "Castor 30XL" 
         costKick = 54.95*10^3;        
     case "Centaur V & Star 48BV"
         costKick = (7.01 + 5.73)*10^3;
-    case "Centaur V & Nuclear" 
-        costKick = (7.01 + 24.59)*10^3;
     case "Centaur V & Hybrid"
         costKick = (7.01 + 6.37)*10^3;
      case "Star 48BV & Hybrid"
         costKick = (5.73 + 6.37)*10^3;
-    case "Star 48BV & Nuclear"
-        costKick = (5.73 + 24.59)*10^3;
-    case "Hybrid & Nuclear"
-        costKick = (6.37 + 24.59)*10^3;
     case "Castor 30XL & Star 48BV"
         costKick = (54.95 + 5.73)*10^3;
-    case "Castor 30XL & Nuclear" 
-        costKick = (54.95 + 24.59)*10^3;
     case "Castor 30XL & Hybrid"
         costKick = (54.95 + 6.37)*10^3;
     otherwise 
