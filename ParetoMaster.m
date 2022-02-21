@@ -81,6 +81,8 @@ for i1 = ComNet
                                     %Call Mission Program
                                     [science, cost, reliability, ttHP, invalid] = MissionCalc(candidateArchitecture);
 
+                                    %Factor Cost for 30% Safety
+                                    cost = cost*1.3;
                                     if invalid == false
                                         %Create Table of Results etc
                                         ResultsRaw = [ResultsRaw; [i1 i2 i3 i4 i5 i6 i7 i8 i9 cost science reliability ttHP]];
