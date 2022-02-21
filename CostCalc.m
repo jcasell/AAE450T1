@@ -79,7 +79,7 @@ end
 %Kick Stage Cost
 switch candidateArchitecture.Kick 
     case "Star 48BV"
-        costKick = 79.32*10^3;
+        costKick = 48*10^3;
     case "Centaur V"
         costKick = 72*10^3;
     case "Nuclear" 
