@@ -4,11 +4,11 @@ close all
 
 candidateArchitecture.Communications = "DSN";
 candidateArchitecture.Telemetry = "Ka";
-candidateArchitecture.Propulsion = "OMS";
+candidateArchitecture.Propulsion = "BHT-200";
 candidateArchitecture.Power = "RTG Nuclear";
 candidateArchitecture.Instruments = "Mid Level";
-candidateArchitecture.Trajectory = "JupSatO";
-candidateArchitecture.LaunchVehicle = "SLS Block 2";
+candidateArchitecture.Trajectory = "MarsJup";
+candidateArchitecture.LaunchVehicle = "Starship";
 candidateArchitecture.Kick = "Centaur V & Star 48BV";
 candidateArchitecture.num_Kick = 2;
 
