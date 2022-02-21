@@ -15,8 +15,8 @@ Telem = ["Ka" "X" "S"];     %Telemetry Band
 Prop = ["OMS" "Solar Sail" "BHT-200" "BHT-600"];   %Propulsion Options
 Power = ["RTG Nuclear"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
-Traj = ["JupSat" "JupSatO" "Log Spiral" "Solar Grav" "MarsJup"]; %Trajectory Options (O indicates impulse manuever during GA)
-LaunchV = ["SLS Block 2", "Falcon Heavy", "Starship", "New Glenn", "Vulcan 6S"];    %Launch Vehicle Options
+Traj = ["JupSat" "JupSatO" "Log Spiral" "Solar Grav" "MarsJup" "MarsJupO"]; %Trajectory Options (O indicates impulse manuever during GA)
+LaunchV = ["SLS Block 2", "Falcon Heavy", "Starship", "Vulcan 6S"];    %Launch Vehicle Options
 Kick = ["Castor 30XL" "Star 48BV", "Centaur V", "Nuclear", "Hybrid", "Centaur V & Star 48BV", ...
         "Centaur V & Nuclear", "Centaur V & Hybrid", "Star 48BV & Hybrid", "Star48 BV & Nuclear", ...
         "Hybrid & Nuclear", "Castor 30XL & Star 48BV", "Castor 30XL & Nuclear", ...
@@ -42,7 +42,7 @@ for i1 = ComNet
         for i3 = Prop
 
             if i3 == "OMS"
-                TrajAllow = ["JupSatO"];
+                TrajAllow = ["JupSatO" "MarsJupO"];
             elseif i3 == "Solar Sail"
                 TrajAllow = ["Log Spiral" "Solar Grav"];
             else
