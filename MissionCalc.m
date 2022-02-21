@@ -14,7 +14,7 @@ function [Science, Cost, Reliability, ttHP, invalid] = MissionCalc(candidateArch
 %Calculated using Planetary Mission SMAD table A-1
 m_spacecraft = m_instr / 0.15;
 
-if (candidateArchitecture.Propulsion == "OMS")
+if (candidateArchitecture.Propulsion == "Chemical")
     m_spacecraft = m_spacecraft + 120;
 end
 

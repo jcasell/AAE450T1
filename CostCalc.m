@@ -31,7 +31,7 @@ end
 %Propulsion Cost
 if prop == "Nuclear Thermal"
     costProp = 3000*10^3;
-elseif prop == "OMS"
+elseif prop == "Chemical"
     costProp = 11.3*10^3;
 elseif prop == "Solar Sail"
     costProp = 35*10^3;

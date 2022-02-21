@@ -41,8 +41,8 @@ for i1 = ComNet
     for i2 = TelemAllow
         for i3 = Prop
 
-            if i3 == "Chemical"
-                TrajAllow = ["JupSatO"];
+            if i3 == "OMS"
+                TrajAllow = ["JupSatO" "MarsJupO"];
             elseif i3 == "Solar Sail"
                 TrajAllow = ["Log Spiral" "Solar Grav"];
             else
