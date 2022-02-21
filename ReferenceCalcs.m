@@ -4,15 +4,19 @@ close all
 
 candidateArchitecture.Communications = "DSN";
 candidateArchitecture.Telemetry = "Ka";
-candidateArchitecture.Propulsion = "BHT-100";
+candidateArchitecture.Propulsion = "BHT-200";
 candidateArchitecture.Power = "RTG Nuclear";
 candidateArchitecture.Instruments = "Mid Level";
 candidateArchitecture.Trajectory = "MarsJup";
 candidateArchitecture.LaunchVehicle = "SLS Block 2";
-candidateArchitecture.Kick = "Centaur V & Hybrid";
+candidateArchitecture.Kick = "Centaur V & Star 48BV";
 candidateArchitecture.num_Kick = 2;
 
 [science, cost, reliability, ttHP, invalid] = MissionCalc(candidateArchitecture)
+
+[final_v, invalid, added_V] = generateC3( candidateArchitecture, 800 )
+
+
 
 %Calculate Instrument Package and Science
 [sci_instr, cost_instr, m_instr, power_instr] = Instrumentation(candidateArchitecture);

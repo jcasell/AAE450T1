@@ -33,15 +33,15 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
         case "Castor 30XL"
             isp = 294;
             lambda = .944;
-            m_kick1 = 26406.79;
+            m_kick1 = 26406.79 + m_pay;
         case "Nuclear" % LOOK AT BMX TECHNOLOGIES
             isp = 875; 
             lambda = 0.74; 
-            m_kick1 = 2547.375;
+            m_kick1 = 2547.375 + m_pay;
         case "Hybrid" % SNC Vortex Engine
             isp = 325;
             lambda = 0.875;
-            m_kick1 = 2200;
+            m_kick1 = 2200 + m_pay;
         case "Centaur V & Star 48BV" %Liquid
             isp1 = 451; % LH2/LOX
             lambda1 = 0.91; % Centaur Kick Stage
@@ -184,4 +184,5 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
     end
     
     final_v = (added_V + v_esc_E)/1000 + sqrt(C3);
+    C3 + (added_V/1000)^2
 end

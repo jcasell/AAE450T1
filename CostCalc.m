@@ -86,6 +86,8 @@ switch candidateArchitecture.Kick
         costKick = 378.26*10^3;
     case "Hybrid" 
         costKick = 81.66675143*10^3;
+    case "Castor 30XL" 
+        costKick = 31.1*10^3;        
     case "Centaur V & Star 48BV"
         costKick = (48 + 72)*10^3;
     case "Centaur V & Nuclear" 
@@ -98,6 +100,12 @@ switch candidateArchitecture.Kick
         costKick = (48 + 378.26)*10^3;
     case "Hybrid & Nuclear"
         costKick = (81.66675143 + 378.26)*10^3;
+    case "Castor 30XL & Star 48BV"
+        costKick = (48 + 31.1)*10^3;
+    case "Castor 30XL & Nuclear" 
+        costKick = (31.1 + 378.16)*10^3;
+    case "Castor 30XL & Hybrid"
+        costKick = (31.1 + 81.66675143)*10^3;        
     otherwise 
         costKick = 0;
 end
