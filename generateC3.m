@@ -34,7 +34,7 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
             m_kick1 = 2547.375;
         case "Hybrid" % SNC Vortex Engine
             isp = 325;
-            lambda = 0.875; 
+            lambda = 0.875;
             m_kick1 = 2200;
         case "Centaur V & Star 48BV" %Liquid
             isp1 = 451; % LH2/LOX
