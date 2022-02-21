@@ -1,5 +1,7 @@
 function [m_prop,deltaV] = getDeltaV(candidateArchitecture,m_spacecraft)
-%MODELECTRICPROP Output delta-V produced by specified electric propulsion system
+% Inputs: Candidate Architecture, spacecraft mass
+% Output: delta-V produced by specified electric propulsion system,
+%   propellant mass required
 g = 9.81;   % [m/s^2]
 m_prop_frac = 0.13;     % SMAD planetary mission propulsion system mass
 if candidateArchitecture.Propulsion == "BHT-600"
@@ -24,9 +26,12 @@ elseif candidateArchitecture.Propulsion == "OMS"
     m_inert = m_prop_frac * m_spacecraft - m_prop;
 else
     isp = 0;
-    m_inert = 0;
     m_prop = 0;
     m_inert = 0;
 end
+% DEBUG: add more propellant mass
+m_debug = 0;
+m_prop = m_prop + m_debug;  % [kg]
+%
 deltaV = g*isp*log((m_inert + m_spacecraft + m_prop)/(m_inert + m_spacecraft)); % [m/s]
 end
