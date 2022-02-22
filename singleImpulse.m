@@ -26,7 +26,6 @@ switch planet_name
         a_planet = 1427387908;
         mu_planet = 37940626.0611;
         r_planet = 60268;
-
     case "Mars"
         a_planet = 227944135;
         mu_planet = 42828.314258067;
@@ -60,7 +59,9 @@ fpa_dep = asind(v_inf_new*sind(eta+delta_new)/v_dep); %departure flight path ang
 
 % Equivalent deltaV
 delta_fpa = abs(fpa_arr - fpa_dep);
+
 v_eq = sqrt(v_dep^2 + v_arr^2 - (2*v_dep*v_arr*cosd(delta_fpa))); %equivalent deltaV from pass
+
 beta1 = asind(v_dep*sind(delta_fpa)/v_eq);
 beta2 = 180 - beta1;
 

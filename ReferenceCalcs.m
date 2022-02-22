@@ -4,7 +4,7 @@ close all
 
 candidateArchitecture.Communications = "DSN";
 candidateArchitecture.Telemetry = "Ka";
-candidateArchitecture.Propulsion = "BHT-200";
+candidateArchitecture.Propulsion = "OMS";
 candidateArchitecture.Power = "RTG Nuclear";
 candidateArchitecture.Instruments = "Mid Level";
 candidateArchitecture.Trajectory = "MarsJup";

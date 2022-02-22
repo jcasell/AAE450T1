@@ -49,7 +49,7 @@ elseif candidateArchitecture.Trajectory == "MarsJupO"
     [v_arr,fpa_arr] = getFPA(a_earth,v_0,rad_list(1),0);
     [stageTime,~] = detTof(a_earth,v_0,rad_list(1),fpa_arr);
     TOF = stageTime + TOF;
-    [v_dep,fpa_dep] = singleImpulse(planet1,v_arr,fpa_arr,2,0.7); %2 is planetary radii for periapsis; 0.7 is delta V applied at periapsis.
+    [v_dep,fpa_dep] = singleImpulse(planet1,v_arr,fpa_arr,4,0.7); %2 is planetary radii for periapsis; 0.7 is delta V applied at periapsis.
 
     %Mars to Jupiter
     [v_arr,fpa_arr] = getFPA(rad_list(1),v_dep,rad_list(2),fpa_dep);
