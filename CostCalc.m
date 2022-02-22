@@ -21,7 +21,7 @@ kick =  candidateArchitecture.Kick;
 
 %Communication Network Cost
 if comm == "DSN"
-    costTTC = 11.6424*10^3;
+    costTTC = 17.5*10^3;
 elseif comm == "NSN"
     costTTC = 113.575/3.5*10^3;
 elseif comm == "IDSN"
@@ -31,7 +31,7 @@ end
 %Propulsion Cost
 if prop == "Nuclear Thermal"
     costProp = 3000*10^3;
-+elseif prop == "Chemical"
+elseif prop == "Chemical"
 %     costProp = 11.3*10^3;
     costProp = 29 * m_prop + 0.024 * burnTime;  % SMAD AKM cost estimate pg. 299 eq. 1.1.5
 elseif prop == "Solar Sail"
