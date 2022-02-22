@@ -3,11 +3,10 @@ function [burnTime,m_prop,deltaV] = getDeltaV(candidateArchitecture,m_spacecraft
 % Output: delta-V produced by specified electric propulsion system,
 %   propellant mass required
 g = 9.81;   % [m/s^2]
-m_prop_frac = 0.13;     % SMAD planetary mission propulsion system mass
-% DEBUG: add propellant mass contribution
+% DEBUG: increase fraction of spacecraft mass that is propulsion system
 m_debug = 0.00;
 %
-m_prop_frac = m_prop_frac + m_debug;
+m_prop_frac = 0.13 + m_debug;    % SMAD planetary mission propulsion system mass
 if candidateArchitecture.Propulsion == "BHT-600"
     % Specs for BHT-600 Hall thruster
     F = 39 / 1000;  % [N]
