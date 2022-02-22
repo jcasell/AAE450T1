@@ -21,7 +21,7 @@ kick =  candidateArchitecture.Kick;
 
 %Communication Network Cost
 if comm == "DSN"
-    costTTC = 17.5*10^3;
+    costTTC = 17.805*10^3;
 elseif comm == "NSN"
     costTTC = 113.575/3.5*10^3;
 elseif comm == "IDSN"
