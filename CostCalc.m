@@ -1,4 +1,4 @@
-function [Cost] = CostCalc(candidateArchitecture,m_spacecraft,m_prop)
+function [Cost] = CostCalc(candidateArchitecture,m_spacecraft,m_prop,burnTime)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function Name: CostCalc
 %Description: Calculates cost of Morph Matrix components
@@ -31,14 +31,15 @@ end
 %Propulsion Cost
 if prop == "Nuclear Thermal"
     costProp = 3000*10^3;
-elseif prop == "Chemical"
-    costProp = 11.3*10^3;
++elseif prop == "Chemical"
+%     costProp = 11.3*10^3;
+    costProp = 29 * m_prop + 0.024 * burnTime;  % SMAD AKM cost estimate pg. 299 eq. 1.1.5
 elseif prop == "Solar Sail"
     costProp = 35*10^3;
 elseif prop == "BHT-200"
     costProp =  0.12*10^3 + m_prop/10;   % $1000/kg Xenon estimated from https://trs.jpl.nasa.gov/bitstream/handle/2014/45452/08-2765_A1b.pdf?sequence=1
 elseif prop == "BHT-600"        % Thruster costs estimated from above AIAA report
-    costProp =  0.36*10^3 + m_prop/10; %10th of the price for Krypton
+    costProp =  0.18*10^3 + m_prop/10; %10th of the price for Krypton
 else
     costProp = 0;
 end
