@@ -1,4 +1,4 @@
-function [tof, finalTA] = detTof(r0,v0,rF,fpa0)
+function [tof, initialTA, finalTA] = detTof(r0,v0,rF,fpa0)
 
 muSun = 132712440017.99; %km^3/s^2, gravitational parameter of the sun
 

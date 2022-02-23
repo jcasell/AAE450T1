@@ -25,13 +25,13 @@ end
 if candidateArchitecture.Trajectory == "JupSatO"
     %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(a_earth,v_0,rad_list(1),0);
-    [stageTime,~] = detTof(a_earth,v_0,rad_list(1),fpa_arr);
+    [stageTime,~,~] = detTof(a_earth,v_0,rad_list(1),fpa_arr);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = singleImpulse(planet1,v_arr,fpa_arr,32,0.7);
 
     %First Planet to Second Planet
     [v_arr,fpa_arr] = getFPA(rad_list(1),v_dep,rad_list(2),fpa_dep);
-    [stageTime,~] = detTof(rad_list(1),v_dep,rad_list(2),fpa_arr);
+    [stageTime,~,~] = detTof(rad_list(1),v_dep,rad_list(2),fpa_arr);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
 
@@ -47,13 +47,13 @@ if candidateArchitecture.Trajectory == "JupSatO"
 elseif candidateArchitecture.Trajectory == "MarsJupO"
     %Earth to Mars
     [v_arr,fpa_arr] = getFPA(a_earth,v_0,rad_list(1),0);
-    [stageTime,~] = detTof(a_earth,v_0,rad_list(1),fpa_arr);
+    [stageTime,~,~] = detTof(a_earth,v_0,rad_list(1),fpa_arr);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = singleImpulse(planet1,v_arr,fpa_arr,4,0.7); %2 is planetary radii for periapsis; 0.7 is delta V applied at periapsis.
 
     %Mars to Jupiter
     [v_arr,fpa_arr] = getFPA(rad_list(1),v_dep,rad_list(2),fpa_dep);
-    [stageTime,~] = detTof(rad_list(1),v_dep,rad_list(2),fpa_arr);
+    [stageTime,~,~] = detTof(rad_list(1),v_dep,rad_list(2),fpa_arr);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
 
@@ -70,10 +70,10 @@ elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.
     %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(a_earth,v_0,rad_list(1),0);
     TOF = detTof(a_earth,v_0,rad_list(1),fpa_arr) + TOF;
-    [v_dep] = gravityAssist(planet1,v_arr,fpa_arr);
+    [v_dep,fpa_dep] = gravityAssist(planet1,v_arr,fpa_arr);
 
     %First Planet to Second Planet
-    [v_arr,fpa_arr] = getFPA(rad_list(1),v_dep,rad_list(2),0);
+    [v_arr,fpa_arr] = getFPA(rad_list(1),v_dep,rad_list(2),fpa_dep);
     TOF = detTof(rad_list(1),v_dep,rad_list(2),fpa_arr) + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
 
