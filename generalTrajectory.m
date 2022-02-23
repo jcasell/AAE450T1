@@ -1,4 +1,4 @@
-function [totalTOF,ENATime,LYATime,eolDist] = generalTrajectory(candidateArchitecture,v_inf,deltaV)
+function [totalTOF,ENATime,LYATime,eolDist,parameterList] = generalTrajectory(candidateArchitecture,v_inf,deltaV)
 %% General Trajectory Function
 % This function will take the mission input and apply the correct
 % trajectory functions to determine the TOF of each phase
@@ -17,6 +17,8 @@ TOF = 0;
 v_earth = sqrt(2*mu_sun/a_earth); %velocity of Earth relative to Sun [km/s]
 v_0 = v_inf + v_earth; %initial velocity of s/c relative to sun [km/s]
 
+parameterList = zeros(5,5);
+
 %% Calculations
 if and(candidateArchitecture.Trajectory ~= "Log Spiral",candidateArchitecture.Trajectory ~= "Solar Grav")
     [rad_list,planet1,planet2] = getCharacteristics(candidateArchitecture.Trajectory);
@@ -25,15 +27,17 @@ end
 if candidateArchitecture.Trajectory == "JupSatO"
     %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(a_earth,v_0,rad_list(1),0);
-    [stageTime,~,~] = detTof(a_earth,v_0,rad_list(1),fpa_arr);
+    [stageTime,initialTA,finalTA] = detTof(a_earth,v_0,rad_list(1),fpa_arr);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = singleImpulse(planet1,v_arr,fpa_arr,32,0.7);
+    parameterList(1,:) = [rad_list(1),v_dep, fpa_dep, initialTA,finalTA];
 
     %First Planet to Second Planet
     [v_arr,fpa_arr] = getFPA(rad_list(1),v_dep,rad_list(2),fpa_dep);
-    [stageTime,~,~] = detTof(rad_list(1),v_dep,rad_list(2),fpa_arr);
+    [stageTime,initialTA,finalTA] = detTof(rad_list(1),v_dep,rad_list(2),fpa_arr);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
+    parameterList(2,:) = [rad_list(1),v_dep, fpa_dep, initialTA,finalTA];
 
     % Add electric propulsion impulse to velocity
     v_dep = v_dep + deltaV*10^-3;
@@ -47,15 +51,17 @@ if candidateArchitecture.Trajectory == "JupSatO"
 elseif candidateArchitecture.Trajectory == "MarsJupO"
     %Earth to Mars
     [v_arr,fpa_arr] = getFPA(a_earth,v_0,rad_list(1),0);
-    [stageTime,~,~] = detTof(a_earth,v_0,rad_list(1),fpa_arr);
+    [stageTime,initialTA,finalTA] = detTof(a_earth,v_0,rad_list(1),fpa_arr);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = singleImpulse(planet1,v_arr,fpa_arr,4,0.7); %2 is planetary radii for periapsis; 0.7 is delta V applied at periapsis.
+    parameterList(1,:) = [rad_list(1),v_dep, fpa_dep, initialTA,finalTA];
 
     %Mars to Jupiter
     [v_arr,fpa_arr] = getFPA(rad_list(1),v_dep,rad_list(2),fpa_dep);
-    [stageTime,~,~] = detTof(rad_list(1),v_dep,rad_list(2),fpa_arr);
+    [stageTime,initialTA,finalTA] = detTof(rad_list(1),v_dep,rad_list(2),fpa_arr);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
+    parameterList(2,:) = [rad_list(1),v_dep, fpa_dep, initialTA,finalTA];
 
     % Add electric propulsion impulse to velocity
     v_dep = v_dep + deltaV*10^-3;
@@ -69,13 +75,17 @@ elseif candidateArchitecture.Trajectory == "MarsJupO"
 elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.Trajectory == "MarsJup")
     %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(a_earth,v_0,rad_list(1),0);
-    TOF = detTof(a_earth,v_0,rad_list(1),fpa_arr) + TOF;
+    [stepTOF,initialTA,finalTA] = detTof(a_earth,v_0,rad_list(1),fpa_arr);
+    TOF = stepTOF + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet1,v_arr,fpa_arr);
+    parameterList(1,:) = [rad_list(1),v_dep, fpa_dep, initialTA,finalTA];
 
     %First Planet to Second Planet
     [v_arr,fpa_arr] = getFPA(rad_list(1),v_dep,rad_list(2),fpa_dep);
-    TOF = detTof(rad_list(1),v_dep,rad_list(2),fpa_arr) + TOF;
+    [stepTOF,initialTA,finalTA] = detTof(rad_list(1),v_dep,rad_list(2),fpa_arr);
+    TOF = stepTOF + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
+    parameterList(2,:) = [rad_list(1),v_dep, fpa_dep, initialTA,finalTA];
 
     % Add electric propulsion impulse to velocity
     v_dep = v_dep + deltaV*10^-3;
