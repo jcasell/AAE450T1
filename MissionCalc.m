@@ -1,4 +1,4 @@
-function [Science, Cost, Reliability, ttHP, invalid] = MissionCalc(candidateArchitecture)
+function [Science, Cost, Reliability, ttHP, invalid,orbitalParams] = MissionCalc(candidateArchitecture)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Function Name: MissionCalc
 %Description: Calculates results of a given candidate arcitecture mission.
@@ -37,7 +37,7 @@ end
 [burnTime,m_prop,deltaV] = getDeltaV(candidateArchitecture,m_spacecraft);
 
 %Calculate Trajectory
-[totalTOF,ENATime,LYATime,EndOfLifeS] = generalTrajectory(candidateArchitecture,final_v,deltaV);
+[totalTOF,ENATime,LYATime,EndOfLifeS,orbitalParams] = generalTrajectory(candidateArchitecture,final_v,deltaV);
 ttHP = totalTOF(1)+totalTOF(2);
 
 %Calculate Telemetry Data Rate

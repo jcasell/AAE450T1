@@ -12,7 +12,7 @@ candidateArchitecture.LaunchVehicle = "SLS Block 2";
 candidateArchitecture.Kick = "Centaur V & Star 48BV";
 candidateArchitecture.num_Kick = 2;
 
-[science, cost, reliability, ttHP, invalid] = MissionCalc(candidateArchitecture)
+[science, cost, reliability, ttHP, invalid,orbitalParams] = MissionCalc(candidateArchitecture)
 [Science_instrument, Cost_instrument, Mass_instrument, Power_instrument] = Instrumentation(candidateArchitecture)
 m_spacecraft = Mass_instrument / 0.15;
 [burnTime,m_prop,deltaV] = getDeltaV(candidateArchitecture,m_spacecraft);
