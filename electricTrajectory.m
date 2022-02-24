@@ -4,7 +4,7 @@ function [vf,rf,fpaf] = electricTrajectory(v0,r0,fpa0,tof,dV)
 % delta V to get the final distance. velocity and fpa
 %% Calculations
 muSun = 132712440017.99; %km^3/s^2, solar gravitational parameter
-
+k = 1;
 sma = 0.5 * (muSun / ((muSun / r0) - (v0^2 / 2))); %Calculate semimajor axis
 ecc = sqrt(((r0 * v0^2 / muSun) - 1)^2 * cosd(fpa0)^2 + sind(fpa0)^2); %Calculates eccentricity of heliocentric orbit
 
@@ -26,9 +26,10 @@ while checkFlag == 0 %Iterate until internal condition is met
     end
 
     if checkParam > 0 %If the time of flight is not within bounds, scale the guess accordingly
-        guessR = guessR+5; %Make the R bigger if travel time is not big enough
+        guessR = guessR+5000000/k; %Make the R bigger if travel time is not big enough
     else
-        guessR = guessR-5; %Make the R smaller if travel time is too big
+        guessR = guessR-5000000/k; %Make the R smaller if travel time is too big
+        k = k*2;
     end
 end
 rf = guessR;
