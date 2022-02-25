@@ -37,7 +37,7 @@ end
 [burnTime,m_prop,deltaV] = getDeltaV(candidateArchitecture,m_spacecraft);
 
 %Calculate Trajectory
-[totalTOF,ENATime,LYATime,EndOfLifeS,orbitalParams] = generalTrajectory(candidateArchitecture,final_v,deltaV);
+[totalTOF,ENATime,LYATime,EndOfLifeS,orbitalParams] = generalTrajectory(candidateArchitecture,final_v);
 ttHP = totalTOF(1)+totalTOF(2);
 
 %Calculate Telemetry Data Rate
