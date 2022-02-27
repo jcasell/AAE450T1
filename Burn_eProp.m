@@ -1,4 +1,4 @@
-function [vf,rf,fpaf,mp_res] = Burn_eProp(mp,mcraft,Vo,Ro,Fpao,Rlimit)
+function [vf,rf,fpaf,stageTime,mp_res] = Burn_eProp(mcraft,Vo,Ro,Fpao,Rlimit,mp)
 au2km = 149597870.691;
 g = 9.81; %m/s2
 i = 1;
@@ -7,20 +7,20 @@ t(1) = 0;
 % mcraft = 500;
 % Vo = 40; %m/s
 % Ro = 3; %au
-% Fpao = 12;
-% v0(1) = Vo; 
-% r0(1) = Ro*au2km;
-% fpa0(1) = Fpao;
-% Rlimit = 4*au2km; %input in au
+% Fpao = 80;
+v0(1) = Vo; 
+r0(1) = Ro;
+fpa0(1) = Fpao;
+% Rlimit = 40*au2km; %input in au
 %%
-
+% ​
 if  exist('mp',"var")
     BHT_200_Mprop2(1) = mp; %kg
 else
     mass_available = mcraft*.13; %kg
     BHT_200_Mprop2(1) = mass_available; %kg
 end
-
+%​
 eta = .92; %estimated off of BHT 100
 BHT_200_T = (17/1000); %N
 BHT_200_P = 200; %W
@@ -29,16 +29,16 @@ BHT_200_ISP = 1390; %s
 BHT_200_M = 1; %kg
 BHT_200_UE = BHT_200_Pjet*2/BHT_200_T; %m/s
 BHT_200_mdot = BHT_200_T/BHT_200_UE; %kg/s
-
+%​
 m_craft_burn(1) = mcraft + BHT_200_Mprop2(1) + BHT_200_M; %kg
 delta_V = BHT_200_ISP*g*log(m_craft_burn(1)/(mcraft+BHT_200_M)); %m/s
 delta_Vi(1) = 0; %m/s
 BurnTime_total = (BHT_200_Mprop2(1)/BHT_200_mdot)/(365*24*3600); %s
 flag = 1;
-
-days = 7;
-dt = days*24*60*50; %days in seconds
-
+%​
+days = 1;
+dt = days*24*60*60; %days in seconds
+%​
 while (BHT_200_Mprop2(i) > 0) & flag
     t(i+1) = t(i) + dt;
     BHT_200_Mprop2(i+1) = BHT_200_Mprop2(i) - BHT_200_mdot*dt;
@@ -51,10 +51,11 @@ while (BHT_200_Mprop2(i) > 0) & flag
     end
     i = i + 1;
 end
-
+%​
 rf = r0(end);
 vf = v0(end);
 fpaf = fpa0(end);
 if ~exist('Rlimit',"var")
         mp_res = 0;
 end
+stageTime = t(end)/(3600 * 24 * 365.25);
