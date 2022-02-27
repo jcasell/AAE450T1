@@ -24,7 +24,6 @@ if and(candidateArchitecture.Trajectory ~= "Log Spiral",candidateArchitecture.Tr
     [rad_list,planet1,planet2] = getCharacteristics(candidateArchitecture.Trajectory);
 end
 
-
 if candidateArchitecture.Propulsion == "BHT-200"
     [~, ~, m_instr, ~] = Instrumentation(candidateArchitecture);
     mcraft = m_instr/.15;
