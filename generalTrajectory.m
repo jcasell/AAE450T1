@@ -30,7 +30,7 @@ if candidateArchitecture.Propulsion == "BHT-200"
     mcraft = m_instr/.15;
     au2km = 149597870.691;
     [~,fpa0] = getFPA(a_earth,v_0,a_earth,0);
-    buffer = .375*au2km; %au (buffer to start and stop eprop
+    buffer = .375*au2km; %km (buffer to start and stop eprop)
     [v_0,currentR,fpa_e,stageTime,mp_res] = Burn_eProp(mcraft,v_0,a_earth,fpa0,rad_list(1)-buffer);
     TOF = stageTime + TOF;
 else
@@ -50,7 +50,7 @@ if candidateArchitecture.Trajectory == "JupSatO"
     [v_dep,fpa_dep] = singleImpulse(planet1,v_arr,fpa_arr,32,0.7);
 
     if candidateArchitecture.Propulsion == "BHT-200" && mp_res > 0
-        [v_dep,currentR,fpa_dep,mp_res] = Burn_eProp(mcraft,v_dep,currentR+buffer,fpa_dep,rad_list(2)-buffer);
+        [v_dep,currentR,fpa_dep,stageTime,mp_res] = Burn_eProp(mcraft,v_dep,currentR+buffer,fpa_dep,rad_list(2)-buffer,mp_res);
         TOF = stageTime + TOF;
     end
     parameterList(1,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];
@@ -58,14 +58,12 @@ if candidateArchitecture.Trajectory == "JupSatO"
     %First Planet to Second Planet
 
     [v_arr,fpa_arr] = getFPA(currentR,v_dep,rad_list(2),0);
-
-
     [stageTime,initialTA,finalTA] = detTof(currentR,v_dep,rad_list(2),fpa_arr);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
 
     if candidateArchitecture.Propulsion == "BHT-200" && mp_res > 0
-        [v_dep,currentR,fpa_dep] = Burn_eProp(mcraft,v_dep,plantet2+buffer,fpa_dep);
+        [v_dep,currentR,fpa_dep,stageTime] = Burn_eProp(mcraft,v_dep,rad_list(2)+buffer,fpa_dep,0,mp_res);
         TOF = stageTime + TOF;
     end
     parameterList(2,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];
@@ -79,14 +77,13 @@ if candidateArchitecture.Trajectory == "JupSatO"
 elseif candidateArchitecture.Trajectory == "MarsJupO"
      %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(currentR,v_0,rad_list(1),fpa_e);
-
     [stageTime,initialTA,finalTA] = detTof(currentR,v_0,rad_list(1),fpa_e);
     currentR = rad_list(1);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = singleImpulse(planet1,v_arr,fpa_arr,4,0.7); %2 is planetary radii for periapsis; 0.7 is delta V applied at periapsis.
 
     if candidateArchitecture.Propulsion == "BHT-200" && mp_res > 0
-        [v_dep,currentR,fpa_dep,mp_res] = Burn_eProp(mcraft,v_dep,currentR+buffer,fpa_dep,rad_list(2)-buffer);
+        [v_dep,currentR,fpa_dep,stageTime,mp_res] = Burn_eProp(mcraft,v_dep,currentR+buffer,fpa_dep,rad_list(2)-buffer,mp_res);
         TOF = stageTime + TOF;
     end
     parameterList(1,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];
@@ -94,14 +91,12 @@ elseif candidateArchitecture.Trajectory == "MarsJupO"
     %First Planet to Second Planet
 
     [v_arr,fpa_arr] = getFPA(currentR,v_dep,rad_list(2),0);
-
-
     [stageTime,initialTA,finalTA] = detTof(currentR,v_dep,rad_list(2),fpa_arr);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
 
     if candidateArchitecture.Propulsion == "BHT-200" && mp_res > 0
-        [v_dep,currentR,fpa_dep] = Burn_eProp(mcraft,v_dep,plantet2+buffer,fpa_dep);
+        [v_dep,currentR,fpa_dep,stageTime] = Burn_eProp(mcraft,v_dep,rad_list(2)+buffer,fpa_dep,0,mp_res);
         TOF = stageTime + TOF;
     end
     parameterList(2,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];
@@ -114,14 +109,13 @@ elseif candidateArchitecture.Trajectory == "MarsJupO"
 elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.Trajectory == "MarsJup")
 %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(currentR,v_0,rad_list(1),fpa_e);
-
     [stageTime,initialTA,finalTA] = detTof(currentR,v_0,rad_list(1),fpa_e);
     currentR = rad_list(1);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet1,v_arr,fpa_arr); 
 
     if candidateArchitecture.Propulsion == "BHT-200" && mp_res > 0
-        [v_dep,currentR,fpa_dep,mp_res] = Burn_eProp(mcraft,v_dep,currentR+buffer,fpa_dep,rad_list(2)-buffer);
+        [v_dep,currentR,fpa_dep,stageTime,mp_res] = Burn_eProp(mcraft,v_dep,currentR+buffer,fpa_dep,rad_list(2)-buffer,mp_res);
         TOF = stageTime + TOF;
     end
     parameterList(1,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];
@@ -129,14 +123,12 @@ elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.
     %First Planet to Second Planet
 
     [v_arr,fpa_arr] = getFPA(currentR,v_dep,rad_list(2),0);
-
-
     [stageTime,initialTA,finalTA] = detTof(currentR,v_dep,rad_list(2),fpa_arr);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
 
     if candidateArchitecture.Propulsion == "BHT-200" && mp_res > 0
-        [v_dep,currentR,fpa_dep] = Burn_eProp(mcraft,v_dep,rad_list(2)+buffer,fpa_dep);
+        [v_dep,currentR,fpa_dep,stageTime] = Burn_eProp(mcraft,v_dep,rad_list(2)+buffer,fpa_dep,0,mp_res);
         TOF = stageTime + TOF;
     end
     parameterList(2,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];

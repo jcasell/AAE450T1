@@ -39,13 +39,13 @@ flag = 1;
 days = 1;
 dt = days*24*60*60; %days in seconds
 %​
-while (BHT_200_Mprop2(i) > 0) & flag
+while (BHT_200_Mprop2(i) > 0) && flag
     t(i+1) = t(i) + dt;
     BHT_200_Mprop2(i+1) = BHT_200_Mprop2(i) - BHT_200_mdot*dt;
     m_craft_burn(i+1) = mcraft + BHT_200_Mprop2(i+1) + BHT_200_M;
     delta_Vi(i+1) = BHT_200_ISP*g*log(m_craft_burn(i)/(m_craft_burn(i+1))); %m/s
     [v0(i+1),r0(i+1),fpa0(i+1)] = electricTrajectory(v0(i),r0(i),fpa0(i),dt,(delta_Vi(i+1))/1000);
-    if exist('Rlimit',"var") & (r0(i+1) >= Rlimit)
+    if (r0(i+1) >= Rlimit) && (Rlimit ~=0)
         flag = 0;
         mp_res = BHT_200_Mprop2(i+1);
     end
@@ -55,7 +55,4 @@ end
 rf = r0(end);
 vf = v0(end);
 fpaf = fpa0(end);
-if ~exist('Rlimit',"var")
-        mp_res = 0;
-end
 stageTime = t(end)/(3600 * 24 * 365.25);
