@@ -110,7 +110,7 @@ elseif candidateArchitecture.Trajectory == "MarsJupO"
     phase1Time = phase1Time + TOF;
 
     totalTOF = [phase1Time,phase2Time,phase3Time];
-elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.Trajectory == "MarsJup")
+elseif (candidateArchitecture.Tmp_resrajectory == "JupSat") || (candidateArchitecture.Trajectory == "MarsJup")
 %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(currentR,v_0,rad_list(1),fpa_e);
 
