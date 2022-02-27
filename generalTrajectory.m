@@ -28,7 +28,7 @@ if candidateArchitecture.Propulsion == "BHT-200"
     [~, ~, m_instr, ~] = Instrumentation(candidateArchitecture);
     mcraft = m_instr/.15;
     au2km = 149597870.691;
-    [~,fpa0] = getFPA(a_earth,v_0,a_earth,0);
+    [~,fpa0] = getFPA(a_earth,v_0,a_earth,0); %What is this line doing? It just gives the same value as input FPA
     buffer = .375*au2km; %km (buffer to start and stop eprop)
     [v_0,currentR,fpa_e,stageTime,mp_res] = Burn_eProp(mcraft,v_0,a_earth,fpa0,rad_list(1)-buffer);
     TOF = stageTime + TOF;
@@ -105,7 +105,7 @@ elseif candidateArchitecture.Trajectory == "MarsJupO"
     phase1Time = phase1Time + TOF;
 
     totalTOF = [phase1Time,phase2Time,phase3Time];
-elseif (candidateArchitecture.Tmp_resrajectory == "JupSat") || (candidateArchitecture.Trajectory == "MarsJup")
+elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.Trajectory == "MarsJup")
 %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(currentR,v_0,rad_list(1),fpa_e);
     [stageTime,initialTA,finalTA, sma, ecc] = detTof(currentR,v_0,rad_list(1),fpa_e);
