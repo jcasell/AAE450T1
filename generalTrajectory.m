@@ -24,7 +24,6 @@ if and(candidateArchitecture.Trajectory ~= "Log Spiral",candidateArchitecture.Tr
     [rad_list,planet1,planet2] = getCharacteristics(candidateArchitecture.Trajectory);
 end
 
-
 if candidateArchitecture.Propulsion == "BHT-200"
     [~, ~, m_instr, ~] = Instrumentation(candidateArchitecture);
     mcraft = m_instr/.15;
@@ -106,10 +105,11 @@ elseif candidateArchitecture.Trajectory == "MarsJupO"
     phase1Time = phase1Time + TOF;
 
     totalTOF = [phase1Time,phase2Time,phase3Time];
-elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.Trajectory == "MarsJup")
+elseif (candidateArchitecture.Tmp_resrajectory == "JupSat") || (candidateArchitecture.Trajectory == "MarsJup")
 %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(currentR,v_0,rad_list(1),fpa_e);
-    [stageTime,initialTA,finalTA] = detTof(currentR,v_0,rad_list(1),fpa_e);
+    [stageTime,initialTA,finalTA, sma, ecc] = detTof(currentR,v_0,rad_list(1),fpa_e);
+    parameterList(1,:) = [currentR,sma,ecc,initialTA,finalTA];
     currentR = rad_list(1);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet1,v_arr,fpa_arr); 
@@ -118,14 +118,14 @@ elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.
         [v_dep,currentR,fpa_dep,stageTime,mp_res] = Burn_eProp(mcraft,v_dep,currentR+buffer,fpa_dep,rad_list(2)-buffer,mp_res);
         TOF = stageTime + TOF;
     end
-    parameterList(1,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];
 
     %First Planet to Second Planet
 
     [v_arr,fpa_arr] = getFPA(currentR,v_dep,rad_list(2),0);
-    [stageTime,initialTA,finalTA] = detTof(currentR,v_dep,rad_list(2),fpa_arr);
+    [stageTime,initialTA,finalTA, sma, ecc] = detTof(currentR,v_dep,rad_list(2),fpa_arr);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
+    parameterList(1,:) = [currentR,sma,ecc,initialTA,finalTA];
 
     if candidateArchitecture.Propulsion == "BHT-200" && mp_res > 0
         [v_dep,currentR,fpa_dep,stageTime] = Burn_eProp(mcraft,v_dep,rad_list(2)+buffer,fpa_dep,0,mp_res);
