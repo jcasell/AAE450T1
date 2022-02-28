@@ -3,15 +3,10 @@ au2km = 149597870.691;
 g = 9.81; %m/s2
 i = 1;
 t(1) = 0;
-%% Hardcoded values DELETE WHEN IN GITHUB
-% mcraft = 500;
-% Vo = 40; %m/s
-% Ro = 3; %au
-% Fpao = 80;
+%% Initialization
 v0(1) = Vo; 
 r0(1) = Ro;
 fpa0(1) = Fpao;
-% Rlimit = 40*au2km; %input in au
 %%
 % ​
 if  exist('mp',"var")
@@ -56,3 +51,4 @@ rf = r0(end);
 vf = v0(end);
 fpaf = fpa0(end);
 stageTime = t(end)/(3600 * 24 * 365.25);
+end
