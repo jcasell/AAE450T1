@@ -11,7 +11,7 @@ function [Science, Cost, Mass, Power] = Instrumentation(candidateArchitecture)
 package = candidateArchitecture.Instruments;
 
 if package == "Minimum";
-    Science = [0.7841 0.8184 0.7315 0 0];   %Science for each phase of mission
+    Science = [0.7481 0.8184 0.7315 0 0];   %Science for each phase of mission
     Cost = 126.6;   %Millions of Dollars in 2022 dollars
     Mass = 30.5; %mass kg
     Power = 45.4;   %Power W

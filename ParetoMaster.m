@@ -12,16 +12,14 @@ tic
 %Define Possible Matrix Options
 ComNet = ["DSN"]; %Communication Network Options
 Telem = ["Ka" "X" "S"];     %Telemetry Band
-Prop = ["Chemical" "Solar Sail" "BHT-200" "BHT-600"];   %Propulsion Options
+Prop = ["Chemical" "Solar Sail" "BHT-200"];   %Propulsion Options
 Power = ["RTG Nuclear"];  %Power Source Options
 Instr = ["Minimum" "Mid Level" "High Level"];    %Instrumentation Options
-Traj = ["JupSat" "JupSatO" "Log Spiral" "Solar Grav" "MarsJup"]; %Trajectory Options (O indicates impulse manuever during GA)
+Traj = ["JupSat" "JupSatO" "Log Spiral" "Solar Grav" "MarsJup" "MarsJupO"]; %Trajectory Options (O indicates impulse manuever during GA)
 LaunchV = ["SLS Block 2", "Falcon Heavy", "Starship", "Vulcan 6S"];    %Launch Vehicle Options
-Kick = ["Castor 30XL" "Star 48BV", "Centaur V", "Nuclear", "Hybrid", "Centaur V & Star 48BV", ...
-        "Centaur V & Nuclear", "Centaur V & Hybrid", "Star 48BV & Hybrid", "Star48 BV & Nuclear", ...
-        "Hybrid & Nuclear", "Castor 30XL & Star 48BV", "Castor 30XL & Nuclear", ...
-        "Castor 30XL & Hybrid", "No Kick Stage"];   %Kick Stages Options
-NumKick = [0 1 2];
+Kick = ["Castor 30XL" "Star 48BV", "Centaur V", "Centaur V & Star 48BV", ...
+        "Castor 30XL & Star 48BV", "No Kick Stage"];   %Kick Stages Options
+NumKick = [2];
 
 %Create Results Table
 ResultsRaw = [];
@@ -63,9 +61,9 @@ for i1 = ComNet
                                 if i8 == 0;
                                     KickAllow = ["No Kick Stage"];
                                 elseif i8 == 1;
-                                    KickAllow = ["Star 48BV","Centaur V","Nuclear","Hybrid", "Castor 30XL"];
+                                    KickAllow = ["Star 48BV","Centaur V", "Castor 30XL"];
                                 elseif i8 == 2;
-                                    KickAllow = ["Centaur V & Star 48BV","Centaur V & Nuclear","Centaur V & Hybrid","Star 48BV & Hybrid","Star 48BV & Nuclear","Hybrid & Nuclear", "Castor 30XL & Star 48BV", "Castor 30XL & Nuclear", "Castor 30XL & Hybrid"];
+                                    KickAllow = ["Centaur V & Star 48BV", "Castor 30XL & Star 48BV"];
                                 end
                                 for i9 = KickAllow
                                     candidateArchitecture.Communications = i1;

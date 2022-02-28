@@ -1,19 +1,13 @@
-function [vf,rf,fpaf,mp_res] = Burn_eProp(mp,mcraft,Vo,Ro,Fpao,Rlimit)
+function [vf,rf,fpaf,stageTime,mp_res] = Burn_eProp(mcraft,Vo,Ro,Fpao,Rlimit,mp)
 au2km = 149597870.691;
 g = 9.81; %m/s2
 i = 1;
 t(1) = 0;
-%% Hardcoded values DELETE WHEN IN GITHUB
-% mcraft = 500;
-% Vo = 40; %m/s
-% Ro = 3; %au
-% Fpao = 12;
-% v0(1) = Vo; 
-% r0(1) = Ro*au2km;
-% fpa0(1) = Fpao;
-% Rlimit = 4*au2km; %input in au
+%% Initialization
+v0(1) = Vo; 
+r0(1) = Ro;
+fpa0(1) = Fpao;
 %%
-
 if  exist('mp',"var")
     BHT_200_Mprop2(1) = mp; %kg
 else
@@ -36,16 +30,16 @@ delta_Vi(1) = 0; %m/s
 BurnTime_total = (BHT_200_Mprop2(1)/BHT_200_mdot)/(365*24*3600); %s
 flag = 1;
 
-days = 7;
-dt = days*24*60*50; %days in seconds
+days = 1;
+dt = days*24*60*60; %days in seconds
 
-while (BHT_200_Mprop2(i) > 0) & flag
+while (BHT_200_Mprop2(i) > 0) && flag
     t(i+1) = t(i) + dt;
     BHT_200_Mprop2(i+1) = BHT_200_Mprop2(i) - BHT_200_mdot*dt;
     m_craft_burn(i+1) = mcraft + BHT_200_Mprop2(i+1) + BHT_200_M;
     delta_Vi(i+1) = BHT_200_ISP*g*log(m_craft_burn(i)/(m_craft_burn(i+1))); %m/s
     [v0(i+1),r0(i+1),fpa0(i+1)] = electricTrajectory(v0(i),r0(i),fpa0(i),dt,(delta_Vi(i+1))/1000);
-    if exist('Rlimit',"var") & (r0(i+1) >= Rlimit)
+    if (r0(i+1) >= Rlimit) && (Rlimit ~=0)
         flag = 0;
         mp_res = BHT_200_Mprop2(i+1);
     end
@@ -55,6 +49,5 @@ end
 rf = r0(end);
 vf = v0(end);
 fpaf = fpa0(end);
-if ~exist('Rlimit',"var")
-        mp_res = 0;
+stageTime = t(end)/(3600 * 24 * 365.25);
 end
