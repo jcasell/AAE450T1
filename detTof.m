@@ -3,8 +3,14 @@ function [tof, initialTA, finalTA, sma, ecc] = detTof(r0,v0,rF,fpa0)
 muSun = 132712440017.99; %km^3/s^2, gravitational parameter of the sun
 
 %This function determines the time of flight between two points given
-%orbital inf`ormation. Output time of flight is in Julian Years (365.25
+%orbital information. Output time of flight is in Julian Years (365.25
 %Julian days per Julian year)
+
+%Input: 
+%r0: initial radius from sun (km)
+%v0: initial heliocentric velocity (km/s)
+%rF: final radius from sun (km)
+%fpa0: initial flight path angle on heliocentric trajectory (degrees)
 
 %Check if orbit type is elliptic or hyperbolic
 vEsc = sqrt(2*muSun/r0); %Escape velocity from given r around the sun
