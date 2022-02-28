@@ -44,7 +44,7 @@ end
 if candidateArchitecture.Trajectory == "JupSatO"
     %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(currentR,v_0,rad_list(1),fpa_e);
-    [stageTime,initialTA,finalTA] = detTof(currentR,v_0,rad_list(1),fpa_e);
+    [stageTime,initialTA,finalTA, sma, ecc] = detTof(currentR,v_0,rad_list(1),fpa_e);
     currentR = rad_list(1);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = singleImpulse(planet1,v_arr,fpa_arr,32,0.7);
@@ -53,11 +53,11 @@ if candidateArchitecture.Trajectory == "JupSatO"
         [v_dep,currentR,fpa_dep,stageTime,mp_res] = Burn_eProp(mcraft,v_dep,currentR+buffer,fpa_dep,rad_list(2)-buffer,mp_res);
         TOF = stageTime + TOF;
     end
-    parameterList(1,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];
+    parameterList(1,:) = [currentR,sma,ecc,initialTA,finalTA];
 
     %First Planet to Second Planet
     [v_arr,fpa_arr] = getFPA(currentR,v_dep,rad_list(2),fpa_dep);
-    [stageTime,initialTA,finalTA] = detTof(currentR,v_dep,rad_list(2),fpa_dep);
+    [stageTime,initialTA,finalTA, sma, ecc] = detTof(currentR,v_dep,rad_list(2),fpa_dep);
     currentR = rad_list(2);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
@@ -66,7 +66,7 @@ if candidateArchitecture.Trajectory == "JupSatO"
         [v_dep,currentR,fpa_dep,stageTime] = Burn_eProp(mcraft,v_dep,rad_list(2)+buffer,fpa_dep,0,mp_res);
         TOF = stageTime + TOF;
     end
-    parameterList(2,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];
+    parameterList(2,:) = [currentR,sma,ecc,initialTA,finalTA];
 
     %Determine Total TOF
     [phaseTimes,ENATime,LYATime,eolDist] = coastTime(currentR,v_dep,fpa_dep);
@@ -77,7 +77,7 @@ if candidateArchitecture.Trajectory == "JupSatO"
 elseif candidateArchitecture.Trajectory == "MarsJupO"
     %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(currentR,v_0,rad_list(1),fpa_e);
-    [stageTime,initialTA,finalTA] = detTof(currentR,v_0,rad_list(1),fpa_e);
+    [stageTime,initialTA,finalTA,sma,ecc] = detTof(currentR,v_0,rad_list(1),fpa_e);
     currentR = rad_list(1);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = singleImpulse(planet1,v_arr,fpa_arr,4,0.7); %2 is planetary radii for periapsis; 0.7 is delta V applied at periapsis.
@@ -86,11 +86,11 @@ elseif candidateArchitecture.Trajectory == "MarsJupO"
         [v_dep,currentR,fpa_dep,stageTime,mp_res] = Burn_eProp(mcraft,v_dep,currentR+buffer,fpa_dep,rad_list(2)-buffer,mp_res);
         TOF = stageTime + TOF;
     end
-    parameterList(1,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];
+    parameterList(1,:) = [currentR,sma,ecc,initialTA,finalTA];
 
     %First Planet to Second Planet
     [v_arr,fpa_arr] = getFPA(currentR,v_dep,rad_list(2),fpa_dep);
-    [stageTime,initialTA,finalTA] = detTof(currentR,v_dep,rad_list(2),fpa_dep);
+    [stageTime,initialTA,finalTA,sma,ecc] = detTof(currentR,v_dep,rad_list(2),fpa_dep);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
 
@@ -98,7 +98,7 @@ elseif candidateArchitecture.Trajectory == "MarsJupO"
         [v_dep,currentR,fpa_dep,stageTime] = Burn_eProp(mcraft,v_dep,rad_list(2)+buffer,fpa_dep,0,mp_res);
         TOF = stageTime + TOF;
     end
-    parameterList(2,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];
+    parameterList(2,:) = [currentR,sma,ecc,initialTA,finalTA];
 
     %Determine Total TOF
     [phaseTimes,ENATime,LYATime,eolDist] = coastTime(currentR,v_dep,fpa_dep);
@@ -110,7 +110,9 @@ elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.
     %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(currentR,v_0,rad_list(1),fpa_e);
     [stageTime,initialTA,finalTA, sma, ecc] = detTof(currentR,v_0,rad_list(1),fpa_e);
+    
     parameterList(1,:) = [currentR,sma,ecc,initialTA,finalTA];
+    
     currentR = rad_list(1);
     TOF = stageTime + TOF;
     [v_dep,fpa_dep] = gravityAssist(planet1,v_arr,fpa_arr); 
@@ -131,7 +133,7 @@ elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.
         [v_dep,currentR,fpa_dep,stageTime] = Burn_eProp(mcraft,v_dep,rad_list(2)+buffer,fpa_dep,0,mp_res);
         TOF = stageTime + TOF;
     end
-    parameterList(2,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];
+    parameterList(2,:) = [currentR,sma,ecc,initialTA,finalTA];
 
     %Determine Total TOF
     [phaseTimes,ENATime,LYATime,eolDist] = coastTime(currentR,v_dep,fpa_dep);
