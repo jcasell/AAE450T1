@@ -1,13 +1,17 @@
-function [totalTOF,ENATime,LYATime,eolDist,parameterList] = generalTrajectory(candidateArchitecture,v_inf)
+function [totalTOF,ENATime,LYATime,eolDist,parameterList] = generalTrajectory(candidateArchitecture,v_inf,deltaV)
 %% General Trajectory Function
 % This function will take the mission input and apply the correct
 % trajectory functions to determine the TOF of each phase
 %
 % Inputs: candidateArchitecture - trajectory option
 %         v_inf - the escape velocity from Earth [km/s]
-%
+%         deltaV - delta V from onboard propulsion system
 % Outputs: totalTOF - array of time of flight for each phase
 %                     [phase1,phase2,phase3] [Julian Years]
+%           ENATime - time from 250 AU - EOL [Julian Years]
+%           LYATime - time from 300 AU - EOL [Julian Years]
+%           eolDist - distance at 35 years [km]
+%           parameterList - 
 %
 %% Initialization
 mu_sun = 132712440017.99; % grav parameter of sun [km^3/s^2]
