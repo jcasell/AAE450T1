@@ -24,19 +24,18 @@ if and(candidateArchitecture.Trajectory ~= "Log Spiral",candidateArchitecture.Tr
     [rad_list,planet1,planet2] = getCharacteristics(candidateArchitecture.Trajectory);
 end
 
+% Burns electric engine from Earth - 0.2 AU from First Planet
 if candidateArchitecture.Propulsion == "BHT-200"
     [~, ~, m_instr, ~] = Instrumentation(candidateArchitecture);
     mcraft = m_instr/.15;
     au2km = 149597870.691;
-    buffer = .375*au2km; %km (buffer to start and stop eprop)
+    buffer = .2*au2km; %km (buffer to start and stop eprop)
     [v_0,currentR,fpa_e,stageTime,mp_res] = Burn_eProp(mcraft,v_0,a_earth,0,rad_list(1)-buffer);
     TOF = stageTime + TOF;
 else
     currentR = a_earth;
     fpa_e = 0;
 end
-
-
 
 if candidateArchitecture.Trajectory == "JupSatO"
     %Earth to First Planet
@@ -53,7 +52,6 @@ if candidateArchitecture.Trajectory == "JupSatO"
     parameterList(1,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];
 
     %First Planet to Second Planet
-
     [v_arr,fpa_arr] = getFPA(currentR,v_dep,rad_list(2),fpa_dep);
     [stageTime,initialTA,finalTA] = detTof(currentR,v_dep,rad_list(2),fpa_dep);
     currentR = rad_list(2);
@@ -65,15 +63,15 @@ if candidateArchitecture.Trajectory == "JupSatO"
         TOF = stageTime + TOF;
     end
     parameterList(2,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];
+
     %Determine Total TOF
     [phaseTimes,ENATime,LYATime,eolDist] = coastTime(currentR,v_dep,fpa_dep);
     phase1Time = phaseTimes(1); phase2Time = phaseTimes(2); phase3Time = phaseTimes(3);
     phase1Time = phase1Time + TOF;
-
     totalTOF = [phase1Time,phase2Time,phase3Time];
 
 elseif candidateArchitecture.Trajectory == "MarsJupO"
-     %Earth to First Planet
+    %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(currentR,v_0,rad_list(1),fpa_e);
     [stageTime,initialTA,finalTA] = detTof(currentR,v_0,rad_list(1),fpa_e);
     currentR = rad_list(1);
@@ -87,7 +85,6 @@ elseif candidateArchitecture.Trajectory == "MarsJupO"
     parameterList(1,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];
 
     %First Planet to Second Planet
-
     [v_arr,fpa_arr] = getFPA(currentR,v_dep,rad_list(2),fpa_dep);
     [stageTime,initialTA,finalTA] = detTof(currentR,v_dep,rad_list(2),fpa_dep);
     TOF = stageTime + TOF;
@@ -98,6 +95,7 @@ elseif candidateArchitecture.Trajectory == "MarsJupO"
         TOF = stageTime + TOF;
     end
     parameterList(2,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];
+
     %Determine Total TOF
     [phaseTimes,ENATime,LYATime,eolDist] = coastTime(currentR,v_dep,fpa_dep);
     phase1Time = phaseTimes(1); phase2Time = phaseTimes(2); phase3Time = phaseTimes(3);
@@ -105,7 +103,7 @@ elseif candidateArchitecture.Trajectory == "MarsJupO"
 
     totalTOF = [phase1Time,phase2Time,phase3Time];
 elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.Trajectory == "MarsJup")
-%Earth to First Planet
+    %Earth to First Planet
     [v_arr,fpa_arr] = getFPA(currentR,v_0,rad_list(1),fpa_e);
     [stageTime,initialTA,finalTA, sma, ecc] = detTof(currentR,v_0,rad_list(1),fpa_e);
     parameterList(1,:) = [currentR,sma,ecc,initialTA,finalTA];
@@ -119,7 +117,6 @@ elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.
     end
 
     %First Planet to Second Planet
-
     [v_arr,fpa_arr] = getFPA(currentR,v_dep,rad_list(2),fpa_dep);
     [stageTime,initialTA,finalTA, sma, ecc] = detTof(currentR,v_dep,rad_list(2),fpa_dep);
     TOF = stageTime + TOF;
@@ -131,11 +128,11 @@ elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.
         TOF = stageTime + TOF;
     end
     parameterList(2,:) = [currentR,v_dep, fpa_dep, initialTA,finalTA];
+
     %Determine Total TOF
     [phaseTimes,ENATime,LYATime,eolDist] = coastTime(currentR,v_dep,fpa_dep);
     phase1Time = phaseTimes(1); phase2Time = phaseTimes(2); phase3Time = phaseTimes(3);
     phase1Time = phase1Time + TOF;
-
     totalTOF = [phase1Time,phase2Time,phase3Time];
 
 elseif (candidateArchitecture.Trajectory == "Log Spiral") || (candidateArchitecture.Trajectory == "Solar Grav")
