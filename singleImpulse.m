@@ -1,4 +1,4 @@
-function [v_dep,fpa_dep] = singleImpulse(planet_name,v_arr,fpa_arr,pass_dist,deltaV)
+function [v_dep,fpa_dep] = singleImpulse(planet_name,v_arr,fpa_arr,deltaV)
 %% Gravity Assist Calculation Function
 % This function will determine the changed trajectory of the spacecraft
 % after a gravity assist
@@ -22,14 +22,17 @@ switch planet_name
         a_planet = 778279959;
         mu_planet = 126712767.8578;
         r_planet = 71492;
+        pass_dist = 32;
     case "Saturn"
         a_planet = 1427387908;
         mu_planet = 37940626.0611;
         r_planet = 60268;
+        pass_dist = 10;
     case "Mars"
         a_planet = 227944135;
         mu_planet = 42828.314258067;
         r_planet = 3397;
+        pass_dist = 4;
 end
 
 r_p = pass_dist*r_planet + r_planet; %periapsis of orbit [km]
