@@ -163,7 +163,7 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
         m_inert = (m_kick1 - m_pay - m_prop); % Structural mass of the kick stage (Mass minus final payload and propellant)
         MR = (m_pay + m_prop + m_inert) / (m_pay + m_inert); % Mass Ratio
 
-        % Calculation of Velocity Infinite with rocket equation (km/s)
+        % Calculation of Velocity Infinite with rocket equation (m/s)
         added_V = g_E * isp * log(MR); 
     elseif(candidateArchitecture.num_Kick == 2)
         %Stage 1:

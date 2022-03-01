@@ -3,13 +3,22 @@
 %Description: generate final velocity
 %Author: Austin Barrow and Propulsion Team
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+clc;
+clear all;
 
-m_pay = (0:1:5000);
-array_LV = "SLS Block 2";
+m_pay = (0:1:100000);
+array_LV = "SLS Block 1B";
 %array_LV = ["SLS Block 1", "SLS Block 1B", "SLS BLock 2", "Falcon Heavy", "Starship", "New Glenn", "Vulcan 6S"]; % Array of Launch Vehicles
+
+
 kick_Stage = ["Star 48BV", "Centaur V", "Nuclear", "Castor 30XL", "Hybrid", "Centaur V & Star 48BV", ...
         "Centaur V & Nuclear", "Centaur V & Hybrid", "Star 48BV & Hybrid", "Star 48 BV & Nuclear", ...
         "Hybrid & Nuclear", "Castor 30XL & Star 48BV", "Castor 30XL & Nuclear", "Castor 30XL & Hybrid","No Kick Stage"];
+
+kick_Stage = ["Star 48BV", "Centaur V", "Castor 30XL", "Centaur V & Star 48BV", ...       
+        "Castor 30XL & Star 48BV", "No Kick Stage"];
+
+%kick_Stage = "No Kick Stage";
 g_E = 9.81; % (m/s^2)
 v_esc_E = 11200; % Escape velocity of Earth from LEO m/s
 
@@ -137,9 +146,9 @@ for i = 1:length(kick_Stage)
                 8.34210950132914e-07 * (m_kick1)^2 + -0.0189976032356646 ...
                 * m_kick1 + 172.041984919931;
         case "SLS Block 1B"
-            C3 = -1.15085276593111e-12 * (m_kick1)^3 + ...
-                1.18020100654521e-07 * (m_kick1)^2 + ...
-                -0.00587448959766228 * m_kick1 + 119.768784427882;
+            C3 = -1.15085276593111e-12 .* (m_kick1).^3 + ...
+                1.18020100654521e-07 .* (m_kick1).^2 + ...
+                -0.00587448959766228 .* m_kick1 + 119.768784427882;
         case "SLS Block 2"
             C3 = -1.10638439713243e-12 .* (m_kick1).^3 + ...
                 1.21222227649818e-07 .* (m_kick1).^2 + ...
@@ -170,7 +179,7 @@ for i = 1:length(kick_Stage)
         m_inert = (m_kick1 - m_pay - m_prop); % Structural mass of the kick stage (Mass minus final payload and propellant)
         MR = (m_pay + m_prop + m_inert) ./ (m_pay + m_inert); % Mass Ratio
     
-        % Calculation of Velocity Infinite with rocket equation (km/s)
+        % Calculation of Velocity Infinite with rocket equation (m/s)
         added_V = g_E .* isp .* log(MR); 
     elseif(num_Kick == 2)
         %Stage 1:
@@ -197,12 +206,13 @@ for i = 1:length(kick_Stage)
 
 end 
 
-legend( "Star 48BV", "Centaur V", "Nuclear", "Hybrid", "Centaur V & Star 48BV", ...
-        "Centaur V & Nuclear", "Centaur V & Hybrid", "Star 48BV & Hybrid", "Star 48 BV & Nuclear", ...
-        "Hybrid & Nuclear", "Castor 30XL & Star 48BV", "Castor 30XL & Nuclear", "Castor 30XL & Hybrid","No Kick Stage")
+legend( kick_Stage )
 xlabel("C3 (km^2/s^2");
-xlim([100 500])
+xlim([0 400])
 ylabel("Mass of Payload (mt)")
+
+titleName = array_LV + " Mass vs C3 w/ Kick Stages";
+title(titleName);
 
 
 %% Switch statement to determine C3 (km^2/s^2) at given payload mass

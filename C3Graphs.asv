@@ -3,11 +3,13 @@
 %Description: generate final velocity
 %Author: Austin Barrow and Propulsion Team
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+clc;
+clear all;
 
-m_pay = (0:1:1000);
-array_LV = "SLS BLock 2"];
+m_pay = (0:1:4000);
+array_LV = "SLS Block 2";
 %array_LV = ["SLS Block 1", "SLS Block 1B", "SLS BLock 2", "Falcon Heavy", "Starship", "New Glenn", "Vulcan 6S"]; % Array of Launch Vehicles
-kick_Stage = ["Star 48BV", "Centaur V", "Nuclear", "Hybrid", "Centaur V & Star 48BV", ...
+kick_Stage = ["Star 48BV", "Centaur V", "Nuclear", "Castor 30XL", "Hybrid", "Centaur V & Star 48BV", ...
         "Centaur V & Nuclear", "Centaur V & Hybrid", "Star 48BV & Hybrid", "Star 48 BV & Nuclear", ...
         "Hybrid & Nuclear", "Castor 30XL & Star 48BV", "Castor 30XL & Nuclear", "Castor 30XL & Hybrid","No Kick Stage"];
 g_E = 9.81; % (m/s^2)
@@ -26,7 +28,8 @@ hold on;
 %% Switch statement to determine assumed ISP (Impulse), Lambda (Payload 
 % Fraction), Inert Mass Fraction for kick stage
 for i = 1:length(kick_Stage)
-    switch kick_Stage(i) 
+    kick = kick_Stage(i);
+    switch kick 
         case "Star 48BV" % Solid Rocket 
             num_Kick = 1;
             isp = 286;
@@ -130,41 +133,40 @@ for i = 1:length(kick_Stage)
             
     end
 
-    for j = 1:length(array_LV)
-        switch array_LV
-            case "SLS Block 1"
-                C3 = -1.36254651049771e-11 * (m_kick1)^3 + ...
-                    8.34210950132914e-07 * (m_kick1)^2 + -0.0189976032356646 ...
-                    * m_kick1 + 172.041984919931;
-            case "SLS Block 1B"
-                C3 = -1.15085276593111e-12 * (m_kick1)^3 + ...
-                    1.18020100654521e-07 * (m_kick1)^2 + ...
-                    -0.00587448959766228 * m_kick1 + 119.768784427882;
-            case "SLS Block 2"
-                C3 = -1.10638439713243e-12 * (m_kick1)^3 + ...
-                    1.21222227649818e-07 * (m_kick1)^2 + ...
-                    -0.00602174622627308 * m_kick1 + 124.597075687923;
-            case "Falcon Heavy Recoverable"
-                C3 = -6.19433969053741e-11 * (m_kick1)^3 + ...
-                    1.348688172148435e-06 * (m_kick1)^2 + -0.0160 * m_kick1 ...
-                    + 64.84;
-            case "Starship" 
-                C3 = (0.0047^2 * (log(1500 / (5 * (m_kick1 / 1000)+120) ) )^2 - 0.0032^2 ) ...
-                    *1E6;
-            case "New Glenn"
-                C3 = -4.42248334552639e-11 * (m_kick1)^3 + ...
-                    4.98373417329502e-07 * (m_kick1)^2 + -0.0055 * m_kick1 ...
-                    + 30.7952;
-            case "Vulcan 6S"
-                C3 = -6.89376184059982e-11 * (m_kick1)^3 + ...
-                    1.82960892594491e-06 * (m_kick1)^2 + -0.0225 * m_kick1 ...
-                    + 116.117;
-            otherwise 
-                C3 = -1;
-        end
+    switch array_LV
+        case "SLS Block 1"
+            C3 = -1.36254651049771e-11 * (m_kick1)^3 + ...
+                8.34210950132914e-07 * (m_kick1)^2 + -0.0189976032356646 ...
+                * m_kick1 + 172.041984919931;
+        case "SLS Block 1B"
+            C3 = -1.15085276593111e-12 .* (m_kick1).^3 + ...
+                1.18020100654521e-07 .* (m_kick1).^2 + ...
+                -0.00587448959766228 .* m_kick1 + 119.768784427882;
+        case "SLS Block 2"
+            C3 = -1.10638439713243e-12 .* (m_kick1).^3 + ...
+                1.21222227649818e-07 .* (m_kick1).^2 + ...
+                -0.00602174622627308 .* m_kick1 + 124.597075687923;
+        case "Falcon Heavy Recoverable"
+            C3 = -6.19433969053741e-11 * (m_kick1)^3 + ...
+                1.348688172148435e-06 * (m_kick1)^2 + -0.0160 * m_kick1 ...
+                + 64.84;
+        case "Starship" 
+            C3 = (0.0047^2 * (log(1500 / (5 * (m_kick1 / 1000)+120) ) )^2 - 0.0032^2 ) ...
+                *1E6;
+        case "New Glenn"
+            C3 = -4.42248334552639e-11 * (m_kick1)^3 + ...
+                4.98373417329502e-07 * (m_kick1)^2 + -0.0055 * m_kick1 ...
+                + 30.7952;
+        case "Vulcan 6S"
+            C3 = -6.89376184059982e-11 * (m_kick1)^3 + ...
+                1.82960892594491e-06 * (m_kick1)^2 + -0.0225 * m_kick1 ...
+                + 116.117;
+        otherwise 
+            disp('HI');
+            C3 = -1;
     end
 
-    if(candidateArchitecture.num_Kick == 1)        
+    if(num_Kick == 1)        
         % Calculation mass propellant, inert mass, and Mass Ratio
         m_prop = (m_kick1 - m_pay) .* lambda;
         m_inert = (m_kick1 - m_pay - m_prop); % Structural mass of the kick stage (Mass minus final payload and propellant)
@@ -172,7 +174,7 @@ for i = 1:length(kick_Stage)
     
         % Calculation of Velocity Infinite with rocket equation (km/s)
         added_V = g_E .* isp .* log(MR); 
-    elseif(candidateArchitecture.num_Kick == 2)
+    elseif(num_Kick == 2)
         %Stage 1:
         m_prop1 = (m_kick1 - m_kick2) .* lambda1;
         m_inert1 = (m_kick1 - m_kick2 - m_prop1); 
@@ -190,12 +192,22 @@ for i = 1:length(kick_Stage)
         added_V = 0;
     end
     
-    final_C3 = added_V^2 + C3;
-    plot(final_C3, m_pay);
+    final_C3 = (added_V ./ 1000 + sqrt(C3+(v_esc_E/1000)^2)).^2;
+    %final_C3 = (added_V ./ 1000 ).^2 + C3;
+    %print(final_C3);
+    plot(final_C3, m_pay/1000);
 
 end 
 
-legend( "")
+legend( "Star 48BV", "Centaur V", "Nuclear", "Hybrid", "Centaur V & Star 48BV", ...
+        "Centaur V & Nuclear", "Centaur V & Hybrid", "Star 48BV & Hybrid", "Star 48 BV & Nuclear", ...
+        "Hybrid & Nuclear", "Castor 30XL & Star 48BV", "Castor 30XL & Nuclear", "Castor 30XL & Hybrid","No Kick Stage")
+xlabel("C3 (km^2/s^2");
+xlim([100 1000])
+ylabel("Mass of Payload (mt)")
+
+title = array_LV + " Mass vs C3 w/ Kick Stages";
+title(title)
 
 
 %% Switch statement to determine C3 (km^2/s^2) at given payload mass
