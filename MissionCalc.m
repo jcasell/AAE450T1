@@ -14,11 +14,6 @@ function [Science, Cost, Reliability, ttHP, invalid,orbitalParams] = MissionCalc
 %Calculated using Planetary Mission SMAD table A-1
 m_spacecraft = m_instr / 0.15;
 
-% DEBUG: add additional propellant to spacecraft mass
-m_debug = 0;  % [kg]
-%
-m_spacecraft = m_spacecraft + m_debug;
-
 %Calculate Power
 %Calculated using Planetary Mission SMAD table A-2
 power_spacecraft = power_instr / 0.22;
