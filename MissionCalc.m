@@ -19,7 +19,7 @@ m_spacecraft = m_instr / 0.15;
 power_spacecraft = power_instr / 0.22;
 
 %Calculate Prop Code
-[final_v, invalid, added_V] = generateC3(candidateArchitecture,m_spacecraft);
+[v_infinity, invalid, added_V] = generateC3(candidateArchitecture,m_spacecraft);
 
 if invalid == true
     Science = 0;
@@ -32,7 +32,7 @@ end
 [burnTime,m_prop,deltaV] = getDeltaV(candidateArchitecture,m_spacecraft);
 
 %Calculate Trajectory
-[totalTOF,ENATime,LYATime,EndOfLifeS,orbitalParams] = generalTrajectory(candidateArchitecture,final_v,m_spacecraft);
+[totalTOF,ENATime,LYATime,EndOfLifeS,orbitalParams] = generalTrajectory(candidateArchitecture,v_infinity,m_spacecraft, added_V);
 ttHP = totalTOF(1)+totalTOF(2);
 
 %Calculate Telemetry Data Rate

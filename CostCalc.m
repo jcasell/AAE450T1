@@ -176,9 +176,10 @@ total_Cost = (costVehRec+costVehNRec+costProgNRec+costProgRec+AGEcost+LOOScost+o
 %Cost Vector
 Cost = [costTTC, costProp, costPower, costInst,  costKick, costThermRec, costThermNRec, costAttRec, costAttNRec, costCommRec, costCommNRec, costIntRec, costIntNRec, costProgRec, costProgNRec, AGEcost, LOOScost, opsCost, total_Cost]/(1e3);
 
-bus_total_cost = (costThermRec+costAttRec+costPower+costProp+costThermNRec+costAttNRec-RTG_approval_cost+costKick) / 1E3;
-program_total_cost = (costProgNRec+costProgRec) / 1E3;
-other_cost = (AGEcost + LOOScost + costTTC+costCommNRec + costCommRec) / 1E3;
-cost_integration = (costIntRec+costIntNRec) / 1E3;
+bus_total_cost = (costThermRec+costAttRec+costPower+costProp+costThermNRec+costAttNRec-RTG_approval_cost+costKick) / 1E3
+program_total_cost = (costProgNRec+costProgRec) / 1E3
+other_cost = (AGEcost + LOOScost + costTTC+costCommNRec + costCommRec) / 1E3
+cost_integration = (costIntRec+costIntNRec) / 1E3
+science_cost = costInst / 1E3
 
 end
