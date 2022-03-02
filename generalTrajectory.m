@@ -114,6 +114,7 @@ elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.
     [v_arr,fpa_arr] = getFPA(currentR,v_dep,rad_list(2),fpa_dep);
     [stageTime,initialTA,finalTA, sma, ecc] = detTof(currentR,v_dep,rad_list(2),fpa_dep);
     TOF = stageTime + TOF;
+    currentR = rad_list(2);
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
     parameterList(1,:) = [currentR,sma,ecc,initialTA,finalTA];
 
