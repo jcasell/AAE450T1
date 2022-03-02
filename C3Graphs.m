@@ -6,8 +6,8 @@
 clc;
 clear all;
 
-m_pay = (0:1:5000);
-array_LV = "SLS Block 2";
+m_pay = (0:1:10000);
+array_LV = "Starship";
 %array_LV = ["SLS Block 1", "SLS Block 1B", "SLS BLock 2", "Falcon Heavy", "Starship", "New Glenn", "Vulcan 6S"]; % Array of Launch Vehicles
 
 
@@ -15,7 +15,9 @@ kick_Stage = ["Star 48BV", "Centaur V", "Nuclear", "Castor 30XL", "Hybrid", "Cen
         "Centaur V & Nuclear", "Centaur V & Hybrid", "Star 48BV & Hybrid", "Star 48 BV & Nuclear", ...
         "Hybrid & Nuclear", "Castor 30XL & Star 48BV", "Castor 30XL & Nuclear", "Castor 30XL & Hybrid","No Kick Stage"];
 
-kick_Stage = ["Star 48BV", "Centaur V", "No Kick Stage"];
+kick_Stage = ["Star 48BV", "Centaur V", "Castor 30XL", "Centaur V & Star 48BV", ...
+         "Castor 30XL & Star 48BV",  "No Kick Stage"];
+%kick_Stage = ["Star 48BV", "Centaur V", "No Kick Stage"];
 
 %kick_Stage = "No Kick Stage";
 g_E = 9.81; % (m/s^2)
@@ -158,7 +160,7 @@ for i = 1:length(kick_Stage)
                 1.348688172148435e-06 * (m_kick1)^2 + -0.0160 * m_kick1 ...
                 + 64.84;
         case "Starship" 
-            C3 = (0.0047^2 * (log(1500 / (5 * (m_kick1 / 1000)+120) ) )^2 - 0.0032^2 ) ...
+            C3 = (0.0047^2 .* (log(1500 ./ (5 .* (m_kick1 ./ 1000)+120) ) ).^2 - 0.0032^2 ) ...
                 *1E6;
         case "New Glenn"
             C3 = -4.42248334552639e-11 * (m_kick1)^3 + ...
@@ -201,15 +203,14 @@ for i = 1:length(kick_Stage)
     
     final_C3 = added_V/1000 + sqrt(C3+(v_esc_E/1000)^2);
     %final_C3 = (added_V ./ 1000 + sqrt(C3+(v_esc_E/1000).^2)).^2;
-    final_C3 = (added_V ./ 1000).^2 + C3;
-    %print(final_C3);
+    final_C3 = ((added_V ./ 1000) + sqrt(C3)).^2;
     plot(final_C3, m_pay/1000);
 
 end 
 
 legend( kick_Stage )
 xlabel("C3 (km^2/s^2");
-xlim([0 400])
+xlim([0 600])
 ylabel("Mass of Payload (mt)")
 
 titleName = array_LV + " Mass vs C3 w/ Kick Stages";
