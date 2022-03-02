@@ -37,6 +37,7 @@ v_0 = v_inf + v_earth; %initial velocity of s/c relative to sun [km/s]
 deltaV = 0.7;   % Desired chemical dV for Oberth burn [km/s]
 m_pay_elec = m_spacecraft;
 parameterList = zeros(5,5);
+fprintf("C3: %.4f",v_inf^2)
 
 %% Calculations
 if and(candidateArchitecture.Trajectory ~= "Log Spiral",candidateArchitecture.Trajectory ~= "Solar Grav")
