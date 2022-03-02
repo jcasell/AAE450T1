@@ -14,11 +14,6 @@ function [Science, Cost, Reliability, ttHP, invalid,orbitalParams] = MissionCalc
 %Calculated using Planetary Mission SMAD table A-1
 m_spacecraft = m_instr / 0.15;
 
-% DEBUG: add additional propellant to spacecraft mass
-m_debug = 0;  % [kg]
-%
-m_spacecraft = m_spacecraft + m_debug;
-
 %Calculate Power
 %Calculated using Planetary Mission SMAD table A-2
 power_spacecraft = power_instr / 0.22;
@@ -37,7 +32,7 @@ end
 [burnTime,m_prop,deltaV] = getDeltaV(candidateArchitecture,m_spacecraft);
 
 %Calculate Trajectory
-[totalTOF,ENATime,LYATime,EndOfLifeS,orbitalParams] = generalTrajectory(candidateArchitecture,final_v,deltaV);
+[totalTOF,ENATime,LYATime,EndOfLifeS,orbitalParams] = generalTrajectory(candidateArchitecture,final_v,m_spacecraft, added_V);
 ttHP = totalTOF(1)+totalTOF(2);
 
 %Calculate Telemetry Data Rate

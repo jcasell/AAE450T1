@@ -10,7 +10,7 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
 
     %% Setting Constants and Assumed Values (values to iterate over)
   
-    array_LV = ["SLS Block 1", "SLS Block 1B", "SLS BLock 2", "Falcon Heavy", "Starship", "New Glenn", "Vulcan 6S"]; % Array of Launch Vehicles
+    array_LV = ["SLS Block 1", "SLS Block 1B", "SLS Block 2", "Falcon Heavy", "Starship", "New Glenn", "Vulcan 6S"]; % Array of Launch Vehicles
     kick_Stage = ["Star 48BV", "Centaur V", "Nuclear", "Hybrid", "Centaur V & Star 48BV", ...
         "Centaur V & Nuclear", "Centaur V & Hybrid", "Star 48BV & Hybrid", "Star 48 BV & Nuclear", ...
         "Hybrid & Nuclear", "Castor 30XL & Star 48BV", "Castor 30XL & Nuclear", "Castor 30XL & Hybrid","No Kick Stage"];
@@ -163,7 +163,7 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
         m_inert = (m_kick1 - m_pay - m_prop); % Structural mass of the kick stage (Mass minus final payload and propellant)
         MR = (m_pay + m_prop + m_inert) / (m_pay + m_inert); % Mass Ratio
 
-        % Calculation of Velocity Infinite with rocket equation (km/s)
+        % Calculation of Velocity Infinite with rocket equation (m/s)
         added_V = g_E * isp * log(MR); 
     elseif(candidateArchitecture.num_Kick == 2)
         %Stage 1:

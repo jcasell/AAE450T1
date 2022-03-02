@@ -1,8 +1,11 @@
 function [burnTime,m_prop,deltaV] = getDeltaV(candidateArchitecture,m_spacecraft)
 % Inputs: Candidate Architecture, spacecraft mass
-% Output: delta-V produced by specified electric propulsion system,
-%   propellant mass required
+% Output: deltaV - delta-V delivered by onboard propulsion system [m/s]
 g = 9.81;   % [m/s^2]
+F = 0;
+isp = 0;
+m_prop = 0;
+m_inert = 0;
 % DEBUG: increase fraction of spacecraft mass that is propulsion system
 m_debug = 0.00;
 %
