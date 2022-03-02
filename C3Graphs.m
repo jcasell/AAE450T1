@@ -204,13 +204,14 @@ for i = 1:length(kick_Stage)
     final_C3 = added_V/1000 + sqrt(C3+(v_esc_E/1000)^2);
     %final_C3 = (added_V ./ 1000 + sqrt(C3+(v_esc_E/1000).^2)).^2;
     final_C3 = ((added_V ./ 1000) + sqrt(C3)).^2;
-    plot(final_C3, m_pay/1000);
+    semilogy(final_C3, m_pay,'linewidth',2);
+    grid on
 
 end 
 
 legend( kick_Stage )
 xlabel("C3 (km^2/s^2");
-xlim([0 600])
+% xlim([0 600])
 ylabel("Mass of Payload (mt)")
 
 titleName = array_LV + " Mass vs C3 w/ Kick Stages";

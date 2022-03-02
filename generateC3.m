@@ -4,7 +4,7 @@
 %Author: Austin Barrow and Propulsion Team
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay )
+function [v_infinity, invalid, added_V] = generateC3( candidateArchitecture, m_pay )
     % Inputs: Launch Vehicle, Kick Stage Propulsion, C3 values (0,10,20,30,40,50,60,70,80,90,100, 110, 120)
     % Outputs: Delta V, Delta V caused by Kick Stage, Mass Payload, Structural Mass, Mass Propellant
 
@@ -16,7 +16,6 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
         "Hybrid & Nuclear", "Castor 30XL & Star 48BV", "Castor 30XL & Nuclear", "Castor 30XL & Hybrid","No Kick Stage"];
     num_Kick = [0, 1, 2];
     g_E = 9.81; % (m/s^2)
-    v_esc_E = 11200; % Escape velocity of Earth from LEO m/s
     
     %% Switch statement to determine assumed ISP (Impulse), Lambda (Payload 
     % Fraction), Inert Mass Fraction for kick stage
@@ -183,5 +182,5 @@ function [final_v, invalid, added_V] = generateC3( candidateArchitecture, m_pay 
         added_V = 0;
     end
     
-    final_v = added_V/1000 + sqrt(C3+(v_esc_E/1000)^2);
+    v_infinity = sqrt(C3);
 end
