@@ -44,7 +44,7 @@ function [v_infinity, invalid, added_V] = generateC3( candidateArchitecture, m_p
         case "Centaur V & Star 48BV" %Liquid
             isp1 = 451; % LH2/LOX
             lambda1 = 0.91; % Centaur Kick Stage
-            isp2 = 286; %Star 48BV
+            isp2 = 286*2; %Star 48BV
             lambda2 = 0.939;
             m_kick2 = 2624 + m_pay;
             m_kick1 = 22825 + m_kick2; %Centaur Kick Stage hauling Star48BV
