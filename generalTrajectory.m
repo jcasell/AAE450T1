@@ -1,4 +1,4 @@
-function [totalTOF,ENATime,LYATime,eolDist,parameterList] = generalTrajectory(candidateArchitecture,v_inf,m_spacecraft)
+function [totalTOF,ENATime,LYATime,eolDist,parameterList] = generalTrajectory(candidateArchitecture,v_inf,m_spacecraft, addedVelocity)
 %% General Trajectory Function
 % This function will take the mission input and apply the correct
 % trajectory functions to determine the TOF of each phase
@@ -15,9 +15,23 @@ function [totalTOF,ENATime,LYATime,eolDist,parameterList] = generalTrajectory(ca
 %
 %% Initialization
 mu_sun = 132712440017.99; % grav parameter of sun [km^3/s^2]
+mu_earth = 398600.4415; % grav parameter of Earth [km^3/s^2]
 a_earth = 149597898; %radius of Earth orbit [km]
 a_mercury = 57909101; %radius of Mercury orbit [km]
 TOF = 0;
+
+%Determine velocity at periapsis of GEOCENTRIC FRAME
+specEn = 0.5*v_inf^2;
+
+sma = -mu_earth / (2*specEn);
+rPeri = 6378.1363 + 400; %Assume initial parking orbit of 400km altitude
+v_circ = sqrt(mu_earth / rPeri);
+
+vPeri = sqrt(2*mu_earth * (1/rPeri - 1/(2*sma))) + (addedVelocity/1000); %Calculate velocity at periapsis with kick stage delta V
+sma = 0.5 * (mu_earth / ((mu_earth / rPeri) - (vPeri^2 / 2))); %Calculate semimajor axis of geocentric escape orbit after kick stages
+specEn = -mu_earth / (2*sma);
+v_inf = sqrt(2*specEn);
+
 v_earth = sqrt(2*mu_sun/a_earth); %velocity of Earth relative to Sun [km/s]
 v_0 = v_inf + v_earth; %initial velocity of s/c relative to sun [km/s]
 deltaV = 0.7;   % Desired chemical dV for Oberth burn [km/s]
@@ -100,7 +114,6 @@ elseif (candidateArchitecture.Trajectory == "JupSat") || (candidateArchitecture.
     [v_arr,fpa_arr] = getFPA(currentR,v_dep,rad_list(2),fpa_dep);
     [stageTime,initialTA,finalTA, sma, ecc] = detTof(currentR,v_dep,rad_list(2),fpa_dep);
     TOF = stageTime + TOF;
-    currentR = rad_list(2);
     [v_dep,fpa_dep] = gravityAssist(planet2,v_arr,fpa_arr);
     parameterList(1,:) = [currentR,sma,ecc,initialTA,finalTA];
 
