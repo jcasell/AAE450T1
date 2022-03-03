@@ -46,8 +46,16 @@ while (BHT_200_Mprop2(i) > 0) && flag
     i = i + 1;
 end
 
-rf = r0(end);
-vf = v0(end);
-fpaf = fpa0(end);
-stageTime = t(end)/(3600 * 24 * 365.25);
+% Interpolate final values if propellant is overburned
+if BHT_200_Mprop2(end) < 0
+    rf = interp1([BHT_200_Mprop2(end-1) BHT_200_Mprop2(end)],[r0(end-1) r0(end)],0);
+    vf = interp1([BHT_200_Mprop2(end-1) BHT_200_Mprop2(end)],[v0(end-1) v0(end)],0);
+    fpaf = interp1([BHT_200_Mprop2(end-1) BHT_200_Mprop2(end)],[fpa0(end-1) fpa0(end)],0);
+    stageTime = interp1([BHT_200_Mprop2(end-1) BHT_200_Mprop2(end)],[t(end-1) t(end)],0)/(3600 * 24 * 365.25);
+else
+    rf = r0(end);
+    vf = v0(end);
+    fpaf = fpa0(end);
+    stageTime = t(end)/(3600 * 24 * 365.25);
+end
 end
