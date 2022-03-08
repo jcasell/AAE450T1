@@ -7,7 +7,7 @@ clc;
 clear all;
 
 m_pay = (0:1:10000);
-array_LV = "Starship";
+array_LV = "SLS Block 2";
 %array_LV = ["SLS Block 1", "SLS Block 1B", "SLS BLock 2", "Falcon Heavy", "Starship", "New Glenn", "Vulcan 6S"]; % Array of Launch Vehicles
 
 
@@ -30,7 +30,6 @@ v_esc_E = 11200; % Escape velocity of Earth from LEO m/s
     %% Setting Constants and Assumed Values (values to iterate over)
   
 figure(1);
-hold on;
     
     
 %% Switch statement to determine assumed ISP (Impulse), Lambda (Payload 
@@ -135,6 +134,14 @@ for i = 1:length(kick_Stage)
             lambda2 = 0.875; % Hybrid Kick Stage
             m_kick2 = 2200 + m_pay; %needs to be updated, nuclear
             m_kick1 = 2547.375 + m_kick2; %Centaur Kick Stage hauling Hybrid
+        case "Centaur V & Kek" %Liquid
+            num_Kick = 2;
+            isp1 = 451; % LH2/LOX
+            lambda1 = 0.91; % Centaur Kick Stage
+            isp2 = 451;
+            lambda2 = 0.91;
+            m_kick2 = 20000 + m_pay;
+            m_kick1 = 22825 + m_kick1;
         otherwise % No kick stage
             num_Kick = 0;
             m_kick1 = m_pay;
@@ -204,15 +211,17 @@ for i = 1:length(kick_Stage)
     final_C3 = added_V/1000 + sqrt(C3+(v_esc_E/1000)^2);
     %final_C3 = (added_V ./ 1000 + sqrt(C3+(v_esc_E/1000).^2)).^2;
     final_C3 = ((added_V ./ 1000) + sqrt(C3)).^2;
-    semilogy(final_C3, m_pay,'linewidth',2);
-    grid on
+    final_C3_Array(i,:) = final_C3;
+    %semilogy(final_C3, m_pay,'linewidth',2);
+    %grid on
 
 end 
-
+semilogy(final_C3_Array, m_pay, 'linewidth', 2);
+grid on;
 legend( kick_Stage )
-xlabel("C3 (km^2/s^2");
+xlabel("C3 (km^2/s^2)");
 % xlim([0 600])
-ylabel("Mass of Payload (mt)")
+ylabel("Mass of Payload (kg)")
 
 titleName = array_LV + " Mass vs C3 w/ Kick Stages";
 title(titleName);
