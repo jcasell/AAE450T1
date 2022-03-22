@@ -13,13 +13,13 @@ function Data = TakeRate (Dt, P, S)
 
 
 C = 3e8; % the speed of light in m/s
-LaDb = 0.116;%Atmospheric Loss file:///C:/Users/haigh/AppData/Local/Temp/06_Reid_chapt6.pdf pg268
+LaDb = 0.116;%Atmospheric Loss pg268 https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwi9-7_Ostr2AhVBBs0KHfPeDvkQFnoECAsQAQ&url=https%3A%2F%2Fdescanso.jpl.nasa.gov%2Fmonograph%2Fseries10%2F06_Reid_chapt6.pdf&usg=AOvVaw3KRDBuqDfCGQs9DjpbUuuz
 Lambda = 1.575 / 100; %wavelength (m)
 f = C / Lambda; % freqency of signal in Hz
 Dr = 32; %(m) Diameter of recieving antenna
 
 %Noise Temperature
-Ts = 15; %(k) According to Prof Mansell (Cryogenically cooled antennae)
+Ts = 7.277; %(k) pg269 https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwi9-7_Ostr2AhVBBs0KHfPeDvkQFnoECAsQAQ&url=https%3A%2F%2Fdescanso.jpl.nasa.gov%2Fmonograph%2Fseries10%2F06_Reid_chapt6.pdf&usg=AOvVaw3KRDBuqDfCGQs9DjpbUuuz
 TsDb = 10*log10(Ts);
 
 %Pointing Loss (This needs to be updated as we increase our understanding
