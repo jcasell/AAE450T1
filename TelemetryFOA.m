@@ -124,7 +124,7 @@ RecEff = 0.55; %typical receive antenna efficiency (AAE590 lec6 pg7)
 % OLD CALC: Gr = pi^2 * Dr^2 * RecEff / Lambda^2; 
 %           GrDb = 10*log10(Gr);
 % Source: https://engineering.purdue.edu/AAECourses/aae450/2008/spring/report_archive/report2nddraftuploads/appendix/avionics/A.2.2.3%20Link%20Budget%20Analysis.doc
-GrDb = -159.59 + log10(Dr) + 20*log10(f) + 10*log10(RecEff);
+GrDb = -159.59 + 20*log10(Dr) + 20*log10(f) + 10*log10(RecEff);
 
 %Phase 1 Bits
 Dist1 = linspace(600000,S1,100); %Breaks the phase 1 distances into 100 slices
