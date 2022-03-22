@@ -41,14 +41,14 @@ SBonusB = SBonusB*1.496e11;%(m)
 
 %Depend on Telemetry Band
 if isequal(TelemetryBand,'Ka')
-    LaDb = 0.116;%Atmospheric Loss file:///C:/Users/haigh/AppData/Local/Temp/06_Reid_chapt6.pdf pg268
+    LaDb = 0.116;%pg268 https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwi9-7_Ostr2AhVBBs0KHfPeDvkQFnoECAsQAQ&url=https%3A%2F%2Fdescanso.jpl.nasa.gov%2Fmonograph%2Fseries10%2F06_Reid_chapt6.pdf&usg=AOvVaw3KRDBuqDfCGQs9DjpbUuuz
     Lambda = 1.575 / 100; %wavelength (m)
 elseif isequal(TelemetryBand,'X')
     Lambda = 3.025 / 100; %wavelength (m)
-    LaDb = 0.037;%Atmospheric Loss file:///C:/Users/haigh/AppData/Local/Temp/06_Reid_chapt6.pdf pg268
+    LaDb = 0.037;%pg268 https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwi9-7_Ostr2AhVBBs0KHfPeDvkQFnoECAsQAQ&url=https%3A%2F%2Fdescanso.jpl.nasa.gov%2Fmonograph%2Fseries10%2F06_Reid_chapt6.pdf&usg=AOvVaw3KRDBuqDfCGQs9DjpbUuuz
 elseif isequal(TelemetryBand,'S')
     Lambda = 11.25 / 100; %wavelength (m)
-    LaDb = 0.033;%Atmospheric Loss file:///C:/Users/haigh/AppData/Local/Temp/06_Reid_chapt6.pdf pg268
+    LaDb = 0.033;%pg268 https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwi9-7_Ostr2AhVBBs0KHfPeDvkQFnoECAsQAQ&url=https%3A%2F%2Fdescanso.jpl.nasa.gov%2Fmonograph%2Fseries10%2F06_Reid_chapt6.pdf&usg=AOvVaw3KRDBuqDfCGQs9DjpbUuuz
 else 
     disp('Telemetry Band must be in List (Ka, X, S)')
     return
@@ -88,7 +88,7 @@ end
 Dt = 3.7;  %(m) Diameter of transmitting antenna (Used Voyager as reference)
 
 %Noise Temperature
-Ts = 15; %(k) According to Prof Mansell (Cryogenically cooled antennae)
+Ts = 7.277; %(k) pg269 https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwi9-7_Ostr2AhVBBs0KHfPeDvkQFnoECAsQAQ&url=https%3A%2F%2Fdescanso.jpl.nasa.gov%2Fmonograph%2Fseries10%2F06_Reid_chapt6.pdf&usg=AOvVaw3KRDBuqDfCGQs9DjpbUuuz
 TsDb = 10*log10(Ts);
 
 %Pointing Loss
