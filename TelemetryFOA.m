@@ -94,9 +94,10 @@ TsDb = 10*log10(Ts);
 %Pointing Loss
 %OLD CALC: Lp = 1; %Should change with more research
 %           LpDb = 10*log10(Lp);
-e = 1; % antenna pointing offset
-theta = 1; % antenna beamwidth in degrees, assumed from Voyager 2
-LpDb = -12*((e / theta)^2);
+% e = 1; % antenna pointing offset
+% theta = 35; % antenna beamwidth in degrees, assumed from Voyager 2
+% LpDb = -12*((e / theta)^2);
+LpDb = -0.3; %From Voyager Telecommunications Summary pg 40
 
 %Eb/No
 Eb_No_ReqDb = 10.5; % (DB) energy per bit / spectral noise density based on SMAD fig 16-16 pg 474 with error rate 10^-6
