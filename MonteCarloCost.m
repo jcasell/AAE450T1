@@ -1,3 +1,5 @@
+function cost = MonteCarloCost()
+
 m_instr = 42.5; %Mass in kg of instruments
 power_instr = 54.4; %Power in W of instruments
 m_spacecraft = m_instr / 0.15;
@@ -92,11 +94,13 @@ techCount = 6;
 engCount = 34-6;
 engCount_cut = 2;
 techCount_cut = 1;
-opsCostexp = 1.29*1*(techCount*150+engCount*200) + 1.29*34*(techCount_cut*150+engCount_cut*200)/10^3;
+opsCostexp = (1.29*1*(techCount*150+engCount*200) + 1.29*34*(techCount_cut*150+engCount_cut*200))/10^3;
 opsCostMin = 0.9*opsCostexp;
 opsCostMax = 1.1*opsCostexp;
 opsDist = makedist('Triangular','A',opsCostMin,'B',opsCostexp,'C',opsCostMax);
 opsCost = random(opsDist);
 
 %% Total Cost Calculation
-cost = (costVehNRec+costVehRec+costProg+LOOScost+AGEcost+opsCost)*1.3
+cost = (costVehNRec+costVehRec+costProg+LOOScost+AGEcost+opsCost)*1.3;
+
+end
