@@ -41,40 +41,43 @@ sdevAttNRec = 0.44*costAttNRec;
 sdevAttRec = 0.36*costAttRec;
 
 %Electrical Cost
-costElecRec = 2*109;
-costElecMax = 2*118;
-costElecMin = 2*90;
+costElecRec = 3*108;
+costElecMax = 3*118;
+costElecMin = 3*93;
 elecDist = makedist('Triangular','A',costElecMin,'B',costElecRec,'C',costElecMax);
 
 %Communications Cost
-costCommRec = 17.805;
-costCommMax = 20;
-costCommMin = 15;
-commDist = makedist('Triangular','A',costCommMin,'B',costCommRec,'C',costCommMax);
-costComm = random(commDist);
+costCommNRec = 1.29*(618*(m_spacecraft*0.07))/10^3;
+costCommRec = 1.29*(189*(m_spacecraft*0.07))/10^3;
+sdevCommNRec = 0.38*costCommNRec;
+sdevCommRec = 0.39*costCommRec;
+
+costDSNRec = 17.805;
+costDSNMax = 20;
+costDSNMin = 15;
+DSNdist = makedist('Triangular','A',costDSNMin,'B',costDSNRec,'C',costDSNMax);
+costDSN = random(DSNdist);
 
 %% Kick Stage Cost
-costKickRec = (7.01 + 5.73);
-costKickMax = 20;
-costKickMin = 10;
-kickDist = makedist('Triangular','A',costKickMin,'B',costKickRec,'C',costKickMax);
+costKickRec = (7.01+5.73);
+sdevKickRec = .22*costKickRec;
 
 %% Randomize Bus Cost through Distribution
 
 costBusNRec = normrnd(costThermNRec,sdevThermNRec) + normrnd(costAttNRec,sdevAttNRec);
-costBusRec = normrnd(costThermRec,sdevThermRec) + normrnd(costAttRec,sdevAttRec) + random(elecDist) + random(kickDist);
+costBusRec = normrnd(costThermRec,sdevThermRec) + normrnd(costAttRec,sdevAttRec) + random(elecDist) + normrnd(costKickRec,sdevKickRec);
 
 %% IAT Cost
-costIATRec = 0.195*(costBusRec+costComm+costInst);
-costIATNRec = 0.124*(costBusNRec);
+costIATRec = 0.195*(costBusRec+normrnd(costCommNRec,sdevCommNRec)+costInst);
+costIATNRec = 0.124*(costBusNRec+normrnd(costCommRec,sdevCommRec));
 sdevIATRec = 0.34*costIATRec;
 sdevIATNRec = 0.42*costIATNRec;
 IATRec = normrnd(costIATRec,sdevIATRec);
 IATNRec = normrnd(costIATNRec,sdevIATNRec);
 
 %% Randomize Vehicle Cost through Distribution
-costVehNRec = costBusNRec + IATNRec;
-costVehRec = costBusRec + IATRec + costInst + costComm;
+costVehNRec = costBusNRec + IATNRec + normrnd(costCommNRec,sdevCommNRec);
+costVehRec = costBusRec + IATRec + costInst + normrnd(costCommRec,sdevCommRec);
 
 %% Program Level, AGE, and LOOS cost
 costProgNRec = 0.357*(costVehNRec+costIATNRec);
@@ -84,7 +87,7 @@ sdevProgRec = 0.4*costProgRec;
 
 costProg = normrnd(costProgNRec,sdevProgNRec) + normrnd(costProgRec,sdevProgRec);
 
-LOOScost = 1.29*5.85;
+LOOScost = 1.29*(5.85+40);
 AGEcost = 1.29*(0.432*(costBusNRec*10^3/1.29)^0.907+2.244)/10^3;
 
 %Ops Cost
@@ -101,6 +104,6 @@ opsDist = makedist('Triangular','A',opsCostMin,'B',opsCostexp,'C',opsCostMax);
 opsCost = random(opsDist);
 
 %% Total Cost Calculation
-cost = (costVehNRec+costVehRec+costProg+LOOScost+AGEcost+opsCost)*1.3;
+cost = (costVehNRec+costVehRec+costProg+LOOScost+AGEcost+opsCost+costDSN)*1.3;
 
 end

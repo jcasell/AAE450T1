@@ -4,7 +4,7 @@ clear
 close all
 
 %Number of Iterations
-n = 1000000;
+n = 100000;
 
 %Results
 costResults = [];
@@ -16,4 +16,14 @@ parfor p = 1:n
     end
 end
 
+ExpectedCost = mean(costResults)
+
+figure(1)
 probplot(costResults)
+xlabel('Cost, $ Millions (F2022)')
+
+figure(2)
+histogram(costResults)
+title('SHAC Monte Carlo Cost Distribution')
+xlabel('Cost, $ Millions (F2022)')
+ylabel('Monte Carlo Iterations')
