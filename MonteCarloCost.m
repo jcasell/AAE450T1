@@ -104,6 +104,6 @@ opsDist = makedist('Triangular','A',opsCostMin,'B',opsCostexp,'C',opsCostMax);
 opsCost = random(opsDist);
 
 %% Total Cost Calculation
-cost = (costVehNRec+costVehRec+costProg+LOOScost+AGEcost+opsCost+costDSN)*1.3;
+cost = (costVehNRec+costVehRec+costProg+LOOScost+AGEcost+opsCost+costDSN);
 
 end
