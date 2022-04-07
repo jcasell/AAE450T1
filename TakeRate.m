@@ -14,12 +14,14 @@ function Data = TakeRate (Dt, P, S)
 
 C = 3e8; % the speed of light in m/s
 LaDb = 0.116;%Atmospheric Loss pg268 https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwi9-7_Ostr2AhVBBs0KHfPeDvkQFnoECAsQAQ&url=https%3A%2F%2Fdescanso.jpl.nasa.gov%2Fmonograph%2Fseries10%2F06_Reid_chapt6.pdf&usg=AOvVaw3KRDBuqDfCGQs9DjpbUuuz
-Lambda = 1.575 / 100; %wavelength (m)
-f = C / Lambda; % freqency of signal in Hz
-Dr = 32; %(m) Diameter of recieving antenna
+% Lambda = 1.575 / 100; %wavelength (m)
+f = 27e9; % freqency of signal in Hz
+Lambda = C / f;
+Dr = 34; %(m) Diameter of recieving antenna
 
 %Noise Temperature
-Ts = 7.277; %(k) pg269 https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwi9-7_Ostr2AhVBBs0KHfPeDvkQFnoECAsQAQ&url=https%3A%2F%2Fdescanso.jpl.nasa.gov%2Fmonograph%2Fseries10%2F06_Reid_chapt6.pdf&usg=AOvVaw3KRDBuqDfCGQs9DjpbUuuz
+Ts = 15; %(k) DSN Users Guide
+%Ts = 7.277; %(k) pg269 https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwi9-7_Ostr2AhVBBs0KHfPeDvkQFnoECAsQAQ&url=https%3A%2F%2Fdescanso.jpl.nasa.gov%2Fmonograph%2Fseries10%2F06_Reid_chapt6.pdf&usg=AOvVaw3KRDBuqDfCGQs9DjpbUuuz
 TsDb = 10*log10(Ts);
 
 %Pointing Loss (This needs to be updated as we increase our understanding
@@ -41,6 +43,7 @@ kDb = 10* log10(k);
 TranEff = 0.55; %Typical Transmitter efficiency (google)
 Gt = TranEff * (pi * Dt / Lambda)^2; %The Transmitter Gain
 GtDb = 10*log10(Gt);
+% GtDb = 45.512;
 
 %Line Loss 
 Ll = 0.95; %typical Line loss percent according to quick google search Confirmed by Mansell
@@ -55,7 +58,8 @@ RecEff = 0.55; %typical receive antenna efficiency (AAE590 lec6 pg7)
 %Past Calc:Gr = pi^2 * Dr^2 * RecEff / Lambda^2; 
 %         GrDb = 10*log10(Gr);
 % Source: https://engineering.purdue.edu/AAECourses/aae450/2008/spring/report_archive/report2nddraftuploads/appendix/avionics/A.2.2.3%20Link%20Budget%20Analysis.doc
-GrDb = -159.59 + 20*log10(Dr) + 20*log10(f) + 10*log10(RecEff);
+% GrDb = -159.59 + 20*log10(Dr) + 20*log10(f) + 10*log10(RecEff);
+GrDb = 79.2; %DSN Users Guide
 
 % %Outputs
 S = S*1.496e11; %(m)
