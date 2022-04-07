@@ -41,9 +41,9 @@ sdevAttNRec = 0.44*costAttNRec;
 sdevAttRec = 0.36*costAttRec;
 
 %Electrical Cost
-costElecRec = 3*108;
-costElecMax = 3*118;
-costElecMin = 3*93;
+costElecRec = 2*108;
+costElecMax = 2*118;
+costElecMin = 2*93;
 elecDist = makedist('Triangular','A',costElecMin,'B',costElecRec,'C',costElecMax);
 
 %Communications Cost

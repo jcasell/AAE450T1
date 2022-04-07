@@ -11,12 +11,12 @@ costResults = [];
 
 parfor p = 1:n
     cost = MonteCarloCost();
-    if isreal(cost)
+    if (isreal(cost) && cost>=0)
         costResults = [costResults cost];
     end
 end
 
-sortedCost = sort(costResults)
+sortedCost = sort(costResults);
 
 ExpCost = median(costResults)
 Conf70 = sortedCost(round(.7*length(costResults)))
@@ -24,7 +24,7 @@ Conf70 = sortedCost(round(.7*length(costResults)))
 marginExpCost = ExpCost*1.3
 marginConf70 = Conf70*1.3
 
-indexConf = min(find(sortedCost >= round(costResults(round(0.7*length(costResults)))/5)*5))
+indexConf = min(find(sortedCost >= round(sortedCost(round(0.7*length(sortedCost)))/5)*5));
 
 figure(1)
 probplot(costResults)
