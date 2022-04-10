@@ -41,14 +41,14 @@ SBonusB = SBonusB*1.496e11;%(m)
 
 %Depend on Telemetry Band
 if isequal(TelemetryBand,'Ka')
-    LaDb = 0.116;%Atmospheric Loss file:///C:/Users/haigh/AppData/Local/Temp/06_Reid_chapt6.pdf pg268
+    LaDb = 0.116;%pg268 https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwi9-7_Ostr2AhVBBs0KHfPeDvkQFnoECAsQAQ&url=https%3A%2F%2Fdescanso.jpl.nasa.gov%2Fmonograph%2Fseries10%2F06_Reid_chapt6.pdf&usg=AOvVaw3KRDBuqDfCGQs9DjpbUuuz
     Lambda = 1.575 / 100; %wavelength (m)
 elseif isequal(TelemetryBand,'X')
     Lambda = 3.025 / 100; %wavelength (m)
-    LaDb = 0.037;%Atmospheric Loss file:///C:/Users/haigh/AppData/Local/Temp/06_Reid_chapt6.pdf pg268
+    LaDb = 0.037;%pg268 https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwi9-7_Ostr2AhVBBs0KHfPeDvkQFnoECAsQAQ&url=https%3A%2F%2Fdescanso.jpl.nasa.gov%2Fmonograph%2Fseries10%2F06_Reid_chapt6.pdf&usg=AOvVaw3KRDBuqDfCGQs9DjpbUuuz
 elseif isequal(TelemetryBand,'S')
     Lambda = 11.25 / 100; %wavelength (m)
-    LaDb = 0.033;%Atmospheric Loss file:///C:/Users/haigh/AppData/Local/Temp/06_Reid_chapt6.pdf pg268
+    LaDb = 0.033;%pg268 https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwi9-7_Ostr2AhVBBs0KHfPeDvkQFnoECAsQAQ&url=https%3A%2F%2Fdescanso.jpl.nasa.gov%2Fmonograph%2Fseries10%2F06_Reid_chapt6.pdf&usg=AOvVaw3KRDBuqDfCGQs9DjpbUuuz
 else 
     disp('Telemetry Band must be in List (Ka, X, S)')
     return
@@ -88,15 +88,16 @@ end
 Dt = 3.7;  %(m) Diameter of transmitting antenna (Used Voyager as reference)
 
 %Noise Temperature
-Ts = 15; %(k) According to Prof Mansell (Cryogenically cooled antennae)
+Ts = 7.277; %(k) pg269 https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwi9-7_Ostr2AhVBBs0KHfPeDvkQFnoECAsQAQ&url=https%3A%2F%2Fdescanso.jpl.nasa.gov%2Fmonograph%2Fseries10%2F06_Reid_chapt6.pdf&usg=AOvVaw3KRDBuqDfCGQs9DjpbUuuz
 TsDb = 10*log10(Ts);
 
 %Pointing Loss
 %OLD CALC: Lp = 1; %Should change with more research
 %           LpDb = 10*log10(Lp);
-e = 1; % antenna pointing offset
-theta = 1; % antenna beamwidth in degrees, assumed from Voyager 2
-LpDb = -12*((e / theta)^2);
+% e = 1; % antenna pointing offset
+% theta = 35; % antenna beamwidth in degrees, assumed from Voyager 2
+% LpDb = -12*((e / theta)^2);
+LpDb = -0.3; %From Voyager Telecommunications Summary pg 40
 
 %Eb/No
 Eb_No_ReqDb = 10.5; % (DB) energy per bit / spectral noise density based on SMAD fig 16-16 pg 474 with error rate 10^-6
@@ -124,7 +125,7 @@ RecEff = 0.55; %typical receive antenna efficiency (AAE590 lec6 pg7)
 % OLD CALC: Gr = pi^2 * Dr^2 * RecEff / Lambda^2; 
 %           GrDb = 10*log10(Gr);
 % Source: https://engineering.purdue.edu/AAECourses/aae450/2008/spring/report_archive/report2nddraftuploads/appendix/avionics/A.2.2.3%20Link%20Budget%20Analysis.doc
-GrDb = -159.59 + log10(Dr) + 20*log10(f) + 10*log10(RecEff);
+GrDb = -159.59 + 20*log10(Dr) + 20*log10(f) + 10*log10(RecEff);
 
 %Phase 1 Bits
 Dist1 = linspace(600000,S1,100); %Breaks the phase 1 distances into 100 slices
