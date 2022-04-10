@@ -9,14 +9,12 @@ close all;
 %(Longitude of Ascending Node, Inclination, Argument of Periapsis)
 %Get Velocity Values From Trajectory (not sure about this input currently)
 ICRF_table_values = readtable('ICRFOrbitChars.txt');
-time_days = table2array(ICRF_table_values(:,6));
-ICRF_RMAG = table2array(ICRF_table_values(:,5));
-long_asc = table2array(ICRF_table_values(:,4));
+time_days = table2array(ICRF_table_values(:,4));
 true_anom = table2array(ICRF_table_values(:,3));
 inc = table2array(ICRF_table_values(:,2));
 aop = table2array(ICRF_table_values(:,1));
 time_sec = time_days * 24 * 3600;
-
+long_asc = aop + true_anom;
 
 inc = deg2rad(inc);
 aop = deg2rad(aop);
@@ -33,12 +31,7 @@ long_asc = deg2rad(long_asc);
 BN_EP = zeros(4, length(time_sec));
 for k = 1:length(time_sec)
    BN_DCM_temp = EA313toDCM(long_asc(k), inc(k), aop(k));
-   ICRF_x_hat(k) = sum(BN_DCM_temp(1,:));
-   ICRF_y_hat(k) = sum(BN_DCM_temp(2,:));
-   ICRF_z_hat(k) = sum(BN_DCM_temp(3,:));
-   ICRF_x_pos(k) = ICRF_x_hat(k) * ICRF_RMAG(k); 
-   ICRF_y_pos(k) = ICRF_y_hat(k) * ICRF_RMAG(k); 
-   ICRF_z_pos(k) = ICRF_z_hat(k) * ICRF_RMAG(k); 
+   ICRF_x_hat(k) = sum(BN_DCM_temp(
    BN_EP(:,k) = DCMtoEP(BN_DCM_temp);
 end
 
