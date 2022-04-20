@@ -81,34 +81,42 @@ omega_s = 5*(1/60)*2*pi; %use the third axis
 %% disturbance torques
 mu_earth = 3.986004418e14;
 mu_Jup = 1.26686534e17;
-r_Jup = 7.1492e7; % radius of Jupiter in m
-r_earth = 6371000; 
+r_Jup_vec = 7.1492e7; % radius of Jupiter in m
+r_earth_vec = 6371000; 
 
-% TODO: get actual end time AND radius AND theta (earth and Jupiter)
 t_endEarth = 86400; % near earth for 1 days (seconds)
+t_EtoJup = 1.426e7;
 t_endJup = 86400; % near jupiter for 1 days (seconds)
-t_nearEarth = linspace(1:t_endEarth, 1000); 
-t_nearJup = linspace(1:t_endJup, 1000); 
+t_total = t_endEarth + t_EtoJup + t_endJup;
 
-r_Earth = linspace(1, 100*r_Earth, 1000);
-r_Jup = linspace(1, 100*r_Jup, 1000); % r is time history of orbit radius from Jup to SC
+r_Earth = linspace(1, 100*r_earth_vec, 1000);
+r_Jup = linspace(27*r_Jup_vec, 100*r_Jup_vec, 1000); % r is time history of orbit radius from Jup to SC
 
-theta_Earth = linspace(1:t_endEarth, 1000);
-theta_Jup = linspace(1:t_endJup, 1000); % angle bt local vertical and SC principle axis
+theta_Earth = pi / 2;
+theta_Jup = pi / 2; % angle bt local vertical and SC principle axis
 
 % assume all torques are scalars (will be max value)
 % gradity gradient disturbance torque
-Tg_Earth = (3*mu_Earth / (2*r_Earth^3)) * abs(I3 - I2) * sin(2*theta_Earth);
-Tg_Jup = (3*mu_Jup / (2*r_Jup^3)) * abs(I3 - I2) * sin(2*theta_Jup); % gravity gradiant near Jupiter
+Tg_Earth = (3.*mu_earth ./ (2.*r_Earth.^3)) .* abs(I_3 - I_2) .* sin(2.*theta_Earth);
+Tg_Jup = (3.*mu_Jup ./ (2.*r_Jup.^3)) .* abs(I_3 - I_2) .* sin(2.*theta_Jup); % gravity gradiant near Jupiter
 Tg_else = 0; % assume zero since not close to planet
+
+% hold on;
+% plot(linspace(0, t_endEarth, 1000), Tg_Earth, 'b');
+% % plot(linspace(t_endEarth, t_EtoJup, 1000), zeros(size(1000)), 'r');
+% % plot(linspace(t_EtoJup, t_endJup, 1000), Tg_Jup, 'g');
+% title('Magnitude of Gravity Gradiant Disturbance Torque over Launch to Jupiter');
+% xlabel('time (s)');
+% ylabel('Torque (Nm)');
+% legend('near earth', 'earth to Jupiter', 'near Jupiter');
 
 % magnetic field disturbance torque
 M_earth = 7.96e15; % earth's magnetic moment 
 M_Jup = 2.83e20; % Jupiter's magnetic moment
-B_Jup = M_Jup / (r_Jup^2);
+B_Jup = M_Jup ./ (r_Jup.^2);
 
 % sc dipole source: https://commons.erau.edu/cgi/viewcontent.cgi?article=2705&context=space-congress-proceedings
-sc_dipole = 4.2 * (0.0001/ (3.335641e-10)); % Ampere*m^2
+sc_dipole = .4e-3; % Ampere*m^2
 Tm_Jup = sc_dipole * B_Jup;
 Tm_Earth = 40e-9; % from https://ntrs.nasa.gov/api/citations/19690020961/downloads/19690020961.pdf
 Tm_else = 0; % assume zeros since not close to planet
@@ -133,21 +141,31 @@ psi_else = 1367;
 R_sun = 695e6; % radius of sun
 H_sun = 64e6; % W/m^2 radiant solar intensity at Sun surface
 D = linspace(150e9, 6000e9, 1000); % distance from sun to SC (earth to Pluto for now)
-psi = ((R_sun^2) / (D^2)) * H_sun;
+psi = ((R_sun.^2) ./ (D.^2)) .* H_sun;
 
 % TODO: find sun incidence angle over time
 i = linspace(0, pi/2, 1000);
 c = 3e8; % speed of light
-F_sp_earth = (psi / c) * sc_As * (1 + q) * cos(i);
+F_sp_earth = (psi_earth ./ c) .* sc_As .* (1 + q) .* cos(i);
+F_sp_Jup = (psi_Jup ./ c) .* sc_As .* (1 + q) .* cos(i);
 
-Tsp_ = sc_rcmcp * F_sp_earth;
+Tsp_earth = sc_rcmcp .* F_sp_earth;
+Tsp_Jup = sc_rcmcp .* F_sp_Jup;
 
-%%  integration
-% state = [w1, w2, w3, 
-IC = [0, 0, .15, -.5];
+total_nearEarth = Tg_Earth + Tm_Earth.*ones(1, 1000) + Ta_Earth.*ones(1, 1000) + Tsp_earth;
+total_nearEarth = total_nearEarth(2:end);
+total_t_nearEarth = linspace(0, t_endEarth, 999);
+plot(total_t_nearEarth, total_nearEarth, 'b');
+title('Magnitude of Disturbance Torques Near Earth');
+xlabel('time (s)');
+ylabel('Torque (Nm)');
 
-t_span = linspace(0, 60, 500); % 60 second simulation
-q_inits = IC;
-options = odeset('RelTol', 1e-12, 'AbsTol', 1e-12);
-[tt,qq] = ode45('eom_attitude', t_span, q_inits, options);
+figure;
+total_nearJup = Tg_Jup + Tm_Jup.*ones(1, 1000) + Ta_Jup.*ones(1, 1000) + Tsp_Jup;
+total_nearJup = total_nearJup(4:end);
+total_t_nearJup = linspace(0, t_endJup, 997);
+plot(total_t_nearJup, total_nearJup, 'b');
+title('Magnitude of Disturbance Torques Near Jupiter');
+xlabel('time (s)');
+ylabel('Torque (Nm)');
 
