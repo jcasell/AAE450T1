@@ -71,8 +71,8 @@ end
 omega_spin = 4 * (2*pi) / 60;
 for k=1:length(tspan)
     c_1_axis(:,k) = first_axis_unit(:,k);
-    c_2_axis(:,k) = cos(omega_spin * k * (time_sec(end) / length(tspan))) * second_axis_unit(:,k) - sin(omega_spin * k * (time_sec(end) / length(tspan))) * third_axis_unit(:,k); 
-    c_3_axis(:,k) = cos(omega_spin * k * (time_sec(end) / length(tspan))) * third_axis_unit(:,k) + sin(omega_spin * k * (time_sec(end) / length(tspan))) * second_axis_unit(:,k);
+    c_2_axis(:,k) = cos(omega_spin * k * (time_sec(end) / length(tspan))) * second_axis_unit(:,k) - sin(omega_spin * k * (time_sec(end) / length(tspan))); 
+    c_3_axis(:,k) = third_axis_unit(:,k);
     
 end
 
@@ -102,9 +102,9 @@ title("Angle Difference in B-1 Axis Compared to First Time in Orbit")
 % figure(3)
 % hold on;
 % 
-% a = quiver3(0,0,0,c_1_axis(1,1),c_1_axist(2,1),c_1_axis(3,1),'g');
-% b = quiver3(0,0,0,c_2_axis(1,1),c_2_axis(2,1),c_2_axis(3,1),'r');
-% c = quiver3(0,0,0,c_3_axis(1,1),c_3_axis(2,1),c_3_axis(3,1),'b');
+% a = quiver3(0,0,0,first_axis_unit(1,1),first_axis_unit(2,1),first_axis_unit(3,1),'g');
+% b = quiver3(0,0,0,second_axis_unit(1,1),second_axis_unit(2,1),second_axis_unit(3,1),'r');
+% c = quiver3(0,0,0,third_axis_unit(1,1),third_axis_unit(2,1),third_axis_unit(3,1),'b');
 % quiver3(0,0,0,1,0,0,'m'); quiver3(0,0,0,0,1,0,'k'); quiver3(0,0,0,0,0,1,'y');
 % text(1, 0, 0, "ICRF X-Axis");
 % text(0, 1, 0, "ICRF Y-Axis");
@@ -113,23 +113,23 @@ title("Angle Difference in B-1 Axis Compared to First Time in Orbit")
 % ylabel("ICRF-Y-Direction");
 % zlabel("ICRF-Z-Direction");
 % title("Change in Body Reference Frame w.r.t ICRF Over Time")
-% legend("C-1 Axis", "C-2 Axis", "C-3 Axis", "ICRF X", "ICRF Y", "ICRF Z", "location", "best")
+% legend("B-1 Axis", "B-2 Axis", "B-3 Axis", "ICRF X", "ICRF Y", "ICRF Z", "location", "best")
 % grid on;
 % 
 % for k = 1:length(tspan)
-%     aU = c_1_axis(1,k); 
-%     aV = c_1_axis(2,k); 
-%     aW = c_1_axis(3,k);
-%     bU = c_2_axis(1,k); 
-%     bV = c_2_axis(2,k); 
-%     bW = c_2_axis(3,k);
-%     cU = c_3_axis(1,k); 
-%     cV = c_3_axist(2,k); 
-%     cW = c_3_axis(3,k);
+%     aU = first_axis_unit(1,k); 
+%     aV = first_axis_unit(2,k); 
+%     aW = first_axis_unit(3,k);
+%     bU = second_axis_unit(1,k); 
+%     bV = second_axis_unit(2,k); 
+%     bW = second_axis_unit(3,k);
+%     cU = third_axis_unit(1,k); 
+%     cV = third_axis_unit(2,k); 
+%     cW = third_axis_unit(3,k);
 %     
-%     txt_b1(k) = text(c_1_axis(1,k), c_1_axis(2,k),c_1_axis(3,k), "C-1 Axis");
-%     txt_b2(k) = text(c_2_axis(1,k), c_2_axist(2,k),c_2_axis(3,k), "C-2 Axis");
-%     txt_b3(k) = text(c_3_axis(1,k), c_3_axis(2,k),c_3_axis(3,k), "C-3 Axis");
+%     txt_b1(k) = text(first_axis_unit(1,k), first_axis_unit(2,k),first_axis_unit(3,k), "B-1 Axis");
+%     txt_b2(k) = text(second_axis_unit(1,k), second_axis_unit(2,k),second_axis_unit(3,k), "B-2 Axis");
+%     txt_b3(k) = text(third_axis_unit(1,k), third_axis_unit(2,k),third_axis_unit(3,k), "B-3 Axis");
 %     
 %     a.UData = aU; 
 %     a.VData = aV; 
