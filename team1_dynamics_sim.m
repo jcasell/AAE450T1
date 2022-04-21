@@ -57,7 +57,7 @@ for k = 1:length(tspan)
     %Find the first axis unit vectors
     first_axis_unit(:,k) = sc_earth_pos(:,k) / norm(sc_earth_pos(:,k));
 end
-
+time_step = time_sec(end) / 2^14;
 %Find the change in angle of B-1 Axis
 first_axis_vec_0 = [first_axis_unit(1,1); first_axis_unit(2,1); first_axis_unit(3,1)];
 for k = 1:(length(tspan)-1)
@@ -65,7 +65,9 @@ for k = 1:(length(tspan)-1)
     first_axis_vec_next(:,k) = [first_axis_unit(1,k+1); first_axis_unit(2,k+1); first_axis_unit(3,k+1)];
     b1_anglediff_step(k) = acosd(dot(first_axis_vec(:,k),first_axis_vec_next(:,k)) / (norm(first_axis_vec(:,k)) * norm(first_axis_vec(:,k))));
     b1_anglediff(k) = acosd(dot(first_axis_vec(:,k),first_axis_vec_0) / (norm(first_axis_vec(:,k)) * norm(first_axis_vec_0)));
+    ang_rate(k) = deg2rad(b1_anglediff_step(k)) / (k * (time_sec(end) / length(tspan)));
 end
+
 
 %Create the C-Frame
 omega_spin = 4 * (2*pi) / 60;
@@ -78,19 +80,23 @@ end
 
 %Find the Amount of Times to Thrust Ideally, where 0.05 degrees is pointing
 %error requirement 
-ideal_thrust_number = (max(b1_anglediff) / 0.05);
-ideal_thrust_number_rate = ideal_thrust_number / (time_sec(end) / 3600 / 24); %Per Hour
+avg_angle_rate = max(deg2rad(b1_anglediff)) / time_sec(end);
+delta_V = (4.75 / (2*pi)) *(avg_angle_rate) * time_step * time_sec(end);
+
+
+ideal_thrust_number = (max(b1_anglediff) / 0.05) / 2;
+ideal_thrust_number_rate = ideal_thrust_number / (time_sec(end) / 3600); %Per Hour
 
 %Plot the angle difference over whole time span
 figure(1)
-plot(tspan(1:end-1) / (3600 * 24 * 365), (b1_anglediff_step))
+plot(tspan(1:end-1) / (3600 * 24 * 365), (b1_anglediff_step), 'LineWidth', 2)
 grid on;
 xlabel("Time in Years")
 ylabel("Angle Difference (deg)");
 title("Angle Difference in B-1 Axis for 0.26 Day Time Step")
 
 figure(2)
-plot(tspan(1:end-1)/(3600 * 24 * 365), (b1_anglediff))
+plot(tspan(1:end-1)/(3600 * 24 * 365), (b1_anglediff), 'LineWidth', 2)
 grid on;
 xlabel("Time in Years")
 ylabel("Angle Difference (deg)");
@@ -99,51 +105,72 @@ title("Angle Difference in B-1 Axis Compared to First Time in Orbit")
 % Plot the change in the body frame with respect to the heliocentric ICRF
 % frame 
 
-% figure(3)
-% hold on;
-% 
-% a = quiver3(0,0,0,c_1_axis(1,1),c_1_axist(2,1),c_1_axis(3,1),'g');
-% b = quiver3(0,0,0,c_2_axis(1,1),c_2_axis(2,1),c_2_axis(3,1),'r');
-% c = quiver3(0,0,0,c_3_axis(1,1),c_3_axis(2,1),c_3_axis(3,1),'b');
-% quiver3(0,0,0,1,0,0,'m'); quiver3(0,0,0,0,1,0,'k'); quiver3(0,0,0,0,0,1,'y');
-% text(1, 0, 0, "ICRF X-Axis");
-% text(0, 1, 0, "ICRF Y-Axis");
-% text(0, 0, 1, "ICRF Z-Axis");
-% xlabel("ICRF-X-Direction");
-% ylabel("ICRF-Y-Direction");
-% zlabel("ICRF-Z-Direction");
-% title("Change in Body Reference Frame w.r.t ICRF Over Time")
-% legend("C-1 Axis", "C-2 Axis", "C-3 Axis", "ICRF X", "ICRF Y", "ICRF Z", "location", "best")
-% grid on;
-% 
-% for k = 1:length(tspan)
-%     aU = c_1_axis(1,k); 
-%     aV = c_1_axis(2,k); 
-%     aW = c_1_axis(3,k);
-%     bU = c_2_axis(1,k); 
-%     bV = c_2_axis(2,k); 
-%     bW = c_2_axis(3,k);
-%     cU = c_3_axis(1,k); 
-%     cV = c_3_axist(2,k); 
-%     cW = c_3_axis(3,k);
-%     
-%     txt_b1(k) = text(c_1_axis(1,k), c_1_axis(2,k),c_1_axis(3,k), "C-1 Axis");
-%     txt_b2(k) = text(c_2_axis(1,k), c_2_axist(2,k),c_2_axis(3,k), "C-2 Axis");
-%     txt_b3(k) = text(c_3_axis(1,k), c_3_axis(2,k),c_3_axis(3,k), "C-3 Axis");
-%     
-%     a.UData = aU; 
-%     a.VData = aV; 
-%     a.WData = aW;
-%     b.UData = bU; 
-%     b.VData = bV; 
-%     b.WData = bW;
-%     c.UData = cU; 
-%     c.VData = cV; 
-%     c.WData = cW;
-%     pause(0.002)
-%     delete(txt_b1(k));
-%     delete(txt_b2(k));
-%     delete(txt_b3(k));
-% 
-% end
-% 
+figure(3)
+hold on;
+
+a = quiver3(0,0,0,c_1_axis(1,1),c_1_axis(2,1),c_1_axis(3,1),'g');
+a.LineWidth = 2;
+a.AutoScale= 'off';
+b = quiver3(0,0,0,c_2_axis(1,1),c_2_axis(2,1),c_2_axis(3,1),'r');
+b.LineWidth = 2;
+b.AutoScale= 'off';
+c = quiver3(0,0,0,c_3_axis(1,1),c_3_axis(2,1),c_3_axis(3,1),'b');
+c.LineWidth = 2;
+c.AutoScale= 'off';
+d = quiver3(0,0,0,1,0,0,'m'); 
+d.LineWidth = 2;
+d.AutoScale= 'off';
+e = quiver3(0,0,0,0,1,0,'k'); 
+e.LineWidth = 2;
+e.AutoScale= 'off';
+f = quiver3(0,0,0,0,0,1,'y');
+f.LineWidth = 2;
+f.AutoScale= 'off';
+
+text(1, 0.1, 0, "ICRF X-Axis");
+text(0.1, 1, 0, "ICRF Y-Axis");
+text(0, 0.1, 1, "ICRF Z-Axis");
+xlabel("ICRF-X-Direction");
+ylabel("ICRF-Y-Direction");
+zlabel("ICRF-Z-Direction");
+title("Change in Body Reference Frame w.r.t ICRF Over Time")
+legend("C-1 Axis", "C-2 Axis", "C-3 Axis", "ICRF X", "ICRF Y", "ICRF Z", "location", "best")
+grid on;
+view(3);
+xlim([-1 1]);
+ylim([-1 1]);
+zlim([-1 1]);
+
+for k = 1:length(tspan)
+    aU = c_1_axis(1,k); 
+    aV = c_1_axis(2,k); 
+    aW = c_1_axis(3,k);
+    bU = c_2_axis(1,k); 
+    bV = c_2_axis(2,k); 
+    bW = c_2_axis(3,k);
+    cU = c_3_axis(1,k); 
+    cV = c_3_axis(2,k); 
+    cW = c_3_axis(3,k);
+    
+    txt_b1(k) = text(1.1*c_1_axis(1,k), 1.1*c_1_axis(2,k),1.1*c_1_axis(3,k), "C-1 Axis");
+    txt_b2(k) = text(1.1*c_2_axis(1,k), 1.1*c_2_axis(2,k),1.1*c_2_axis(3,k), "C-2 Axis");
+    txt_b3(k) = text(1.1*c_3_axis(1,k), 1.1*c_3_axis(2,k),1.1*c_3_axis(3,k), "C-3 Axis");
+    
+
+    
+    a.UData = aU; 
+    a.VData = aV; 
+    a.WData = aW;
+    b.UData = bU; 
+    b.VData = bV; 
+    b.WData = bW;
+    c.UData = cU; 
+    c.VData = cV; 
+    c.WData = cW;
+    pause(0.75)
+    delete(txt_b1(k));
+    delete(txt_b2(k));
+    delete(txt_b3(k));
+
+end
+
