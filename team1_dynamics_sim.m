@@ -78,99 +78,143 @@ for k=1:length(tspan)
     
 end
 
+
+
 %Find the Amount of Times to Thrust Ideally, where 0.05 degrees is pointing
 %error requirement 
-avg_angle_rate = max(deg2rad(b1_anglediff)) / time_sec(end);
+avg_angle_rate = deg2rad(max(b1_anglediff)) / time_sec(end);
+I_estimation = 750;
+avg_ang_momentum = I_estimation * avg_angle_rate;
 delta_V = (4.75 / (2*pi)) *(avg_angle_rate) * time_step * time_sec(end);
+t_accel = avg_ang_momentum * (1 * 0.8);
 
 
 ideal_thrust_number = (max(b1_anglediff) / 0.05) / 2;
 ideal_thrust_number_rate = ideal_thrust_number / (time_sec(end) / 3600); %Per Hour
 
+t_total = t_accel * ideal_thrust_number;
+% mass_prop =  (t_total * 1)/(9.8*227);
+
+time_change = time_sec(end) / length(tspan);
+for k = 1:(length(tspan)-2)
+    ang_accel(k) = (b1_anglediff_step(k+1) - b1_anglediff_step(k)) / time_change;
+end
+
+avg_ang_accel = deg2rad(mean(ang_accel));
+Torque_est = avg_ang_accel * I_estimation;
+length_arm = 0.8;
+f_req = Torque_est / length_arm;
+f_total = f_req * time_sec(end);
+time_thrusting = ideal_thrust_number * 10;
+mass_prop = (abs(f_total) * time_thrusting) / (227*9.8)
 %Plot the angle difference over whole time span
 figure(1)
 plot(tspan(1:end-1) / (3600 * 24 * 365), (b1_anglediff_step), 'LineWidth', 2)
 grid on;
 xlabel("Time in Years")
 ylabel("Angle Difference (deg)");
-title("Angle Difference in B-1 Axis for 0.26 Day Time Step")
+title("Change in Angle of C-1 Axis for Each Quarter Day Time Step")
+%xlim([0 1])
 
 figure(2)
 plot(tspan(1:end-1)/(3600 * 24 * 365), (b1_anglediff), 'LineWidth', 2)
 grid on;
 xlabel("Time in Years")
 ylabel("Angle Difference (deg)");
-title("Angle Difference in B-1 Axis Compared to First Time in Orbit")
+title("Change in Angle of C-1 Axis Compared to Initial Time in Orbit")
+%xlim([0 1])
 
 % Plot the change in the body frame with respect to the heliocentric ICRF
 % frame 
 
-figure(3)
-hold on;
-
-a = quiver3(0,0,0,c_1_axis(1,1),c_1_axis(2,1),c_1_axis(3,1),'g');
-a.LineWidth = 2;
-a.AutoScale= 'off';
-b = quiver3(0,0,0,c_2_axis(1,1),c_2_axis(2,1),c_2_axis(3,1),'r');
-b.LineWidth = 2;
-b.AutoScale= 'off';
-c = quiver3(0,0,0,c_3_axis(1,1),c_3_axis(2,1),c_3_axis(3,1),'b');
-c.LineWidth = 2;
-c.AutoScale= 'off';
-d = quiver3(0,0,0,1,0,0,'m'); 
-d.LineWidth = 2;
-d.AutoScale= 'off';
-e = quiver3(0,0,0,0,1,0,'k'); 
-e.LineWidth = 2;
-e.AutoScale= 'off';
-f = quiver3(0,0,0,0,0,1,'y');
-f.LineWidth = 2;
-f.AutoScale= 'off';
-
-text(1, 0.1, 0, "ICRF X-Axis");
-text(0.1, 1, 0, "ICRF Y-Axis");
-text(0, 0.1, 1, "ICRF Z-Axis");
-xlabel("ICRF-X-Direction");
-ylabel("ICRF-Y-Direction");
-zlabel("ICRF-Z-Direction");
-title("Change in Body Reference Frame w.r.t ICRF Over Time")
-legend("C-1 Axis", "C-2 Axis", "C-3 Axis", "ICRF X", "ICRF Y", "ICRF Z", "location", "best")
-grid on;
-view(3);
-xlim([-1 1]);
-ylim([-1 1]);
-zlim([-1 1]);
-
-for k = 1:length(tspan)
-    aU = c_1_axis(1,k); 
-    aV = c_1_axis(2,k); 
-    aW = c_1_axis(3,k);
-    bU = c_2_axis(1,k); 
-    bV = c_2_axis(2,k); 
-    bW = c_2_axis(3,k);
-    cU = c_3_axis(1,k); 
-    cV = c_3_axis(2,k); 
-    cW = c_3_axis(3,k);
-    
-    txt_b1(k) = text(1.1*c_1_axis(1,k), 1.1*c_1_axis(2,k),1.1*c_1_axis(3,k), "C-1 Axis");
-    txt_b2(k) = text(1.1*c_2_axis(1,k), 1.1*c_2_axis(2,k),1.1*c_2_axis(3,k), "C-2 Axis");
-    txt_b3(k) = text(1.1*c_3_axis(1,k), 1.1*c_3_axis(2,k),1.1*c_3_axis(3,k), "C-3 Axis");
-    
-
-    
-    a.UData = aU; 
-    a.VData = aV; 
-    a.WData = aW;
-    b.UData = bU; 
-    b.VData = bV; 
-    b.WData = bW;
-    c.UData = cU; 
-    c.VData = cV; 
-    c.WData = cW;
-    pause(0.75)
-    delete(txt_b1(k));
-    delete(txt_b2(k));
-    delete(txt_b3(k));
-
-end
-
+% spin_sim = figure(3);
+% spin_sim.Color = 'black';
+% hold on;
+% set(gca,'Color',[0,0,0], 'FontSize',16)
+% set(gca,'XColor',[1,1,1])
+% set(gca,'YColor',[1,1,1])
+% set(gca,'ZColor',[1,1,1])
+% a = quiver3(0,0,0,c_1_axis(1,1),c_1_axis(2,1),c_1_axis(3,1),'g');
+% a.LineWidth = 2;
+% a.AutoScale= 'off';
+% b = quiver3(0,0,0,c_2_axis(1,1),c_2_axis(2,1),c_2_axis(3,1),'r');
+% b.LineWidth = 2;
+% b.AutoScale= 'off';
+% c = quiver3(0,0,0,c_3_axis(1,1),c_3_axis(2,1),c_3_axis(3,1),'b');
+% c.LineWidth = 2;
+% c.AutoScale= 'off';
+% d = quiver3(0,0,0,1,0,0,'m'); 
+% d.LineWidth = 2;
+% d.AutoScale= 'off';
+% e = quiver3(0,0,0,0,1,0,'c'); 
+% e.LineWidth = 2;
+% e.AutoScale= 'off';
+% f = quiver3(0,0,0,0,0,1,'y');
+% f.LineWidth = 2;
+% f.AutoScale= 'off';
+% 
+% text(1, 0.1, 0, "ICRF X-Axis", 'Color', 'white', 'FontSize', 16);
+% text(0.1, 1, 0, "ICRF Y-Axis", 'Color', 'white', 'FontSize', 16);
+% text(0, 0.1, 1, "ICRF Z-Axis", 'Color', 'white', 'FontSize', 16);
+% xlabel("ICRF-X-Direction", 'FontSize', 16);
+% ylabel("ICRF-Y-Direction", 'FontSize', 16);
+% zlabel("ICRF-Z-Direction", 'FontSize', 16);
+% sim_title = title("Change in Spinning Body Frame w.r.t. ICRF Over Time");
+% sim_title.Color = 'white';
+% sim_title.FontSize = 18;
+% sim_leg = legend('\color{white} C-1 Axis', '\color{white} C-2 Axis', '\color{white} C-3 Axis', '\color{white} ICRF X', '\color{white} ICRF Y', '\color{white} ICRF Z', "location", "best");
+% sim_leg.Title.Color = 'white';
+% sim_leg.FontSize = 16;
+% grid on;
+% view(3);
+% xlim([-1 1]);
+% ylim([-1 1]);
+% zlim([-1 1]);
+% 
+% pause(15)
+% 
+% for k = 1:length(tspan)
+%     aU = c_1_axis(1,k); 
+%     aV = c_1_axis(2,k); 
+%     aW = c_1_axis(3,k);
+%     bU = c_2_axis(1,k); 
+%     bV = c_2_axis(2,k); 
+%     bW = c_2_axis(3,k);
+%     cU = c_3_axis(1,k); 
+%     cV = c_3_axis(2,k); 
+%     cW = c_3_axis(3,k);
+%     
+%     txt_b1(k) = text(1.1*c_1_axis(1,k), 1.1*c_1_axis(2,k),1.1*c_1_axis(3,k), "C-1 Axis", 'Color', 'white');
+%     txt_b1(k).FontSize = 16;
+%     txt_b2(k) = text(1.1*c_2_axis(1,k), 1.1*c_2_axis(2,k),1.1*c_2_axis(3,k), "C-2 Axis", 'Color', 'white');
+%     txt_b2(k).FontSize = 16;
+%     txt_b3(k) = text(1.1*c_3_axis(1,k), 1.1*c_3_axis(2,k),1.1*c_3_axis(3,k), "C-3 Axis", 'Color', 'white');
+%     txt_b3(k).FontSize = 16;
+%     current_time_day(k) = k * (time_sec(end) / length(tspan)) / (3600 * 24);
+%     time_print = sprintf('Time Elapsed in Days: %.1f', current_time_day(k));
+%     txt_time(k) = text(-0.4, 0, -0.5, time_print);
+%     txt_time(k).FontSize = 18;
+%     txt_time(k).FontWeight = 'Bold';
+%     txt_time(k).Color = 'white';
+%     
+% 
+%     
+%     a.UData = aU; 
+%     a.VData = aV; 
+%     a.WData = aW;
+%     b.UData = bU; 
+%     b.VData = bV; 
+%     b.WData = bW;
+%     c.UData = cU; 
+%     c.VData = cV; 
+%     c.WData = cW;
+%     pause(0.75)
+%     delete(txt_b1(k));
+%     delete(txt_b2(k));
+%     delete(txt_b3(k));
+%     delete(txt_time(k));
+%     
+%    
+% 
+% end
+% 
